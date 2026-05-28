@@ -1,0 +1,603 @@
+SubPurge App Technical Tree and Context
+Generated for external review / Gemini handoff
+
+1. Product summary
+
+SubPurge is an Expo + React Native subscription tracking app focused on:
+- tracking active and ended subscriptions
+- showing renewal / expiry dates
+- helping users purge unused subscriptions
+- displaying accumulated spend and paid-usage estimates
+- supporting dark and light theme
+- supporting multiple UI languages
+- scheduling local reminder notifications
+
+Current supported locales:
+- tr
+- en
+- es
+- de
+- fr
+
+Current bottom navigation:
+- Abonelikler / Subscriptions: main list and filters
+- Purge Mode: review / inactivity / price-change screen
+- Ayarlar / Settings: language, currency, summary, notification test, demo data
+
+
+2. Runtime stack
+
+- Expo SDK 54
+- React 19.1
+- React Native 0.81.5
+- Expo Router
+- AsyncStorage for persistence
+- expo-notifications for local reminders
+- @react-native-community/datetimepicker for native date pickers
+- expo-image for service logos
+
+Important config:
+- app entry: expo-router/entry
+- new architecture enabled
+- typed routes enabled
+- notifications plugin configured
+- datetimepicker plugin configured
+
+
+3. High-level architecture
+
+The app is mostly organized into:
+- app/: routed screens
+- store/: central app state and business logic
+- constants/: static app configuration, translations, themes, service presets
+- utils/: date math, link opening, notifications
+- components/: reusable UI pieces
+- hooks/: local reusable state hooks
+- assets/: bundled logos and app images
+- scripts/: development / maintenance scripts
+- data/: generated pricing data
+
+The main state source of truth is:
+- store/useSubscriptionStore.ts
+
+This store handles:
+- subscriptions list
+- locale
+- currency
+- theme mode
+- persistence to AsyncStorage
+- derived spend math
+- purge / inactivity / price-increase helpers
+
+
+4. Route tree
+
+app
+|- _layout.tsx
+|- add-subscription.tsx
+|- summary.tsx
+`- (tabs)
+   |- _layout.tsx
+   |- index.tsx
+   |- explore.tsx
+   `- settings.tsx
+
+Route descriptions:
+
+app/_layout.tsx
+- Root shell
+- Provides StoreContext
+- Applies theme-aware StatusBar
+- Runs NotificationSync
+- Uses Expo Router Stack
+
+app/(tabs)/_layout.tsx
+- Custom bottom pill tab bar
+- Tabs:
+  - index -> subscriptions list
+  - explore -> purge mode
+  - settings -> settings
+
+app/(tabs)/index.tsx
+- Main subscriptions screen
+- Theme toggle in top-left
+- Centered title
+- Add button in top-right
+- Active / ended tabs
+- Direct shortcut to summary screen
+- Filters for upcoming / idle / price raised
+- Action menu per item
+
+app/(tabs)/explore.tsx
+- Purge Mode screen
+- Sections:
+  - due review subscriptions
+  - inactivity alerts
+  - price increase alerts
+- Now shows all matching subscriptions, not just first 8
+
+app/(tabs)/settings.tsx
+- Language picker
+- Currency picker
+- Summary metrics
+- Entry point to standalone summary screen
+- Notification test button
+- Demo data loader
+
+app/add-subscription.tsx
+- Add / edit subscription form
+- Preset picker
+- Billing cycle and tracking type segments
+- Native date picker flow
+- Quick cancel URL
+- Review reminder date
+- Notes / reason fields
+- Save / terminate actions
+
+app/summary.tsx
+- Standalone summary route
+- Displays total monthly, daily, yearly and count overview
+- Shows per-subscription breakdown
+- Exists as a usable screen now instead of dead redirect
+
+
+5. Core data model
+
+Defined in:
+- store/useSubscriptionStore.ts
+
+Important Subscription fields:
+- id
+- name
+- color
+- icon
+- logoUrl
+- manageDeepLink
+- planTemplateId
+- price
+- billingCycle ('weekly' | 'monthly' | 'yearly')
+- startDate
+- trackingType ('renewal' | 'expiry')
+- nextBillingDate
+- expiryDate
+- currentPeriodStart
+- completedCyclesCarry
+- accruedSpentCarry
+- isActive
+- endedAt
+- purpose
+- quickCancelUrl
+- reviewReminderDate
+- lastUsedAt
+- notes
+
+Key business logic in store:
+- normalizeSubscription()
+- getCompletedCycleCountBetween()
+- getSubscriptionTotalSpent()
+- getCurrentCycleProratedSpent()
+- getSubscriptionAccruedSpent()
+- getSubscriptionPaidUsage()
+- getDueReviewSubscriptions()
+- getInactiveSubscriptions()
+- getPriceIncreaseSubscriptions()
+- getTrackedDate()
+- markSubscriptionUsed()
+- toggleActive()
+
+
+6. State persistence
+
+AsyncStorage keys:
+- subpurge_subscriptions
+- subpurge_currency
+- subpurge_locale
+- subpurge_theme_mode
+
+Persistence behavior:
+- subscriptions, locale, currency and theme are loaded on app boot
+- invalid persisted subscription payload is cleared
+- invalid persisted currency payload is cleared
+- invalid persisted locale payload is now also cleared safely
+
+
+7. Theme system
+
+Theme source:
+- constants/theme.ts
+
+Modes:
+- dark
+- light
+
+Important theme values:
+- bg
+- card
+- cardStrong
+- border
+- borderSoft
+- text
+- subtext
+- input
+- overlay
+- modalBg
+- modalActive
+- modalDivider
+- headerButtonBg
+- headerButtonText
+- headerButtonBorder
+- primaryButtonBg
+- primaryButtonText
+- secondaryButtonBg
+- tabBarBg
+- tabBarBorder
+- tabBarActive
+- tabLabel
+- tabLabelActive
+- accent
+- warning
+- success
+- inactive
+- destructive
+
+Recent cleanup:
+- add-subscription.tsx no longer relies on a separate static COLORS palette
+- it now follows the shared theme system consistently
+
+
+8. Localization system
+
+Translation source:
+- constants/i18n.ts
+
+Locale type:
+- 'tr' | 'en' | 'es' | 'de' | 'fr'
+
+Exports:
+- TRANSLATIONS
+- LANGUAGE_OPTIONS
+- LOCALES
+- isLocale()
+
+Important note:
+- translation shape is strongly typed through the Translations interface
+- missing translation keys should fail at compile time
+
+Recent fixes:
+- hard-coded Turkish termination message removed
+- save success feedback added to i18n
+- locale persistence now validates stored values before applying them
+
+
+9. Date handling
+
+Date utilities:
+- utils/subscriptionDates.ts
+
+Why custom date helpers exist:
+- the app avoids Intl-heavy formatting because earlier Expo runtime behavior caused issues
+
+Important helpers:
+- isCalendarDate()
+- parseDateValue()
+- formatDateInput()
+- formatDisplayDate()
+- formatRelativeDayLabel()
+- compareDateValues()
+- differenceInCalendarDays()
+- addBillingCycleToDate()
+- getUpcomingBillingDate()
+- addMonthsToDateValue()
+- addMonths()
+- addYears()
+
+Recent fix:
+- duplicate addMonths/addYears logic was removed from the store and reused from utils/subscriptionDates.ts
+
+
+10. Notification system
+
+Notification helper:
+- utils/subscriptionNotifications.ts
+
+Reminder types:
+- inactivity reminder
+- tracked-date reminder
+- manual test notifications
+
+Current reminder rules:
+- inactivity reminder after 7 days without use
+- tracked date reminder 4 days before renewal / expiry
+
+Important behavior:
+- app boot sync no longer requests notification permission automatically
+- permission is requested only through an explicit user-triggered action (notification test flow)
+- once permission is granted, real subscription reminders are synced again
+
+
+11. Reusable UI components
+
+components/ServiceLogo.tsx
+- renders service logos from bundled assets or emoji fallback
+- supports theme-aware tinting for ChatGPT and X logos
+- does not force dark background behind logos
+
+components/ThemedAlert.tsx
+- custom modal alert sheet
+- supports default / primary / destructive actions
+- closes before action callback executes
+
+hooks/useAlertState.ts
+- shared alert state hook
+- replaces repeated local alertConfig state shape
+- used by:
+  - app/add-subscription.tsx
+  - app/(tabs)/index.tsx
+  - app/(tabs)/explore.tsx
+  - app/(tabs)/settings.tsx
+
+
+12. Main constants
+
+constants/services.ts
+- subscription presets
+- service colors/icons
+- plan templates
+- quick cancel URLs
+- manage deep links
+- includes TR services:
+  - Puhu
+  - Exxen
+  - Gain
+  - Tod
+
+constants/localLogos.ts
+- maps service names to local bundled logo assets
+
+constants/currencies.ts
+- supported currency options
+
+constants/theme.ts
+- global theme definitions
+
+constants/i18n.ts
+- localization strings and locale validation
+
+
+13. Assets tree
+
+assets
+|- images
+|  |- android-icon-background.png
+|  |- android-icon-foreground.png
+|  |- android-icon-monochrome.png
+|  |- favicon.png
+|  |- icon.png
+|  `- splash-icon.png
+`- logos
+   |- adobe_cc.png
+   |- amazon_prime.png
+   |- apple_one.png
+   |- canva.png
+   |- chatgpt.png
+   |- disney_plus.png
+   |- dropbox.png
+   |- duolingo.png
+   |- exxen.png
+   |- gain.png
+   |- hbo_max.png
+   |- hulu.png
+   |- icloud.png
+   |- linkedin.png
+   |- microsoft_365.png
+   |- netflix.png
+   |- playstation_plus.png
+   |- puhu.png
+   |- spotify.png
+   |- tod.png
+   |- x_twitter.png
+   |- xbox_game_pass.png
+   |- youtube.png
+   `- zoom.png
+
+
+14. Utility modules
+
+utils/subscriptionLinks.ts
+- opens manage or cancel URLs / deep links
+
+utils/subscriptionNotifications.ts
+- notification permission / scheduling logic
+
+utils/subscriptionDates.ts
+- all date normalization and display helpers
+
+
+15. Scripts and data
+
+scripts/reset-project.js
+- Expo template reset helper
+
+scripts/scrape-tr-pricing.js
+- Turkey-focused free pricing scrape proof of concept
+- currently useful for selected services only
+
+data/pricing-tr.json
+- generated output from pricing scraper
+
+
+16. Test setup
+
+Current test runner:
+- Node built-in test runner
+- `tsx` loader for TypeScript test files
+
+Command:
+- `npm test`
+
+Current test files:
+- tests/subscriptionDates.test.ts
+- tests/subscriptionSummary.test.ts
+
+Current coverage focus:
+- calendar date validation
+- recurring billing date math
+- localized relative date labels
+- localized Turkish display date formatting
+- summary monthly/daily/yearly calculations
+- mixed recurring summary totals
+- locale validation
+
+
+17. Current UX flows
+
+Add subscription flow:
+1. Choose a preset or custom service
+2. Select billing cycle
+3. Enter or confirm price
+4. Pick native start date
+5. Pick native renewal or end date
+6. Optionally set purpose, cancel URL, review date and notes
+7. Save
+8. User now receives explicit save feedback before returning
+
+Terminate subscription flow:
+1. Open edit screen
+2. Tap terminate
+3. Receive localized confirmation message
+4. Toggle active state off
+
+Purge flow:
+1. Open Purge Mode
+2. Review subscriptions due for review
+3. Review idle subscriptions
+4. Review price increases
+5. Open manage / cancel links or update plan
+
+Notification flow:
+1. User opens Settings
+2. User taps test notification button
+3. App requests permission only at that moment if needed
+4. Test notifications are scheduled
+5. Real reminders are synced after permission is available
+
+
+18. Important recent fixes already applied
+
+- Native date picker integration for add/edit screen
+- Removal of top red Purge Mode header block
+- Idle subscription threshold changed from 30 days to 15 days
+- Purge Mode now lists all items instead of truncating at 8
+- Hard-coded Turkish termination confirmation replaced with i18n
+- Summary route now has real content instead of redirect-only behavior
+- Save action now shows explicit success feedback
+- Notification permission no longer prompts on passive sync
+- Demo content no longer hardcodes Turkish regardless of locale
+- Shared alert state extracted to hooks/useAlertState.ts
+- add-subscription theme handling aligned with global theme system
+- Locale persistence is validated safely
+- Duplicate date math helper logic removed
+- Lightweight unit test setup added
+- Standalone summary screen is reachable from settings
+
+
+19. Known design characteristics and constraints
+
+- Data is local-first and persisted on device
+- No backend is currently wired for runtime pricing updates
+- Pricing scrape output exists but is not yet consumed by the app
+- Notifications are local notifications, not push notifications
+- Many UI strings are translated, but localization quality can still be polished further
+- The app is optimized around manual tracking, not external service account integrations
+
+
+20. Good review targets for Gemini
+
+If you want Gemini to suggest improvements, useful focus areas are:
+- better information architecture for subscriptions vs purge vs summary
+- whether summary should become a tab again or remain a standalone route
+- improving notification consent UX
+- improving service preset / plan management architecture
+- whether store logic should be split into smaller domain modules
+- further localization polish strategy
+- remote pricing sync architecture with safe fallback behavior
+- performance and memoization opportunities for larger subscription lists
+- testing strategy for store math and notification planning
+
+
+21. File list (verbatim tree snapshot)
+
+ROOT
+app
+app/(tabs)
+app/(tabs)/_layout.tsx
+app/(tabs)/explore.tsx
+app/(tabs)/index.tsx
+app/(tabs)/settings.tsx
+app/_layout.tsx
+app/add-subscription.tsx
+app/summary.tsx
+assets
+assets/icons
+assets/images
+assets/images/android-icon-background.png
+assets/images/android-icon-foreground.png
+assets/images/android-icon-monochrome.png
+assets/images/favicon.png
+assets/images/icon.png
+assets/images/splash-icon.png
+assets/logos
+assets/logos/adobe_cc.png
+assets/logos/amazon_prime.png
+assets/logos/apple_one.png
+assets/logos/canva.png
+assets/logos/chatgpt.png
+assets/logos/disney_plus.png
+assets/logos/dropbox.png
+assets/logos/duolingo.png
+assets/logos/exxen.png
+assets/logos/gain.png
+assets/logos/hbo_max.png
+assets/logos/hulu.png
+assets/logos/icloud.png
+assets/logos/linkedin.png
+assets/logos/microsoft_365.png
+assets/logos/netflix.png
+assets/logos/playstation_plus.png
+assets/logos/puhu.png
+assets/logos/spotify.png
+assets/logos/tod.png
+assets/logos/x_twitter.png
+assets/logos/xbox_game_pass.png
+assets/logos/youtube.png
+assets/logos/zoom.png
+components
+components/ServiceLogo.tsx
+components/ThemedAlert.tsx
+components/haptic-tab.tsx
+components/ui
+components/ui/icon-symbol.ios.tsx
+components/ui/icon-symbol.tsx
+constants
+constants/currencies.ts
+constants/i18n.ts
+constants/localLogos.ts
+constants/services.ts
+constants/theme.ts
+data
+data/pricing-tr.json
+hooks
+hooks/useAlertState.ts
+scripts
+scripts/reset-project.js
+scripts/scrape-tr-pricing.js
+store
+store/useSubscriptionStore.ts
+tests
+tests/subscriptionDates.test.ts
+tests/subscriptionSummary.test.ts
+utils
+utils/subscriptionDates.ts
+utils/subscriptionLinks.ts
+utils/subscriptionNotifications.ts
+utils/subscriptionSummary.ts

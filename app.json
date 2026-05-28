@@ -1,19 +1,26 @@
 {
   "expo": {
-    "name": "subpurge",
+    "name": "Subpurge",
     "slug": "subpurge",
     "version": "1.0.0",
+    "description": "Track your subscriptions, find the ones you can cut, and take back control of your monthly spend. Subpurge helps you stay on top of renewals, spot unused subscriptions, and act on price increases before they add up.",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "subpurge",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.sivilpenguen.subpurge",
+      "buildNumber": "1",
+      "privacyManifests": {
+        "NSPrivacyAccessedAPITypes": []
+      }
     },
     "android": {
+      "package": "com.sivilpenguen.subpurge",
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#0D0D0D",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
@@ -27,22 +34,31 @@
     },
     "plugins": [
       "expo-router",
+      "expo-notifications",
       [
         "expo-splash-screen",
         {
           "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
+          "imageWidth": 300,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff",
+          "backgroundColor": "#0D0D0D",
           "dark": {
-            "backgroundColor": "#000000"
+            "backgroundColor": "#0D0D0D"
           }
         }
-      ]
+      ],
+      "@react-native-community/datetimepicker"
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "1f2989da-708a-491b-8bf9-8186b1c615a7"
+      }
+    },
+    "owner": "sivilpenguen"
   }
 }
