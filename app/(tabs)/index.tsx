@@ -221,12 +221,16 @@ export default function SubscriptionsScreen() {
           accessibilityRole="button"
           accessibilityLabel={themeMode === 'dark' ? 'Açık temaya geç' : 'Koyu temaya geç'}
         >
-          <View style={styles.themeToggleTrack}>
+          <View style={[styles.themeToggleTrack, { borderColor: theme.border }]}>
             <View style={[
               styles.themeToggleThumb,
               { backgroundColor: theme.text },
               themeMode === 'light' && styles.themeToggleThumbRight,
-            ]} />
+            ]}>
+              <Text style={styles.themeToggleIcon}>
+                {themeMode === 'dark' ? '🌙' : '☀️'}
+              </Text>
+            </View>
           </View>
         </TouchableOpacity>
 
@@ -461,22 +465,26 @@ const styles = StyleSheet.create({
     padding: 6,
   },
   themeToggleTrack: {
-    width: 36,
-    height: 20,
-    borderRadius: 10,
+    width: 44,
+    height: 24,
+    borderRadius: 12,
     backgroundColor: 'transparent',
+    borderWidth: 1,
     justifyContent: 'center',
-    paddingHorizontal: 3,
+    paddingHorizontal: 2,
   },
   themeToggleThumb: {
-    width: 14,
-    height: 14,
-    borderRadius: 7,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
     alignSelf: 'flex-start',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   themeToggleThumbRight: {
     alignSelf: 'flex-end',
   },
+  themeToggleIcon: { fontSize: 12, lineHeight: 14 },
   addBtn: {
     width: 36,
     height: 36,

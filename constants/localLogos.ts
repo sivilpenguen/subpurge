@@ -29,6 +29,9 @@ const LOCAL_LOGOS: Record<string, number> = {
   'Zoom': require('../assets/logos/zoom.png'),
   'MUBI': require('../assets/logos/mubi.png'),
   'Tabii': require('../assets/logos/tabii.png'),
+  'Gemini': require('../assets/logos/gemini.png'),
+  'Instagram': require('../assets/logos/instagram.png'),
+  'CapCut': require('../assets/logos/capcut.png'),
 };
 
 export function getLocalLogo(serviceName: string): number | undefined {

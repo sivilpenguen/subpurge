@@ -280,13 +280,22 @@ export default function AddSubscriptionScreen() {
               <SegmentControl
                 options={cycleOptions}
                 value={cycle}
-                onChange={v => { setSelectedPlanId(null); setCycle(v); }}
+                onChange={v => {
+                  setCycle(v);
+                  const matchingPlan = selectedPreset?.plans?.find(p => p.billingCycle === v);
+                  if (matchingPlan) {
+                    setSelectedPlanId(matchingPlan.id);
+                    setPrice(matchingPlan.price.toString());
+                  } else {
+                    setSelectedPlanId(null);
+                  }
+                }}
                 theme={theme}
               />
 
               {!!selectedPreset?.plans?.length && (
                 <PlanSelector
-                  plans={selectedPreset.plans}
+                  plans={selectedPreset.plans.filter(p => p.billingCycle === cycle)}
                   selectedPlanId={selectedPlanId}
                   cycleLabels={cycleLabels}
                   theme={theme}
