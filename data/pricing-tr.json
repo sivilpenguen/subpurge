@@ -1,7 +1,7 @@
 {
   "country": "TR",
   "currency": "TRY",
-  "updatedAt": "2026-05-28T07:34:19.489Z",
+  "updatedAt": "2026-05-28T07:41:26.965Z",
   "services": {
     "Spotify": {
       "sourceUrl": "https://www.spotify.com/tr-tr/premium/",
@@ -31,51 +31,83 @@
           "price": 55
         }
       ]
+    },
+    "YouTube Premium": {
+      "sourceUrl": "https://www.youtube.com/premium?hl=tr&gl=TR",
+      "plans": [
+        {
+          "id": "individual",
+          "name": "Individual",
+          "billingCycle": "monthly",
+          "price": 49.99
+        },
+        {
+          "id": "family",
+          "name": "Family",
+          "billingCycle": "monthly",
+          "price": 159.99
+        },
+        {
+          "id": "student",
+          "name": "Student",
+          "billingCycle": "monthly",
+          "price": 52.99
+        },
+        {
+          "id": "individual-yearly",
+          "name": "Individual Yearly",
+          "billingCycle": "yearly",
+          "price": 799.99
+        }
+      ]
+    },
+    "Gain": {
+      "sourceUrl": "https://www.gain.tv",
+      "plans": [
+        {
+          "id": "monthly",
+          "name": "Gain",
+          "price": 129,
+          "billingCycle": "monthly"
+        }
+      ]
     }
   },
   "skipped": {
-    "YouTube Premium": {
-      "reason": "No YouTube Premium plans found",
-      "sourceUrl": "https://www.youtube.com/premium?hl=tr&gl=TR"
-    },
     "Netflix": {
-      "reason": "Netflix signup plan page structure changed or geo-restricted.",
+      "reason": "Netflix TR plan prices not found in page (JS-rendered or geo-blocked).",
       "sourceUrl": "https://www.netflix.com/tr/signup/planform"
     },
     "Disney+": {
-      "reason": "HTTP 404",
-      "sourceUrl": "https://www.disneyplus.com/tr-tr/subscribe"
+      "reason": "Disney+ TR prices not found (JS-rendered, requires headless browser).",
+      "sourceUrl": "https://www.disneyplus.com/tr-tr/sign-up/plan-select"
     },
     "Amazon Prime": {
-      "reason": "HTTP 503",
+      "reason": "Amazon Prime TR page returned no prices (may be rate-limited).",
       "sourceUrl": "https://www.amazon.com.tr/amazonprime"
     },
     "Exxen": {
-      "reason": "HTTP 404",
-      "sourceUrl": "https://www.exxen.com/uyelik-paketleri"
-    },
-    "Gain": {
-      "reason": "HTTP 404",
-      "sourceUrl": "https://www.gain.tv/abone-ol"
+      "reason": "Exxen prices not found on homepage (SPA — requires JS execution).",
+      "sourceUrl": "https://www.exxen.com"
     },
     "Puhu": {
-      "reason": "HTTP 404",
-      "sourceUrl": "https://puhutv.com/uyelik"
+      "reason": "Puhu prices not found (SPA — requires JS execution).",
+      "sourceUrl": "https://puhutv.com"
     },
     "TOD": {
-      "reason": "TOD page structure not recognized.",
-      "sourceUrl": "https://tod.tv/subscribe"
+      "reason": "TOD prices not found (Next.js SSR — prices may be client-rendered).",
+      "sourceUrl": "https://www.tod.tv/tr/subscribe"
     },
     "ChatGPT": {
-      "reason": "HTTP 403",
+      "reason": "ChatGPT pricing page blocked or structure changed (403/bot protection).",
       "sourceUrl": "https://openai.com/chatgpt/pricing/"
     },
     "iCloud": {
-      "reason": "iCloud TR page structure not recognized.",
+      "reason": "iCloud TR prices not found in page (prices may be JS-rendered).",
       "sourceUrl": "https://www.apple.com/tr/icloud/"
     },
     "LinkedIn Premium": {
-      "reason": "LinkedIn Premium TR page structure not recognized.",
+      "reason": "LinkedIn Premium TR prices not found (may require login or JS).",
       "sourceUrl": "https://www.linkedin.com/premium/products/?countryCode=TR"
     }
   }
