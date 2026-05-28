@@ -1,7 +1,7 @@
 {
   "country": "TR",
   "currency": "TRY",
-  "updatedAt": "2026-04-30T13:47:05.778Z",
+  "updatedAt": "2026-05-28T07:34:19.489Z",
   "services": {
     "Spotify": {
       "sourceUrl": "https://www.spotify.com/tr-tr/premium/",
@@ -31,45 +31,52 @@
           "price": 55
         }
       ]
-    },
-    "YouTube Premium": {
-      "sourceUrl": "https://www.youtube.com/premium?hl=tr&gl=TR",
-      "plans": [
-        {
-          "id": "individual",
-          "name": "Individual",
-          "price": 49.99,
-          "billingCycle": "monthly"
-        },
-        {
-          "id": "family",
-          "name": "Family",
-          "price": 159.99,
-          "billingCycle": "monthly"
-        },
-        {
-          "id": "student",
-          "name": "Student",
-          "price": 52.99,
-          "billingCycle": "monthly"
-        },
-        {
-          "id": "individual-yearly",
-          "name": "Individual Yearly",
-          "price": 799.99,
-          "billingCycle": "yearly"
-        }
-      ]
     }
   },
   "skipped": {
+    "YouTube Premium": {
+      "reason": "No YouTube Premium plans found",
+      "sourceUrl": "https://www.youtube.com/premium?hl=tr&gl=TR"
+    },
     "Netflix": {
-      "reason": "Official TR page exposes only a range (189,99 TL - 379,99 TL), not plan-to-price mapping.",
-      "sourceUrl": "https://www.netflix.com/tr/"
+      "reason": "Netflix signup plan page structure changed or geo-restricted.",
+      "sourceUrl": "https://www.netflix.com/tr/signup/planform"
     },
     "Disney+": {
-      "reason": "Official Disney+ TR landing page currently foregrounds promo pricing; only a starting monthly price (249,90 TL/ay) is visible.",
-      "sourceUrl": "https://www.disneyplus.com/tr-tr"
+      "reason": "HTTP 404",
+      "sourceUrl": "https://www.disneyplus.com/tr-tr/subscribe"
+    },
+    "Amazon Prime": {
+      "reason": "HTTP 503",
+      "sourceUrl": "https://www.amazon.com.tr/amazonprime"
+    },
+    "Exxen": {
+      "reason": "HTTP 404",
+      "sourceUrl": "https://www.exxen.com/uyelik-paketleri"
+    },
+    "Gain": {
+      "reason": "HTTP 404",
+      "sourceUrl": "https://www.gain.tv/abone-ol"
+    },
+    "Puhu": {
+      "reason": "HTTP 404",
+      "sourceUrl": "https://puhutv.com/uyelik"
+    },
+    "TOD": {
+      "reason": "TOD page structure not recognized.",
+      "sourceUrl": "https://tod.tv/subscribe"
+    },
+    "ChatGPT": {
+      "reason": "HTTP 403",
+      "sourceUrl": "https://openai.com/chatgpt/pricing/"
+    },
+    "iCloud": {
+      "reason": "iCloud TR page structure not recognized.",
+      "sourceUrl": "https://www.apple.com/tr/icloud/"
+    },
+    "LinkedIn Premium": {
+      "reason": "LinkedIn Premium TR page structure not recognized.",
+      "sourceUrl": "https://www.linkedin.com/premium/products/?countryCode=TR"
     }
   }
 }
