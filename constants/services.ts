@@ -157,8 +157,8 @@ const BASE_PRESETS: ServicePreset[] = [
   { name: 'Hulu', color: '#1CE783', icon: '📺', logoUrl: 'https://logo.clearbit.com/hulu.com', manageDeepLink: 'https://secure.hulu.com/account', quickCancelUrl: 'https://secure.hulu.com/account/cancel' },
   { name: 'X (Twitter)', color: '#000000', icon: '🐦', logoUrl: 'https://logo.clearbit.com/x.com', manageDeepLink: 'https://x.com/settings/premium', quickCancelUrl: 'https://x.com/settings/subscription' },
   { name: 'Zoom', color: '#2D8CFF', icon: '📹', logoUrl: 'https://logo.clearbit.com/zoom.us', manageDeepLink: 'https://zoom.us/billing', quickCancelUrl: 'https://zoom.us/billing', plans: [{ id: 'pro', name: 'Pro', price: 419.99, billingCycle: 'monthly' }] },
-  { name: 'MUBI', color: '#001F3F', icon: '◈', logoUrl: 'https://logo.clearbit.com/mubi.com', manageDeepLink: 'https://mubi.com/account', quickCancelUrl: 'https://mubi.com/account', plans: [{ id: 'monthly', name: 'MUBI', price: 139.99, billingCycle: 'monthly' }] },
-  { name: 'Tabii', color: '#1A1A2E', icon: '◈', logoUrl: 'https://logo.clearbit.com/tabii.com', manageDeepLink: 'https://tabii.com/hesap', quickCancelUrl: 'https://tabii.com/hesap', plans: [{ id: 'monthly', name: 'Tabii', price: 99.99, billingCycle: 'monthly' }] },
+  { name: 'MUBI', color: '#001F3F', icon: '◈', logoUrl: 'https://logo.clearbit.com/mubi.com', manageDeepLink: 'https://mubi.com/account', quickCancelUrl: 'https://mubi.com/account', plans: [{ id: 'monthly', name: 'MUBI Aylık', price: 229, billingCycle: 'monthly' }, { id: 'yearly', name: 'MUBI Yıllık', price: 1980, billingCycle: 'yearly' }] },
+  { name: 'Tabii', color: '#1A1A2E', icon: '◈', logoUrl: 'https://logo.clearbit.com/tabii.com', manageDeepLink: 'https://tabii.com/hesap', quickCancelUrl: 'https://tabii.com/hesap', plans: [{ id: 'monthly', name: 'Tabii', price: 99, billingCycle: 'monthly' }] },
   { name: 'Diğer', color: '#6C6C6C', icon: '◈' },
 ];
 
