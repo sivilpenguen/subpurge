@@ -3,7 +3,7 @@ name: Update Pricing Data
 on:
   schedule:
     - cron: '0 3 * * 1'   # Her Pazartesi 03:00 UTC
-  workflow_dispatch:        # Manuel tetikleme (GitHub UI'den "Run workflow" butonu)
+  workflow_dispatch:        # Manuel tetikleme
 
 jobs:
   scrape:
@@ -18,10 +18,29 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
 
-      - name: Run pricing scraper
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Install Puppeteer browser
+        run: node -e "require('puppeteer').executablePath()" 2>/dev/null || npx puppeteer browsers install chrome
+
+      - name: Install system dependencies for Chromium
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 \
+            libxcomposite1 libxdamage1 libxfixes3 libxrandr2 \
+            libgbm1 libasound2t64 libpango-1.0-0 libpangocairo-1.0-0
+
+      - name: Run fetch-based scraper
         run: node scripts/scrape-tr-pricing.js
+
+      - name: Run Puppeteer scraper
+        run: node scripts/scrape-tr-pricing-puppeteer.js
+        env:
+          PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'false'
 
       - name: Commit updated pricing data
         run: |
