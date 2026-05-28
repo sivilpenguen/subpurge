@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { useStore } from '../../store/useSubscriptionStore';
 import { getTheme } from '../../constants/theme';
+import { useCoachMarks } from '../../components/CoachMarks';
 
 function CustomTabBar() {
   const insets = useSafeAreaInsets();
@@ -11,6 +12,7 @@ function CustomTabBar() {
   const router = useRouter();
   const { t, themeMode } = useStore();
   const theme = getTheme(themeMode);
+  const { registerRef } = useCoachMarks();
 
   const TABS = [
     { name: 'index', label: t.tabSubscriptions, icon: 'creditcard.fill' as const, route: '/' },
@@ -26,6 +28,7 @@ function CustomTabBar() {
           return (
             <Pressable
               key={tab.name}
+              ref={tab.name === 'explore' ? (r: any) => registerRef('purgeTab', r) : undefined}
               style={[styles.tabItem, active && styles.tabItemActive, active && { backgroundColor: theme.tabBarActive }]}
               onPress={() => router.navigate(tab.route as any)}
               accessibilityLabel={tab.label}

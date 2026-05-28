@@ -27,6 +27,8 @@ const LOCAL_LOGOS: Record<string, number> = {
   'Hulu': require('../assets/logos/hulu.png'),
   'X (Twitter)': require('../assets/logos/x_twitter.png'),
   'Zoom': require('../assets/logos/zoom.png'),
+  'MUBI': require('../assets/logos/mubi.png'),
+  'Tabii': require('../assets/logos/tabii.png'),
 };
 
 export function getLocalLogo(serviceName: string): number | undefined {

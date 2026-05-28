@@ -456,6 +456,7 @@ export function useSubscriptionStore(): StoreState {
     persistItem(ONBOARDED_KEY, '1', 'Failed to save onboarded state');
   };
 
+
   const setCurrency = (c: Currency) => {
     setCurrencyState(c);
     persistItem(CURRENCY_KEY, JSON.stringify(c), 'Failed to save currency');

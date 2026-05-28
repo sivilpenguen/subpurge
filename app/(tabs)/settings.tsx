@@ -1,4 +1,5 @@
 import { useRouter } from 'expo-router';
+import { useCoachMarks } from '../../components/CoachMarks';
 import { useState } from 'react';
 import {
   FlatList,
@@ -25,6 +26,7 @@ import { scheduleNotificationTestAsync, syncSubscriptionNotificationsAsync } fro
 export default function SettingsScreen() {
   const router = useRouter();
   const { currency, setCurrency, locale, setLocale, subscriptions, themeMode, t, loadDemoSubscriptions, resetAllData } = useStore();
+  const { startTour } = useCoachMarks();
   const theme = getTheme(themeMode);
   const activeSubscriptions = subscriptions.filter(subscription => subscription.isActive);
   const endedSubscriptions = subscriptions.filter(subscription => !subscription.isActive);
@@ -114,6 +116,15 @@ export default function SettingsScreen() {
         >
           <Text style={[styles.demoBtnText, { color: theme.text }]}>{t.priceSummary}</Text>
           <Text style={[styles.demoBtnHint, { color: theme.subtext }]}>{t.costBreakdown}</Text>
+        </TouchableOpacity>
+
+        <Text style={[styles.sectionTitle, { marginTop: 24, color: theme.subtext }]}>Onboarding</Text>
+        <TouchableOpacity
+          style={[styles.demoBtn, { backgroundColor: theme.card, borderColor: theme.border }]}
+          onPress={startTour}
+        >
+          <Text style={[styles.demoBtnText, { color: theme.text }]}>Karşılama ekranını göster</Text>
+          <Text style={[styles.demoBtnHint, { color: theme.subtext }]}>Onboarding önizlemesi</Text>
         </TouchableOpacity>
 
         <Text style={[styles.sectionTitle, { marginTop: 24, color: theme.subtext }]}>{t.notificationTests}</Text>

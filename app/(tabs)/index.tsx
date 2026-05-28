@@ -1,11 +1,13 @@
 import { useRouter } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
+import { View as RNView } from 'react-native';
 import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ServiceLogo } from '../../components/ServiceLogo';
 import { SwipeableSubscriptionCard } from '../../components/SwipeableSubscriptionCard';
+import { useCoachMarks } from '../../components/CoachMarks';
 import { ThemedAlert } from '../../components/ThemedAlert';
 import { AppTheme, getTheme } from '../../constants/theme';
 import { useAlertState } from '../../hooks/useAlertState';
@@ -54,7 +56,7 @@ function getStatusTone(daysUntil: number) {
   return STATUS_COLORS.success;
 }
 
-function CompactSubscriptionCard({
+function SubscriptionRow({
   item,
   currencySymbol,
   statusText,
@@ -65,6 +67,8 @@ function CompactSubscriptionCard({
   editHint,
   theme,
   onOpenMenu,
+  isLast,
+  rowRef,
 }: {
   item: Subscription;
   currencySymbol: string;
@@ -76,50 +80,48 @@ function CompactSubscriptionCard({
   editHint: string;
   theme: AppTheme;
   onOpenMenu: (item: Subscription) => void;
+  isLast: boolean;
+  rowRef?: (r: any) => void;
 }) {
   const router = useRouter();
 
   return (
-    <TouchableOpacity
-      style={[styles.card, { borderColor: theme.border, backgroundColor: theme.card }]}
-      onPress={() => router.push({ pathname: '/add-subscription', params: { id: item.id } })}
-      activeOpacity={0.84}
-      accessibilityLabel={item.name}
-      accessibilityRole="button"
-      accessibilityHint={editHint}
-    >
-      <ServiceLogo logoUrl={item.logoUrl} icon={item.icon} color={item.color} size={44} serviceName={item.name} />
+    <View ref={rowRef}>
+      <TouchableOpacity
+        style={styles.row}
+        onPress={() => router.push({ pathname: '/add-subscription', params: { id: item.id } })}
+        activeOpacity={0.6}
+        accessibilityLabel={item.name}
+        accessibilityRole="button"
+        accessibilityHint={editHint}
+      >
+        <ServiceLogo logoUrl={item.logoUrl} icon={item.icon} color={item.color} size={34} serviceName={item.name} />
 
-      <View style={styles.cardBody}>
-        <View style={styles.cardMainRow}>
-          <View style={styles.cardTextWrap}>
-            <Text style={[styles.cardTitle, { color: theme.text }]} numberOfLines={1}>{item.name}</Text>
-            <Text style={[styles.cardDate, { color: theme.subtext }]} numberOfLines={1}>
-              {dateLabel}: {dateValue}
-            </Text>
+        <View style={styles.rowBody}>
+          <View style={styles.rowTop}>
+            <Text style={[styles.rowTitle, { color: theme.text }]} numberOfLines={1}>{item.name}</Text>
+            <Text style={[styles.rowPrice, { color: theme.text }]}>{currencySymbol}{item.price.toFixed(2)}</Text>
           </View>
-
-          <View style={styles.cardRight}>
-            <Text style={[styles.cardPrice, { color: theme.text }]}>{currencySymbol}{item.price.toFixed(2)}</Text>
-            {!!monthlyEquivLabel && (
-              <Text style={[styles.cardMonthlyEquiv, { color: theme.subtext }]}>{monthlyEquivLabel}</Text>
-            )}
-            <View style={[styles.statusChip, { backgroundColor: `${statusColor}14`, borderColor: `${statusColor}45` }]}>
-              <Text style={[styles.statusChipText, { color: statusColor }]}>{statusText}</Text>
-            </View>
+          <View style={styles.rowBottom}>
+            <Text style={[styles.rowMeta, { color: theme.subtext }]} numberOfLines={1}>
+              {dateLabel} {dateValue}
+              {monthlyEquivLabel ? `  ·  ${monthlyEquivLabel}` : ''}
+            </Text>
+            <View style={[styles.rowDot, { backgroundColor: statusColor }]} />
           </View>
         </View>
-      </View>
 
-      <TouchableOpacity
-        style={[styles.menuBtn, { backgroundColor: theme.secondaryButtonBg, borderColor: theme.borderSoft }]}
-        onPress={() => onOpenMenu(item)}
-        accessibilityLabel="More options"
-        accessibilityRole="button"
-      >
-        <Text style={[styles.menuBtnText, { color: theme.subtext }]}>•••</Text>
+        <TouchableOpacity
+          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+          onPress={() => onOpenMenu(item)}
+          accessibilityLabel="More options"
+          accessibilityRole="button"
+        >
+          <Text style={[styles.rowMenu, { color: theme.subtext }]}>⋯</Text>
+        </TouchableOpacity>
       </TouchableOpacity>
-    </TouchableOpacity>
+      {!isLast && <View style={[styles.rowDivider, { backgroundColor: theme.border }]} />}
+    </View>
   );
 }
 
@@ -137,6 +139,7 @@ export default function SubscriptionsScreen() {
   } = useStore();
   const router = useRouter();
   const theme = getTheme(themeMode);
+  const { registerRef } = useCoachMarks();
   const [tab, setTab] = useState<Tab>('active');
   const [activeFilter, setActiveFilter] = useState<ActiveFilter>('all');
   const { alertConfig, closeAlert, showAlert } = useAlertState();
@@ -232,6 +235,7 @@ export default function SubscriptionsScreen() {
         </View>
 
         <TouchableOpacity
+          ref={r => registerRef('addBtn', r as any)}
           style={[styles.addBtn, { backgroundColor: theme.text }]}
           onPress={() => router.push('/add-subscription')}
           accessibilityLabel={t.newSubscription}
@@ -331,7 +335,7 @@ export default function SubscriptionsScreen() {
       <FlatList
         data={displayed}
         keyExtractor={item => item.id}
-        renderItem={({ item }) => {
+        renderItem={({ item, index }) => {
           const trackedDate = getTrackedDate(item);
           const daysUntil = trackedDate ? differenceInCalendarDays(trackedDate) : Number.NaN;
           const dateLabel = item.isActive
@@ -376,7 +380,7 @@ export default function SubscriptionsScreen() {
                   })
               }
             >
-              <CompactSubscriptionCard
+              <SubscriptionRow
                 item={item}
                 currencySymbol={currency.symbol}
                 statusText={statusText}
@@ -387,6 +391,8 @@ export default function SubscriptionsScreen() {
                 editHint={t.editSubscriptionHint}
                 theme={theme}
                 onOpenMenu={tab === 'active' ? openActiveActions : openEndedActions}
+                isLast={index === displayed.length - 1}
+                rowRef={index === 0 ? (r: any) => registerRef('subscriptionRow', r) : undefined}
               />
             </SwipeableSubscriptionCard>
           );
@@ -536,40 +542,23 @@ const styles = StyleSheet.create({
   filterChipIcon: { fontSize: 13 },
   filterChipText: { fontSize: 10, fontWeight: '600', letterSpacing: 0.3 },
   filterChipDot: { width: 3, height: 3, borderRadius: 2 },
-  listContent: { paddingHorizontal: 20, paddingBottom: 120, gap: 10 },
-  card: {
+  listContent: { paddingBottom: 120 },
+  row: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
-    paddingHorizontal: 14,
-    paddingVertical: 12,
-    borderRadius: 18,
-    borderWidth: 1,
+    paddingHorizontal: 20,
+    paddingVertical: 13,
   },
-  cardBody: { flex: 1 },
-  cardMainRow: { flexDirection: 'row', alignItems: 'center', gap: 12 },
-  cardTextWrap: { flex: 1 },
-  cardTitle: { fontSize: 15, fontWeight: '700', marginBottom: 3 },
-  cardDate: { fontSize: 12 },
-  cardRight: { alignItems: 'flex-end', gap: 8 },
-  cardPrice: { fontSize: 14, fontWeight: '700' },
-  cardMonthlyEquiv: { fontSize: 10, fontWeight: '500' },
-  statusChip: {
-    paddingVertical: 5,
-    paddingHorizontal: 8,
-    borderRadius: 999,
-    borderWidth: 1,
-  },
-  statusChipText: { fontSize: 11, fontWeight: '700' },
-  menuBtn: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-  },
-  menuBtnText: { fontSize: 12, fontWeight: '700', letterSpacing: 1 },
+  rowBody: { flex: 1 },
+  rowTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 3 },
+  rowTitle: { fontSize: 15, fontWeight: '600', flex: 1, marginRight: 8 },
+  rowPrice: { fontSize: 15, fontWeight: '700' },
+  rowBottom: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  rowMeta: { fontSize: 12, flex: 1 },
+  rowDot: { width: 5, height: 5, borderRadius: 3 },
+  rowDivider: { height: StyleSheet.hairlineWidth, marginTop: 0 },
+  rowMenu: { fontSize: 18, paddingHorizontal: 4 },
   emptyContainer: { flex: 1 },
   empty: { flex: 1, alignItems: 'center', paddingTop: 60 },
   emptyIcon: { fontSize: 56, marginBottom: 14, fontWeight: '100' },

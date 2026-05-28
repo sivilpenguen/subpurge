@@ -11,6 +11,7 @@ import { BillingCycle, SERVICE_PRESETS, ServicePreset, ServicePlanTemplate } fro
 import { getTheme } from '../constants/theme';
 import { useAlertState } from '../hooks/useAlertState';
 import { TrackingType, useStore } from '../store/useSubscriptionStore';
+import { syncSubscriptionNotificationsAsync } from '../utils/subscriptionNotifications';
 import { addBillingCycleToDate, addMonthsToDateValue, compareDateValues, formatDateInput, isCalendarDate, parseDateValue } from '../utils/subscriptionDates';
 
 const CYCLE_KEYS: BillingCycle[] = ['weekly', 'monthly', 'yearly'];
@@ -31,7 +32,7 @@ function isValidExternalUrl(value: string): boolean {
 export default function AddSubscriptionScreen() {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id?: string }>();
-  const { subscriptions, addSubscription, updateSubscription, toggleActive, themeMode, t } = useStore();
+  const { subscriptions, locale, addSubscription, updateSubscription, toggleActive, themeMode, t } = useStore();
   const theme = getTheme(themeMode);
 
   const existing = id ? subscriptions.find(s => s.id === id) : null;
@@ -46,7 +47,7 @@ export default function AddSubscriptionScreen() {
   const [name, setName] = useState(existing?.name ?? '');
   const [price, setPrice] = useState(existing?.price?.toString() ?? '');
   const [cycle, setCycle] = useState<BillingCycle>(defaultCycle);
-  const [icon, setIcon] = useState(existing?.icon ?? '📌');
+  const [icon, setIcon] = useState(existing?.icon ?? '◈');
   const [color, setColor] = useState(existing?.color ?? '#6C6C6C');
   const [logoUrl, setLogoUrl] = useState<string | undefined>(existing?.logoUrl);
   const [manageDeepLink, setManageDeepLink] = useState(existing?.manageDeepLink ?? matchingPreset?.manageDeepLink);
@@ -207,7 +208,13 @@ export default function AddSubscriptionScreen() {
 
     const executeSave = () => {
       if (isEdit) updateSubscription(id!, data);
-      else addSubscription(data);
+      else {
+        addSubscription(data);
+        // İlk abonelik ekleniyorsa bildirim izni iste
+        if (subscriptions.length === 0) {
+          void syncSubscriptionNotificationsAsync([{ ...data, id: 'temp' } as any], locale, { requestPermissions: true });
+        }
+      }
       showAlert({
         title: t.saveSuccessTitle,
         message: t.saveSuccessMessage,

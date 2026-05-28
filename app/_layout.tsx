@@ -1,12 +1,13 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import { Modal, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { Dimensions, FlatList, Image, Modal, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import 'react-native-reanimated';
 import { StoreContext, useStore, useSubscriptionStore } from '../store/useSubscriptionStore';
 import { ThemeContext } from '../store/ThemeContext';
 import { getTheme } from '../constants/theme';
 import { syncSubscriptionNotificationsAsync } from '../utils/subscriptionNotifications';
+import { CoachMarksProvider, useCoachMarks } from '../components/CoachMarks';
 
 function StoreProvider({ children }: { children: React.ReactNode }) {
   const store = useSubscriptionStore();
@@ -23,33 +24,96 @@ function NotificationSync() {
   return null;
 }
 
+const SCREEN_WIDTH = Dimensions.get('window').width;
+
+const SLIDES = [
+  {
+    icon: '⧗',
+    title: 'Aboneliklerini takip et',
+    subtitle: 'Tüm aboneliklerini tek bir yerde gör. Yenileme tarihlerini, ödeme tutarlarını ve döngüleri takip et.',
+  },
+  {
+    icon: '⊘',
+    title: 'Gereksizleri keşfet',
+    subtitle: 'Kullanmadığın, zamlanmış ya da süresi dolmak üzere olan abonelikleri Purge Mode ile bul.',
+  },
+  {
+    icon: '◎',
+    title: 'Kontrolü geri al',
+    subtitle: 'Aylık harcamanı net gör, aksiyon al ve gereksiz ödemelerden kurtul.',
+  },
+];
+
 function OnboardingModal() {
-  const { hasOnboarded, setOnboarded, loadDemoSubscriptions, t, themeMode } = useStore();
+  const { hasOnboarded, setOnboarded, loadDemoSubscriptions, themeMode } = useStore();
+  const { startTour } = useCoachMarks();
   const theme = getTheme(themeMode);
+  const [index, setIndex] = useState(0);
+  const listRef = useRef<FlatList>(null);
 
   if (hasOnboarded) return null;
 
+  const isLast = index === SLIDES.length - 1;
+
+  const goNext = () => {
+    if (isLast) { setOnboarded(); return; }
+    const next = index + 1;
+    listRef.current?.scrollToIndex({ index: next, animated: true });
+    setIndex(next);
+  };
+
   return (
-    <Modal transparent visible animationType="fade" statusBarTranslucent>
-      <View style={[onboardingStyles.overlay, { backgroundColor: theme.overlay }]}>
-        <View style={[onboardingStyles.panel, { backgroundColor: theme.modalBg, borderColor: theme.border }]}>
-          <Text style={[onboardingStyles.emoji]}>📋</Text>
-          <Text style={[onboardingStyles.title, { color: theme.text }]}>{t.onboardingTitle}</Text>
-          <Text style={[onboardingStyles.subtitle, { color: theme.subtext }]}>{t.onboardingSubtitle}</Text>
+    <Modal visible animationType="fade" statusBarTranslucent>
+      <View style={[onboardingStyles.screen, { backgroundColor: theme.bg }]}>
+        {/* Logo */}
+        <View style={onboardingStyles.logoWrap}>
+          <Image source={require('../assets/images/icon.png')} style={onboardingStyles.logo} resizeMode="contain" />
+        </View>
+
+        {/* Slides */}
+        <FlatList
+          ref={listRef}
+          data={SLIDES}
+          horizontal
+          pagingEnabled
+          scrollEnabled={false}
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={(_, i) => String(i)}
+          renderItem={({ item }) => (
+            <View style={[onboardingStyles.slide, { width: SCREEN_WIDTH }]}>
+              <Text style={onboardingStyles.slideIcon}>{item.icon}</Text>
+              <Text style={[onboardingStyles.slideTitle, { color: theme.text }]}>{item.title}</Text>
+              <Text style={[onboardingStyles.slideSubtitle, { color: theme.subtext }]}>{item.subtitle}</Text>
+            </View>
+          )}
+        />
+
+        {/* Dots */}
+        <View style={onboardingStyles.dots}>
+          {SLIDES.map((_, i) => (
+            <View
+              key={i}
+              style={[onboardingStyles.dot, { backgroundColor: i === index ? theme.text : theme.border }]}
+            />
+          ))}
+        </View>
+
+        {/* Buttons */}
+        <View style={onboardingStyles.bottom}>
           <TouchableOpacity
-            style={[onboardingStyles.ctaBtn, { borderColor: theme.text, backgroundColor: theme.headerButtonBg }]}
-            onPress={setOnboarded}
+            style={[onboardingStyles.ctaBtn, { backgroundColor: theme.text }]}
+            onPress={() => { goNext(); if (isLast) setTimeout(startTour, 400); }}
             accessibilityRole="button"
           >
-            <Text style={[onboardingStyles.ctaText, { color: theme.headerButtonText }]}>{t.onboardingCta}</Text>
+            <Text style={[onboardingStyles.ctaText, { color: theme.bg }]}>
+              {isLast ? 'Başla' : 'Devam'}
+            </Text>
           </TouchableOpacity>
-          <Pressable
-            style={onboardingStyles.demoBtn}
-            onPress={() => { loadDemoSubscriptions(); setOnboarded(); }}
-            accessibilityRole="button"
-          >
-            <Text style={[onboardingStyles.demoBtnText, { color: theme.subtext }]}>{t.onboardingDemoBtn}</Text>
-          </Pressable>
+          {isLast && (
+            <Pressable onPress={() => { loadDemoSubscriptions(); setOnboarded(); setTimeout(startTour, 400); }}>
+              <Text style={[onboardingStyles.demoText, { color: theme.subtext }]}>Demo verisi yükle</Text>
+            </Pressable>
+          )}
         </View>
       </View>
     </Modal>
@@ -62,41 +126,33 @@ function AppShell() {
 
   return (
     <ThemeContext.Provider value={themeMode}>
-      <NotificationSync />
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="(tabs)" />
-        <Stack.Screen name="add-subscription" options={{ presentation: 'modal', headerShown: false }} />
-      </Stack>
-      <OnboardingModal />
-      <StatusBar style={theme.mode === 'dark' ? 'light' : 'dark'} />
+      <CoachMarksProvider>
+        <NotificationSync />
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="add-subscription" options={{ presentation: 'modal', headerShown: false }} />
+        </Stack>
+        <OnboardingModal />
+        <StatusBar style={theme.mode === 'dark' ? 'light' : 'dark'} />
+      </CoachMarksProvider>
     </ThemeContext.Provider>
   );
 }
 
 const onboardingStyles = StyleSheet.create({
-  overlay: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 28 },
-  panel: {
-    width: '100%',
-    maxWidth: 360,
-    borderRadius: 24,
-    borderWidth: 1.5,
-    padding: 28,
-    alignItems: 'center',
-  },
-  emoji: { fontSize: 48, marginBottom: 16 },
-  title: { fontSize: 22, fontWeight: '800', textAlign: 'center', marginBottom: 10 },
-  subtitle: { fontSize: 14, lineHeight: 22, textAlign: 'center', marginBottom: 28 },
-  ctaBtn: {
-    width: '100%',
-    paddingVertical: 14,
-    borderRadius: 14,
-    borderWidth: 1.5,
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  ctaText: { fontSize: 15, fontWeight: '700' },
-  demoBtn: { paddingVertical: 10, paddingHorizontal: 16 },
-  demoBtnText: { fontSize: 13, fontWeight: '600' },
+  screen: { flex: 1, paddingBottom: 50 },
+  logoWrap: { alignItems: 'center', paddingTop: 80, paddingBottom: 20 },
+  logo: { width: 80, height: 80 },
+  slide: { alignItems: 'center', justifyContent: 'center', paddingHorizontal: 36, gap: 14 },
+  slideIcon: { fontSize: 48 },
+  slideTitle: { fontSize: 22, fontWeight: '800', textAlign: 'center', letterSpacing: -0.5 },
+  slideSubtitle: { fontSize: 15, lineHeight: 24, textAlign: 'center' },
+  dots: { flexDirection: 'row', justifyContent: 'center', gap: 6, paddingVertical: 24 },
+  dot: { width: 6, height: 6, borderRadius: 3 },
+  bottom: { paddingHorizontal: 32, gap: 14, alignItems: 'center' },
+  ctaBtn: { width: '100%', paddingVertical: 16, borderRadius: 16, alignItems: 'center' },
+  ctaText: { fontSize: 16, fontWeight: '700' },
+  demoText: { fontSize: 13, fontWeight: '500' },
 });
 
 export const unstable_settings = {
