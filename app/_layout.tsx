@@ -100,19 +100,32 @@ function OnboardingModal() {
 
         {/* Buttons */}
         <View style={onboardingStyles.bottom}>
-          <TouchableOpacity
-            style={[onboardingStyles.ctaBtn, { backgroundColor: theme.text }]}
-            onPress={() => { goNext(); if (isLast) setTimeout(startTour, 400); }}
-            accessibilityRole="button"
-          >
-            <Text style={[onboardingStyles.ctaText, { color: theme.bg }]}>
-              {isLast ? 'Başla' : 'Devam'}
-            </Text>
-          </TouchableOpacity>
-          {isLast && (
-            <Pressable onPress={() => { loadDemoSubscriptions(); setOnboarded(); setTimeout(startTour, 400); }}>
-              <Text style={[onboardingStyles.demoText, { color: theme.subtext }]}>Demo verisi yükle</Text>
-            </Pressable>
+          {isLast ? (
+            <>
+              <TouchableOpacity
+                style={[onboardingStyles.ctaBtn, { backgroundColor: theme.text }]}
+                onPress={() => { setOnboarded(); setTimeout(startTour, 400); }}
+                accessibilityRole="button"
+              >
+                <Text style={[onboardingStyles.ctaText, { color: theme.bg }]}>Başla</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[onboardingStyles.demoBtn, { backgroundColor: theme.card, borderColor: theme.border }]}
+                onPress={() => { loadDemoSubscriptions(); setOnboarded(); setTimeout(startTour, 400); }}
+                accessibilityRole="button"
+              >
+                <Text style={[onboardingStyles.demoBtnIcon]}>⬡</Text>
+                <Text style={[onboardingStyles.demoBtnText, { color: theme.text }]}>Demo verisi ile dene</Text>
+              </TouchableOpacity>
+            </>
+          ) : (
+            <TouchableOpacity
+              style={[onboardingStyles.ctaBtn, { backgroundColor: theme.text }]}
+              onPress={goNext}
+              accessibilityRole="button"
+            >
+              <Text style={[onboardingStyles.ctaText, { color: theme.bg }]}>Devam</Text>
+            </TouchableOpacity>
           )}
         </View>
       </View>
@@ -152,7 +165,12 @@ const onboardingStyles = StyleSheet.create({
   bottom: { paddingHorizontal: 32, gap: 14, alignItems: 'center' },
   ctaBtn: { width: '100%', paddingVertical: 16, borderRadius: 16, alignItems: 'center' },
   ctaText: { fontSize: 16, fontWeight: '700' },
-  demoText: { fontSize: 13, fontWeight: '500' },
+  demoBtn: {
+    width: '100%', paddingVertical: 14, borderRadius: 16,
+    borderWidth: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10,
+  },
+  demoBtnIcon: { fontSize: 18 },
+  demoBtnText: { fontSize: 15, fontWeight: '600' },
 });
 
 export const unstable_settings = {

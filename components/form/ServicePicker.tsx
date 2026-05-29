@@ -47,7 +47,6 @@ export function ServicePicker({
   const handleSelect = (preset: ServicePreset) => {
     setQuery('');
     onPresetSelect(preset);
-    if (showPresets) onTogglePresets();
   };
 
   const grouped = SERVICE_CATEGORIES.map(cat => ({
@@ -74,7 +73,7 @@ export function ServicePicker({
         >
           <ServiceLogo logoUrl={logoUrl} icon={icon} color={color} size={32} serviceName={name} />
           <Text style={[styles.selectedName, { color: theme.text }]}>{name}</Text>
-          <Text style={[styles.changeBtn, { color: theme.subtext }]}>↺</Text>
+          <Text style={[styles.changeBtn, { color: '#CCCCCC' }]}>↺</Text>
         </TouchableOpacity>
       ) : (
         <View style={styles.searchWrap}>
@@ -102,7 +101,16 @@ export function ServicePicker({
       {showPresets && query.length > 0 && (
         <View style={[styles.dropdown, { backgroundColor: theme.card, borderColor: theme.border }]}>
           {suggestions.length === 0 ? (
-            <Text style={[styles.noResult, { color: theme.subtext }]}>Sonuç bulunamadı</Text>
+            <TouchableOpacity
+              style={styles.dropdownItem}
+              onPress={() => handleSelect({ name: query.trim(), color: '#6C6C6C', icon: '◈' })}
+              activeOpacity={0.7}
+            >
+              <Text style={{ fontSize: 20, color: theme.subtext }}>⊕</Text>
+              <Text style={[styles.dropdownName, { color: theme.text }]}>
+                "{query.trim()}" ekle
+              </Text>
+            </TouchableOpacity>
           ) : suggestions.slice(0, 8).map((preset, i) => (
             <TouchableOpacity
               key={preset.name}
@@ -211,7 +219,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   selectedName: { fontSize: 15, fontWeight: '600', flex: 1 },
-  changeBtn: { fontSize: 20 },
+  changeBtn: { fontSize: 30 },
   searchWrap: { position: 'relative', marginBottom: 8 },
   searchIcon: {
     position: 'absolute',

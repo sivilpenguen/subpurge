@@ -1,6 +1,6 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { BackHandler, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { DatePickerModal } from '../components/form/DatePickerModal';
 import { PlanSelector } from '../components/form/PlanSelector';
@@ -64,6 +64,14 @@ export default function AddSubscriptionScreen() {
     existing?.expiryDate ?? addBillingCycleToDate(defaultStartDate, defaultCycle),
   );
   const [showPresets, setShowPresets] = useState(!existing);
+
+  useEffect(() => {
+    const handler = BackHandler.addEventListener('hardwareBackPress', () => {
+      if (showPresets) { setShowPresets(false); return true; }
+      return false;
+    });
+    return () => handler.remove();
+  }, [showPresets]);
   const [targetDateTouched, setTargetDateTouched] = useState(Boolean(existing?.nextBillingDate || existing?.expiryDate));
   const [isCustomService, setIsCustomService] = useState(!!existing && !presetNames.has(existing.name));
   const [quickCancelUrlError, setQuickCancelUrlError] = useState('');
@@ -160,15 +168,16 @@ export default function AddSubscriptionScreen() {
       return showAlert({ message: `${t.startDate} ${t.errorInvalidDate}`, actions: [{ label: t.ok, variant: 'primary' }] });
     }
 
-    if (!trackedDate || !isCalendarDate(trackedDate)) {
-      return showAlert({
-        message: `${trackingType === 'renewal' ? t.nextPaymentDate : t.endDate} ${t.errorInvalidDate}`,
-        actions: [{ label: t.ok, variant: 'primary' }],
-      });
-    }
-
-    if (compareDateValues(trackedDate, startDate) < 0) {
-      return showAlert({ message: t.errorTrackedDateBeforeStart, actions: [{ label: t.ok, variant: 'primary' }] });
+    if (trackingType === 'expiry') {
+      if (!trackedDate || !isCalendarDate(trackedDate)) {
+        return showAlert({
+          message: `${t.endDate} ${t.errorInvalidDate}`,
+          actions: [{ label: t.ok, variant: 'primary' }],
+        });
+      }
+      if (compareDateValues(trackedDate, startDate) < 0) {
+        return showAlert({ message: t.errorTrackedDateBeforeStart, actions: [{ label: t.ok, variant: 'primary' }] });
+      }
     }
 
     const normalizedQuickCancelUrl = normalizeExternalUrl(quickCancelUrl);
@@ -274,7 +283,7 @@ export default function AddSubscriptionScreen() {
             onCustomNameChange={setName}
           />
 
-          {serviceSelected && (
+          {!showPresets && serviceSelected && (
             <>
               <Text style={[styles.label, { color: theme.subtext }]}>{t.billingCycle}</Text>
               <SegmentControl
@@ -337,22 +346,25 @@ export default function AddSubscriptionScreen() {
                 <Text style={[styles.helperText, { color: theme.subtext }]}>{t.dateFormatHint}</Text>
               </View>
 
-              <Text style={[styles.label, { color: theme.subtext }]}>{trackingType === 'renewal' ? t.nextPaymentDate : t.endDate}</Text>
-              <TouchableOpacity style={[styles.dateField, { backgroundColor: theme.input, borderColor: theme.border }]} onPress={() => openDatePicker('trackedDate')}>
-                <Text style={[styles.dateFieldText, { color: theme.text }]}>{trackedDate || t.dateFormatHint}</Text>
-                <Text style={[styles.dateFieldIcon, { color: theme.subtext }]}>📅</Text>
-              </TouchableOpacity>
-              <View style={styles.helperRow}>
-                <TouchableOpacity style={[styles.helperChip, { borderColor: theme.border, backgroundColor: theme.card }]} onPress={() => {
-                  if (!suggestedTrackedDate) return;
-                  setTargetDateTouched(true);
-                  if (trackingType === 'renewal') setNextBillingDate(suggestedTrackedDate);
-                  else setExpiryDate(suggestedTrackedDate);
-                }}>
-                  <Text style={[styles.helperChipText, { color: theme.text }]}>{t.suggestedDate}</Text>
-                </TouchableOpacity>
-                {!!suggestedTrackedDate && <Text style={[styles.helperText, { color: theme.subtext }]}>{suggestedTrackedDate}</Text>}
-              </View>
+              {trackingType === 'expiry' && (
+                <>
+                  <Text style={[styles.label, { color: theme.subtext }]}>{t.endDate}</Text>
+                  <TouchableOpacity style={[styles.dateField, { backgroundColor: theme.input, borderColor: theme.border }]} onPress={() => openDatePicker('trackedDate')}>
+                    <Text style={[styles.dateFieldText, { color: theme.text }]}>{trackedDate || t.dateFormatHint}</Text>
+                    <Text style={[styles.dateFieldIcon, { color: theme.subtext }]}>📅</Text>
+                  </TouchableOpacity>
+                  <View style={styles.helperRow}>
+                    <TouchableOpacity style={[styles.helperChip, { borderColor: theme.border, backgroundColor: theme.card }]} onPress={() => {
+                      if (!suggestedTrackedDate) return;
+                      setTargetDateTouched(true);
+                      setExpiryDate(suggestedTrackedDate);
+                    }}>
+                      <Text style={[styles.helperChipText, { color: theme.text }]}>{t.suggestedDate}</Text>
+                    </TouchableOpacity>
+                    {!!suggestedTrackedDate && <Text style={[styles.helperText, { color: theme.subtext }]}>{suggestedTrackedDate}</Text>}
+                  </View>
+                </>
+              )}
 
               {isEdit && (
                 <>

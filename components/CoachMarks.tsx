@@ -68,16 +68,16 @@ export function CoachMarksProvider({ children }: { children: React.ReactNode }) 
     else refs.current.delete(key);
   }, []);
 
-  const measureStep = useCallback((idx: number) => {
+  const measureStep = useCallback((idx: number, attempt = 0) => {
     const step = STEPS[idx];
     const ref = refs.current.get(step.key);
-    if (!ref) {
-      setRect(null);
-      return;
-    }
+    if (!ref) { setRect(null); return; }
     ref.measure((_x, _y, w, h, px, py) => {
-      // Geçersiz ölçüm (0,0,0,0) — ref henüz ekranda değil
-      if (w === 0 && h === 0) { setRect(null); return; }
+      if (w === 0 && h === 0) {
+        if (attempt < 5) setTimeout(() => measureStep(idx, attempt + 1), 150);
+        else setRect(null);
+        return;
+      }
       setRect({ x: px, y: py, w, h });
     });
   }, []);
@@ -85,7 +85,7 @@ export function CoachMarksProvider({ children }: { children: React.ReactNode }) 
   const startTour = useCallback(() => {
     setStepIndex(0);
     setVisible(true);
-    setTimeout(() => measureStep(0), 100);
+    requestAnimationFrame(() => measureStep(0));
   }, [measureStep]);
 
   const next = () => {

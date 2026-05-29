@@ -216,7 +216,7 @@ export default function SubscriptionsScreen() {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity
-          style={[styles.iconBtn, { borderColor: theme.border }]}
+          style={styles.iconBtn}
           onPress={toggleThemeMode}
           accessibilityRole="button"
           accessibilityLabel={themeMode === 'dark' ? 'Açık temaya geç' : 'Koyu temaya geç'}
@@ -458,8 +458,6 @@ const styles = StyleSheet.create({
   },
   headerTitle: { fontSize: 28, fontWeight: '700', letterSpacing: -0.5 },
   iconBtn: {
-    borderRadius: 10,
-    borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
     padding: 6,

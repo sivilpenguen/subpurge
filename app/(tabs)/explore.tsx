@@ -214,7 +214,14 @@ export default function PurgeModeScreen() {
   };
 
   const renderSectionHeader = ({ section }: { section: PurgeSection }) => (
-    <Text style={[styles.sectionTitle, { color: theme.text, backgroundColor: theme.bg }]}>{section.title}</Text>
+    <View style={[styles.sectionHeader, { backgroundColor: theme.bg }]}>
+      <Text style={[styles.sectionTitle, { color: theme.text }]}>{section.title}</Text>
+      {section.data.length > 0 && (
+        <View style={[styles.sectionBadge, { backgroundColor: theme.card, borderColor: theme.border }]}>
+          <Text style={[styles.sectionBadgeText, { color: theme.subtext }]}>{section.data.length}</Text>
+        </View>
+      )}
+    </View>
   );
 
   const renderSectionFooter = ({ section }: { section: PurgeSection }) => {
@@ -255,7 +262,10 @@ export default function PurgeModeScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   content: { padding: 20, paddingBottom: 120 },
-  sectionTitle: { fontSize: 18, fontWeight: '700', marginBottom: 12, paddingTop: 4 },
+  sectionHeader: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 12, paddingTop: 4 },
+  sectionTitle: { fontSize: 18, fontWeight: '700' },
+  sectionBadge: { paddingHorizontal: 8, paddingVertical: 2, borderRadius: 10, borderWidth: 1 },
+  sectionBadgeText: { fontSize: 12, fontWeight: '600' },
   sectionSeparator: { height: 24 },
   stackCard: {
     borderRadius: 18,
