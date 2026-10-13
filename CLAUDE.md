@@ -43,7 +43,7 @@ Every subscription carries `currencyCode` (the currency it was entered in). The 
 
 ### Subscription data model
 
-`trackingType: 'renewal' | 'expiry'` — renewal has `nextBillingDate`, expiry has `expiryDate`. Spend history accumulates in `completedCyclesCarry` / `accruedSpentCarry`, settled whenever price, cycle or active state changes. Dates are `YYYY-MM-DD` strings parsed at local noon (see `subscriptionDates.ts`).
+`trackingType: 'renewal' | 'expiry'` — renewal has `nextBillingDate`, expiry has `expiryDate`. Spend = what was actually charged: one payment at the start of every period (`countPaymentsBetween`, anchored on `startDate`, capped at a fixed term's `expiryDate`). Earlier stretches are frozen into `completedCyclesCarry` / `accruedSpentCarry` whenever price, cycle or active state changes; the charge on the settle day belongs to the new stretch. Dates are `YYYY-MM-DD` strings parsed at local noon (see `subscriptionDates.ts`).
 
 ### Cancel flow and savings
 
@@ -51,7 +51,7 @@ Every subscription carries `currencyCode` (the currency it was entered in). The 
 
 ### Pro (freemium)
 
-`src/platform/purchases.ts`: one non-consumable (`com.rakuappdigital.subpurge.pro`) via RevenueCat; `REVENUECAT_API_KEY` empty = purchases unavailable on device, local mock flag in the browser. Free tier: `FREE_ACTIVE_LIMIT` (6) active subscriptions; export is Pro. `useFlows().ensureCapacity()` gates adding/reactivating.
+`src/platform/purchases.ts`: one non-consumable (`com.rakuappdigital.subpurge.pro`) via RevenueCat; `REVENUECAT_API_KEY` empty = purchases unavailable on device, local mock flag in the browser. Free tier: `FREE_ACTIVE_LIMIT` (3) active subscriptions; CSV export is Pro, the JSON backup stays free. `useFlows().ensureCapacity()` gates adding/reactivating.
 
 ### Regions and prices
 

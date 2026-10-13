@@ -30,7 +30,7 @@ import {
   formatDateInput,
   getUpcomingBillingDate,
 } from '../utils/subscriptionDates';
-import { getCompletedCycleCountBetween } from './subscriptionCalculations';
+import { countPaymentsBetween } from './subscriptionCalculations';
 import { findPlanTemplate } from './subscriptionFilters';
 import type { BillingSource, PurgeLogEntry, Subscription, ThemeMode, TrackingType } from './subscriptionTypes';
 import { toYearly } from './subscriptionCalculations';
@@ -41,11 +41,10 @@ export type AppTranslations = Omit<Translations, 'currencySymbolNote'> & ExtraTr
 export type { TrackingType, Subscription, PriceChangeInfo, ThemeMode } from './subscriptionTypes';
 export {
   getCompletedCycleCountBetween,
+  countPaymentsBetween,
   getCompletedCycleCount,
   getSubscriptionTotalSpent,
   getCurrentCycleProratedSpent,
-  getSubscriptionAccruedSpent,
-  getSubscriptionPaidUsage,
   getSubscriptionFutureCommitment,
   toMonthly,
   toYearly,
@@ -221,15 +220,20 @@ function getPresetPlanPrice(
   return preset?.plans?.find(p => p.id === planId)?.price ?? fallback;
 }
 
+// Freezes what was paid before `settledAtISO` into the carry fields. The charge
+// on the settle day itself (if any) belongs to the next stretch.
 function settleSubscriptionHistory(subscription: Subscription, settledAtISO: string) {
-  const unsettled = getCompletedCycleCountBetween(
+  const paid = countPaymentsBetween(
+    subscription.startDate,
+    subscription.billingCycle,
     subscription.currentPeriodStart,
     settledAtISO,
-    subscription.billingCycle,
+    false,
+    subscription.trackingType === 'expiry' ? subscription.expiryDate : null,
   );
   return {
-    completedCyclesCarry: subscription.completedCyclesCarry + unsettled,
-    accruedSpentCarry: subscription.accruedSpentCarry + unsettled * subscription.price,
+    completedCyclesCarry: subscription.completedCyclesCarry + paid,
+    accruedSpentCarry: subscription.accruedSpentCarry + paid * subscription.price,
     currentPeriodStart: settledAtISO,
   };
 }

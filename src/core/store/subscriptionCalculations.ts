@@ -39,28 +39,64 @@ export function getCompletedCycleCountBetween(
   return Math.max(0, years);
 }
 
-export function getCompletedCycleCount(subscription: Subscription, now = new Date()): number {
-  const effectiveEnd = subscription.isActive
-    ? now.toISOString()
-    : (subscription.endedAt ?? now.toISOString());
-  return (
-    subscription.completedCyclesCarry +
-    getCompletedCycleCountBetween(subscription.currentPeriodStart, effectiveEnd, subscription.billingCycle)
-  );
-}
 
 // ─── Spend calculations ───────────────────────────────────────────────────────
 
-export function getSubscriptionTotalSpent(subscription: Subscription, now = new Date()): number {
-  const effectiveEnd = subscription.isActive
-    ? now.toISOString()
-    : (subscription.endedAt ?? now.toISOString());
-  const unsettled = getCompletedCycleCountBetween(
-    subscription.currentPeriodStart,
-    effectiveEnd,
+function paymentDate(anchor: Date, cycle: BillingCycle, k: number): Date {
+  if (cycle === 'weekly') return new Date(anchor.getTime() + k * 7 * DAY_MS);
+  // Always offset from the anchor (not the previous date) so the 31st doesn't drift to the 28th.
+  return cycle === 'monthly' ? addMonths(anchor, k) : addYears(anchor, k);
+}
+
+/**
+ * Payments are charged at the start of every period: startDate, +1 cycle, …
+ * Counts those charge dates inside [from, to) — or [from, to] with
+ * `inclusiveEnd` — and before `stopBefore` (a fixed term's end date).
+ */
+export function countPaymentsBetween(
+  startDate: string,
+  cycle: BillingCycle,
+  from: string,
+  to: string,
+  inclusiveEnd: boolean,
+  stopBefore?: string | null,
+): number {
+  const anchor = parseDateValue(formatDateInput(startDate));
+  const fromDay = formatDateInput(from);
+  const toDay = formatDateInput(to);
+  const stopDay = stopBefore ? formatDateInput(stopBefore) : null;
+  if (Number.isNaN(anchor.getTime()) || !fromDay || !toDay) return 0;
+
+  let count = 0;
+  for (let k = 0; k < 10_000; k++) {
+    const day = formatDateInput(paymentDate(anchor, cycle, k));
+    if (inclusiveEnd ? day > toDay : day >= toDay) break;
+    if (stopDay && day >= stopDay) break;
+    if (day >= fromDay) count++;
+  }
+  return count;
+}
+
+/** Payments made in the current (unsettled) stretch: currentPeriodStart → today or the end date. */
+export function getUnsettledPaymentCount(subscription: Subscription, now = new Date()): number {
+  const end = subscription.isActive ? now.toISOString() : (subscription.endedAt ?? now.toISOString());
+  return countPaymentsBetween(
+    subscription.startDate,
     subscription.billingCycle,
+    subscription.currentPeriodStart,
+    end,
+    true,
+    subscription.trackingType === 'expiry' ? subscription.expiryDate : null,
   );
-  return subscription.accruedSpentCarry + unsettled * subscription.price;
+}
+
+export function getCompletedCycleCount(subscription: Subscription, now = new Date()): number {
+  return subscription.completedCyclesCarry + getUnsettledPaymentCount(subscription, now);
+}
+
+/** What has actually been paid so far: every charge up to today (or the end date), at its price. */
+export function getSubscriptionTotalSpent(subscription: Subscription, now = new Date()): number {
+  return subscription.accruedSpentCarry + getUnsettledPaymentCount(subscription, now) * subscription.price;
 }
 
 function getRenewalCycleWindow(subscription: Subscription) {
@@ -111,15 +147,6 @@ export function getCurrentCycleProratedSpent(subscription: Subscription, now = n
   if (elapsed <= 0) return 0;
 
   return subscription.price * Math.min(1, elapsed / totalDuration);
-}
-
-export function getSubscriptionAccruedSpent(subscription: Subscription, now = new Date()): number {
-  return getSubscriptionTotalSpent(subscription, now) + getCurrentCycleProratedSpent(subscription, now);
-}
-
-export function getSubscriptionPaidUsage(subscription: Subscription, now = new Date()): number {
-  if (!subscription.isActive) return 0;
-  return getCurrentCycleProratedSpent(subscription, now);
 }
 
 // Remaining amount owed until the tracked date (nextBillingDate or expiryDate).

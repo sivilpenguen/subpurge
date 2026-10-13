@@ -37,11 +37,11 @@
 | Fiyat | Temel: **$4.99**. **Türkiye: ₺149,99 elle girilmeli** (girilmezse Apple TL fiyatını dolardan otomatik hesaplar) |
 | Lansman | İlk hafta Türkiye ₺99,99 (ASC → Pricing → planlı fiyat değişikliği) |
 | Aile Paylaşımı | Açık |
-| Görünen ad / açıklama (EN) | SubPurge Pro — Unlimited subscriptions, backup and CSV export, and every future Pro feature. One payment, yours forever. |
-| Görünen ad / açıklama (TR) | SubPurge Pro — Sınırsız abonelik, yedek ve CSV dışa aktarma, gelecekteki tüm Pro özellikleri. Tek ödeme, sonsuza kadar senin. |
+| Görünen ad / açıklama (EN) | SubPurge Pro — Unlimited subscriptions, CSV export and every future Pro feature. One payment, yours forever. |
+| Görünen ad / açıklama (TR) | SubPurge Pro — Sınırsız abonelik, CSV dışa aktarma ve gelecekteki tüm Pro özellikleri. Tek ödeme, sonsuza kadar senin. |
 | İnceleme ekran görüntüsü | `resources/appstore/` altındaki ödeme ekranı görüntüsü |
 
-Ücretsiz sürüm 6 aktif abonelikle sınırlı; 7. eklenirken ya da dışa aktarmaya dokununca ödeme ekranı açılır. Satın alma RevenueCat üzerinden: RevenueCat'te uygulamayı oluştur, App Store public key'ini (`appl_…`) `src/platform/purchases.ts` içindeki `REVENUECAT_API_KEY`'e yaz. Anahtar boşken uygulama satın almayı "şu an kullanılamıyor" diye gösterir.
+Ücretsiz sürüm 3 aktif abonelikle sınırlı; 4. eklenirken ya da CSV dışa aktarmaya dokununca ödeme ekranı açılır. Satın alma RevenueCat üzerinden: RevenueCat'te uygulamayı oluştur, App Store public key'ini (`appl_…`) `src/platform/purchases.ts` içindeki `REVENUECAT_API_KEY`'e yaz. Anahtar boşken uygulama satın almayı "şu an kullanılamıyor" diye gösterir.
 
 ## App Privacy (gizlilik etiketi)
 
@@ -80,10 +80,10 @@ REMINDERS THAT MATTER
 
 YOUR DATA STAYS ON YOUR DEVICE
 • No account, no ads, no tracking
-• Back up as JSON or export to CSV whenever you want (Pro)
+• Back up as JSON anytime; export to CSV with Pro
 
 FREE AND PRO
-• Track up to 6 active subscriptions for free
+• Track up to 3 active subscriptions for free
 • SubPurge Pro is a one-time purchase: unlimited subscriptions and every future Pro feature. No subscription — we won’t sell you one.
 
 Also: 25+ ready-made services with current plans, 21 currencies with automatic conversion, light and dark themes, iPhone and iPad, in English, Turkish, Spanish, German and French.
@@ -119,10 +119,10 @@ TEK DOKUNUŞLA İPTAL
 
 VERİLERİN CİHAZINDA KALIR
 • Hesap yok, reklam yok, takip yok
-• İstediğin zaman JSON yedeği al ya da CSV'ye aktar (Pro)
+• İstediğin zaman JSON yedeği al; Pro ile CSV'ye aktar
 
 ÜCRETSİZ VE PRO
-• 6 aktif aboneliğe kadar ücretsiz
+• 3 aktif aboneliğe kadar ücretsiz
 • SubPurge Pro tek seferlik satın alma: sınırsız abonelik ve gelecekteki tüm Pro özellikleri. Abonelik yok; sana abonelik satmıyoruz.
 
 Ayrıca: güncel planlarıyla 25'ten fazla hazır servis, otomatik kur çevirisiyle 21 para birimi, açık ve koyu tema, iPhone ve iPad desteği; Türkçe, İngilizce, İspanyolca, Almanca ve Fransızca.
@@ -130,7 +130,7 @@ Ayrıca: güncel planlarıyla 25'ten fazla hazır servis, otomatik kur çevirisi
 ## App Review notları (Notes)
 
 ```
-No login is required. On first launch, tap "Try with demo data" on the last onboarding page to load sample subscriptions. Settings → "Send test notification" schedules two local notifications 5 and 10 seconds later. All data is stored locally; the app only downloads public price data and ECB exchange rates. The free version allows 6 active subscriptions; adding a 7th shows the SubPurge Pro paywall (one-time, non-consumable, with Restore Purchases).
+No login is required. On first launch, tap "Try with demo data" on the last onboarding page to load sample subscriptions. Settings → "Send test notification" schedules two local notifications 5 and 10 seconds later. All data is stored locally; the app only downloads public price data and ECB exchange rates. The free version allows 3 active subscriptions; adding a 4th shows the SubPurge Pro paywall (one-time, non-consumable, with Restore Purchases).
 ```
 
 Sign-in required: **No**. İletişim: ad-soyad, telefon, subpurgeapp@gmail.com.

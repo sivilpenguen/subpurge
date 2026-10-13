@@ -4,11 +4,10 @@
 export type { TrackingType, Subscription, PriceChangeInfo, ThemeMode, BillingSource, PurgeLogEntry } from './subscriptionTypes';
 export {
   getCompletedCycleCountBetween,
+  countPaymentsBetween,
   getCompletedCycleCount,
   getSubscriptionTotalSpent,
   getCurrentCycleProratedSpent,
-  getSubscriptionAccruedSpent,
-  getSubscriptionPaidUsage,
   getSubscriptionFutureCommitment,
   toMonthly,
   toYearly,

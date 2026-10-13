@@ -73,7 +73,7 @@ const tr: FlowTranslations = {
   savedToast: amount => `Yılda ${amount} kurtardın`,
   proTitle: 'SubPurge Pro',
   proTagline: 'Sana abonelik satmıyoruz. Bir kez öde, sonsuza kadar senin.',
-  proFeatures: ['Sınırsız abonelik', 'Yedek ve CSV dışa aktarma', 'Gelecekteki tüm Pro özellikleri dahil'],
+  proFeatures: ['Sınırsız abonelik', 'Excel ve Numbers için CSV dışa aktarma', 'Gelecekteki tüm Pro özellikleri dahil'],
   proBuy: price => `Pro'yu al · ${price}`,
   proRestore: 'Satın alımları geri yükle',
   proLimitTitle: limit => `Ücretsiz sürümde ${limit} aktif abonelik var`,
@@ -83,7 +83,7 @@ const tr: FlowTranslations = {
   proThanks: 'Pro açıldı, teşekkürler!',
   proUnavailable: 'Satın alma şu an kullanılamıyor.',
   proNothingToRestore: 'Geri yüklenecek satın alma bulunamadı.',
-  proExportLocked: 'Dışa aktarma Pro özelliği.',
+  proExportLocked: 'CSV dışa aktarma Pro özelliği. JSON yedeği ücretsiz.',
 };
 
 const en: FlowTranslations = {
@@ -116,7 +116,7 @@ const en: FlowTranslations = {
   savedToast: amount => `You saved ${amount} a year`,
   proTitle: 'SubPurge Pro',
   proTagline: 'We don’t sell you a subscription. Pay once, keep it forever.',
-  proFeatures: ['Unlimited subscriptions', 'Backup and CSV export', 'Every future Pro feature included'],
+  proFeatures: ['Unlimited subscriptions', 'CSV export for Excel and Numbers', 'Every future Pro feature included'],
   proBuy: price => `Get Pro · ${price}`,
   proRestore: 'Restore purchases',
   proLimitTitle: limit => `The free version tracks ${limit} active subscriptions`,
@@ -126,7 +126,7 @@ const en: FlowTranslations = {
   proThanks: 'Pro unlocked — thank you!',
   proUnavailable: 'Purchases are not available right now.',
   proNothingToRestore: 'No purchases to restore.',
-  proExportLocked: 'Export is a Pro feature.',
+  proExportLocked: 'CSV export is a Pro feature. The JSON backup is free.',
 };
 
 const es: FlowTranslations = {
@@ -159,7 +159,7 @@ const es: FlowTranslations = {
   savedToast: amount => `Ahorras ${amount} al año`,
   proTitle: 'SubPurge Pro',
   proTagline: 'No te vendemos una suscripción. Paga una vez, tuyo para siempre.',
-  proFeatures: ['Suscripciones ilimitadas', 'Copia y exportación CSV', 'Todas las funciones Pro futuras'],
+  proFeatures: ['Suscripciones ilimitadas', 'Exportación CSV para Excel y Numbers', 'Todas las funciones Pro futuras'],
   proBuy: price => `Obtener Pro · ${price}`,
   proRestore: 'Restaurar compras',
   proLimitTitle: limit => `La versión gratis sigue ${limit} suscripciones activas`,
@@ -169,7 +169,7 @@ const es: FlowTranslations = {
   proThanks: '¡Pro desbloqueado, gracias!',
   proUnavailable: 'Las compras no están disponibles ahora.',
   proNothingToRestore: 'No hay compras para restaurar.',
-  proExportLocked: 'Exportar es una función Pro.',
+  proExportLocked: 'Exportar a CSV es una función Pro. La copia JSON es gratis.',
 };
 
 const de: FlowTranslations = {
@@ -202,7 +202,7 @@ const de: FlowTranslations = {
   savedToast: amount => `Du sparst ${amount} pro Jahr`,
   proTitle: 'SubPurge Pro',
   proTagline: 'Wir verkaufen dir kein Abo. Einmal zahlen, für immer behalten.',
-  proFeatures: ['Unbegrenzte Abos', 'Backup und CSV-Export', 'Alle künftigen Pro-Funktionen'],
+  proFeatures: ['Unbegrenzte Abos', 'CSV-Export für Excel und Numbers', 'Alle künftigen Pro-Funktionen'],
   proBuy: price => `Pro holen · ${price}`,
   proRestore: 'Käufe wiederherstellen',
   proLimitTitle: limit => `Die Gratisversion verfolgt ${limit} aktive Abos`,
@@ -212,7 +212,7 @@ const de: FlowTranslations = {
   proThanks: 'Pro freigeschaltet, danke!',
   proUnavailable: 'Käufe sind gerade nicht verfügbar.',
   proNothingToRestore: 'Keine Käufe zum Wiederherstellen.',
-  proExportLocked: 'Export ist eine Pro-Funktion.',
+  proExportLocked: 'CSV-Export ist eine Pro-Funktion. Das JSON-Backup ist kostenlos.',
 };
 
 const fr: FlowTranslations = {
@@ -245,7 +245,7 @@ const fr: FlowTranslations = {
   savedToast: amount => `Tu économises ${amount} par an`,
   proTitle: 'SubPurge Pro',
   proTagline: 'On ne te vend pas d’abonnement. Paie une fois, garde-le pour toujours.',
-  proFeatures: ['Abonnements illimités', 'Sauvegarde et export CSV', 'Toutes les futures fonctions Pro'],
+  proFeatures: ['Abonnements illimités', 'Export CSV pour Excel et Numbers', 'Toutes les futures fonctions Pro'],
   proBuy: price => `Obtenir Pro · ${price}`,
   proRestore: 'Restaurer les achats',
   proLimitTitle: limit => `La version gratuite suit ${limit} abonnements actifs`,
@@ -255,7 +255,7 @@ const fr: FlowTranslations = {
   proThanks: 'Pro débloqué, merci !',
   proUnavailable: 'Les achats ne sont pas disponibles.',
   proNothingToRestore: 'Aucun achat à restaurer.',
-  proExportLocked: 'L’export est une fonction Pro.',
+  proExportLocked: 'L’export CSV est une fonction Pro. La sauvegarde JSON est gratuite.',
 };
 
 export const FLOW_TRANSLATIONS: Record<Locale, FlowTranslations> = { tr, en, es, de, fr };

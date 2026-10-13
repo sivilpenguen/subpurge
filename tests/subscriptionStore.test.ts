@@ -3,13 +3,13 @@ import test from 'node:test';
 import {
   getCompletedCycleCount,
   getCompletedCycleCountBetween,
+  countPaymentsBetween,
   getCurrentCycleProratedSpent,
   getDaysSinceLastUsed,
   getDueReviewSubscriptions,
   getInactiveSubscriptions,
   getPriceChangeInfo,
   getPriceIncreaseSubscriptions,
-  getSubscriptionAccruedSpent,
   getSubscriptionTotalSpent,
   getTrackedDate,
   toMonthly,
@@ -72,44 +72,54 @@ test('getCompletedCycleCountBetween: returns 0 when end <= start', () => {
   assert.equal(getCompletedCycleCountBetween('2026-01-01', '2026-01-01', 'monthly'), 0);
 });
 
-// ─── getCompletedCycleCount ──────────────────────────────────────────────────
+// ─── Payments (charged at the start of every period) ─────────────────────────
 
-test('getCompletedCycleCount: active sub counts cycles up to now', () => {
+test('getCompletedCycleCount: counts every charge up to today, including today', () => {
   const sub = makeSub({ currentPeriodStart: '2026-01-01', completedCyclesCarry: 0 });
   const now = new Date('2026-04-01T12:00:00Z');
-  assert.equal(getCompletedCycleCount(sub, now), 3);
+  assert.equal(getCompletedCycleCount(sub, now), 4); // Jan 1, Feb 1, Mar 1, Apr 1
 });
 
-test('getCompletedCycleCount: carry is added on top of live cycles', () => {
+test('getCompletedCycleCount: carry is added on top of the live stretch', () => {
   const sub = makeSub({ currentPeriodStart: '2026-03-01', completedCyclesCarry: 5 });
   const now = new Date('2026-05-01T12:00:00Z');
-  assert.equal(getCompletedCycleCount(sub, now), 7); // 5 carry + 2 live
+  assert.equal(getCompletedCycleCount(sub, now), 8); // 5 carry + Mar 1, Apr 1, May 1
 });
 
-test('getCompletedCycleCount: inactive sub uses endedAt, not now', () => {
-  const sub = makeSub({
-    isActive: false,
-    currentPeriodStart: '2026-01-01',
-    endedAt: '2026-03-01',
-    completedCyclesCarry: 0,
-  });
+test('getCompletedCycleCount: inactive sub stops at endedAt, not now', () => {
+  const sub = makeSub({ isActive: false, currentPeriodStart: '2026-01-01', endedAt: '2026-03-01', completedCyclesCarry: 0 });
   const now = new Date('2026-06-01T12:00:00Z');
-  assert.equal(getCompletedCycleCount(sub, now), 2);
+  assert.equal(getCompletedCycleCount(sub, now), 3); // Jan 1, Feb 1, Mar 1
 });
 
-// ─── getSubscriptionTotalSpent ───────────────────────────────────────────────
-
-test('getSubscriptionTotalSpent: price × completed cycles + carry', () => {
-  const sub = makeSub({
-    price: 100,
-    billingCycle: 'monthly',
-    currentPeriodStart: '2026-01-01',
-    completedCyclesCarry: 1,
-    accruedSpentCarry: 50,
-  });
+test('getSubscriptionTotalSpent: every charge × price + carry', () => {
+  const sub = makeSub({ price: 100, currentPeriodStart: '2026-01-01', completedCyclesCarry: 1, accruedSpentCarry: 50 });
   const now = new Date('2026-04-01T12:00:00Z');
-  // 3 live cycles × 100 + 50 carry = 350
-  assert.equal(getSubscriptionTotalSpent(sub, now), 350);
+  assert.equal(getSubscriptionTotalSpent(sub, now), 450); // 4 × 100 + 50
+});
+
+test('getSubscriptionTotalSpent: terminated mid-period still counts that period’s charge', () => {
+  // Started 5 Jan, terminated 10 Mar → charged 5 Jan, 5 Feb, 5 Mar.
+  const sub = makeSub({ price: 229.99, startDate: '2026-01-05', currentPeriodStart: '2026-01-05', isActive: false, endedAt: '2026-03-10T12:00:00.000Z' });
+  assert.equal(getSubscriptionTotalSpent(sub).toFixed(2), (3 * 229.99).toFixed(2));
+});
+
+test('countPaymentsBetween: settled stretch excludes the charge on the settle day', () => {
+  // Price changed on 1 Mar: Jan 1 and Feb 1 belong to the old price, Mar 1 to the new one.
+  assert.equal(countPaymentsBetween('2026-01-01', 'monthly', '2026-01-01', '2026-03-01', false), 2);
+  assert.equal(countPaymentsBetween('2026-01-01', 'monthly', '2026-03-01', '2026-04-15', true), 2);
+});
+
+test('countPaymentsBetween: a mid-period settle does not double-count the period', () => {
+  assert.equal(countPaymentsBetween('2026-01-01', 'monthly', '2026-01-01', '2026-02-15', false), 2);
+  assert.equal(countPaymentsBetween('2026-01-01', 'monthly', '2026-02-15', '2026-04-01', true), 2); // Mar 1, Apr 1
+});
+
+test('countPaymentsBetween: the 31st stays on month ends and fixed terms stop at expiry', () => {
+  assert.equal(countPaymentsBetween('2026-01-31', 'monthly', '2026-01-31', '2026-05-31', true), 5);
+  assert.equal(countPaymentsBetween('2026-01-01', 'monthly', '2026-01-01', '2026-12-31', true, '2026-04-01'), 3);
+  assert.equal(countPaymentsBetween('2026-01-01', 'weekly', '2026-01-01', '2026-01-22', true), 4);
+  assert.equal(countPaymentsBetween('2025-03-10', 'yearly', '2025-03-10', '2026-03-09', true), 1);
 });
 
 // ─── getCurrentCycleProratedSpent ────────────────────────────────────────────
@@ -171,24 +181,6 @@ test('getCurrentCycleProratedSpent: expiry tracking uses currentPeriodStart→ex
   const now = new Date('2026-04-01T12:00:00'); // 3 months in = halfway
   const result = getCurrentCycleProratedSpent(sub, now);
   assert.ok(result > 59 && result < 61, `expected ~60, got ${result}`);
-});
-
-// ─── getSubscriptionAccruedSpent ─────────────────────────────────────────────
-
-test('getSubscriptionAccruedSpent: total = completed spend + prorated current cycle', () => {
-  const sub = makeSub({
-    price: 100,
-    billingCycle: 'monthly',
-    currentPeriodStart: '2026-01-01',
-    completedCyclesCarry: 0,
-    accruedSpentCarry: 0,
-    trackingType: 'renewal',
-    nextBillingDate: '2026-06-01',
-    isActive: true,
-  });
-  const now = new Date('2026-06-01T12:00:00');
-  // 5 completed cycles × 100 = 500, + full current cycle = 100 → 600
-  assert.equal(getSubscriptionAccruedSpent(sub, now), 600);
 });
 
 // ─── toMonthly / toYearly ────────────────────────────────────────────────────

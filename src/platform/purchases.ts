@@ -15,7 +15,7 @@ import { storage } from './storage';
 export const REVENUECAT_API_KEY = '';
 export const PRO_PRODUCT_ID = 'com.rakuappdigital.subpurge.pro';
 /** Active subscriptions allowed without Pro. */
-export const FREE_ACTIVE_LIMIT = 6;
+export const FREE_ACTIVE_LIMIT = 3;
 
 const PRO_KEY = 'subpurge_pro';
 // Shown only until the store returns the real localized price. Must match App

@@ -37,7 +37,8 @@ export function SettingsScreen({ onShowTour }: { onShowTour: () => void }) {
   };
 
   const runExport = async (kind: 'json' | 'csv') => {
-    if (!isPro) {
+    // The JSON backup is the user's own data and stays free; CSV (spreadsheets) is Pro.
+    if (kind === 'csv' && !isPro) {
       openPaywall('export');
       return;
     }
@@ -142,7 +143,7 @@ export function SettingsScreen({ onShowTour }: { onShowTour: () => void }) {
 
       <div className="section-label"><span className="eyebrow">{t.backupSection}</span></div>
       <div className="group">
-        {row(t.exportJSON, t.exportJSONHint, () => { void runExport('json'); }, isPro ? undefined : 'PRO')}
+        {row(t.exportJSON, t.exportJSONHint, () => { void runExport('json'); })}
         {row(t.exportCSV, t.exportCSVHint, () => { void runExport('csv'); }, isPro ? undefined : 'PRO')}
         {row(t.importJSON, t.importJSONHint, () => { void runImport(); })}
       </div>

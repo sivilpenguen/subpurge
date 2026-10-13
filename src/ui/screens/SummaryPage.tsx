@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { getSubscriptionAccruedSpent } from '../../core/store/logic';
+import { getSubscriptionTotalSpent } from '../../core/store/logic';
 import { useStore } from '../../core/store/useSubscriptionStore';
 import { getMonthlyEquivalent, getMonthlySpendHistory, getSummaryTotals } from '../../core/utils/subscriptionSummary';
 import { ServiceLogo } from '../components/ServiceLogo';
@@ -83,7 +83,7 @@ export function SummaryPage({ closing }: { closing: boolean }) {
                   </div>
                   <div className="row-bottom">
                     <span className="row-meta">
-                      {money(s.price, symbol, locale)}{t.cycleShort[s.billingCycle]} · {t.totalSpent}: {money(getSubscriptionAccruedSpent(s), symbol, locale)}
+                      {money(s.price, symbol, locale)}{t.cycleShort[s.billingCycle]} · {t.totalSpent}: {money(getSubscriptionTotalSpent(s), symbol, locale)}
                     </span>
                     {s.isActive && <span className="pill violet">{Math.round(share * 100)}%</span>}
                   </div>
