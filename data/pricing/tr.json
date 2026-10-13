@@ -1,7 +1,7 @@
 {
   "country": "TR",
   "currency": "TRY",
-  "updatedAt": "2026-10-13T17:42:03.380Z",
+  "updatedAt": "2026-10-13T22:49:46.230Z",
   "services": {
     "Netflix": {
       "appStore": [
@@ -49,25 +49,25 @@
           "id": "individual",
           "name": "Individual",
           "billingCycle": "monthly",
-          "price": 99
+          "price": 115
         },
         {
           "id": "duo",
           "name": "Duo",
           "billingCycle": "monthly",
-          "price": 135
+          "price": 159
         },
         {
           "id": "family",
           "name": "Family",
           "billingCycle": "monthly",
-          "price": 165
+          "price": 199
         },
         {
           "id": "student",
           "name": "Student",
           "billingCycle": "monthly",
-          "price": 55
+          "price": 60
         }
       ]
     },
@@ -128,10 +128,16 @@
     "Disney+": {
       "appStore": [
         {
-          "id": "disney-premium",
+          "id": "disney-premium-monthly",
           "name": "Disney+ Premium",
           "price": 449.9,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "disney-premium-yearly",
+          "name": "Disney+ Premium",
+          "price": 4499,
+          "billingCycle": "yearly"
         }
       ]
     },
@@ -184,16 +190,28 @@
     "Microsoft 365": {
       "appStore": [
         {
-          "id": "microsoft-365-personal",
+          "id": "microsoft-365-personal-monthly",
           "name": "Microsoft 365 Personal",
           "price": 329.99,
           "billingCycle": "monthly"
         },
         {
-          "id": "microsoft-365-family",
+          "id": "microsoft-365-personal-yearly",
+          "name": "Microsoft 365 Personal",
+          "price": 3299.99,
+          "billingCycle": "yearly"
+        },
+        {
+          "id": "microsoft-365-family-monthly",
           "name": "Microsoft 365 Family",
           "price": 409.99,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "microsoft-365-family-yearly",
+          "name": "Microsoft 365 Family",
+          "price": 4099.99,
+          "billingCycle": "yearly"
         },
         {
           "id": "microsoft-365-premium-monthly",
@@ -246,10 +264,16 @@
     "Duolingo Plus": {
       "appStore": [
         {
-          "id": "super-duolingo",
+          "id": "super-duolingo-monthly",
           "name": "Super Duolingo",
-          "price": 329.99,
+          "price": 139.99,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "super-duolingo-yearly",
+          "name": "Super Duolingo",
+          "price": 1209.99,
+          "billingCycle": "yearly"
         },
         {
           "id": "super-duolingo-family-plan",
@@ -262,16 +286,28 @@
     "HBO Max": {
       "appStore": [
         {
-          "id": "standard",
+          "id": "standard-monthly",
           "name": "Standard",
           "price": 229.9,
           "billingCycle": "monthly"
         },
         {
-          "id": "premium",
+          "id": "standard-yearly",
+          "name": "Standard",
+          "price": 2299,
+          "billingCycle": "yearly"
+        },
+        {
+          "id": "premium-monthly",
           "name": "Premium",
           "price": 299.9,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "premium-yearly",
+          "name": "Premium",
+          "price": 2999,
+          "billingCycle": "yearly"
         }
       ]
     },
@@ -334,10 +370,16 @@
     "ChatGPT Plus": {
       "appStore": [
         {
-          "id": "chatgpt-plus",
+          "id": "chatgpt-plus-monthly",
           "name": "ChatGPT Plus",
           "price": 999.99,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "chatgpt-plus-yearly",
+          "name": "ChatGPT Plus",
+          "price": 9999.99,
+          "billingCycle": "yearly"
         },
         {
           "id": "chatgpt-go",
@@ -374,10 +416,16 @@
           "billingCycle": "monthly"
         },
         {
-          "id": "premium-business",
+          "id": "premium-business-monthly",
           "name": "Premium Business",
           "price": 219.99,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "premium-business-yearly",
+          "name": "Premium Business",
+          "price": 1799.99,
+          "billingCycle": "yearly"
         }
       ]
     },
