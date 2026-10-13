@@ -1,0 +1,89 @@
+{
+  "country": "MX",
+  "currency": "MXN",
+  "source": "web",
+  "updatedAt": "2026-10-13T17:41:42.107Z",
+  "services": {
+    "Spotify": {
+      "sourceUrl": "https://www.spotify.com/mx/premium/",
+      "plans": [
+        {
+          "id": "individual-monthly",
+          "name": "Individual",
+          "price": 139,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "estudiantes-monthly",
+          "name": "Estudiantes",
+          "price": 74,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "duo-monthly",
+          "name": "Duo",
+          "price": 189,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "familiar-monthly",
+          "name": "Familiar",
+          "price": 239,
+          "billingCycle": "monthly"
+        }
+      ]
+    },
+    "Apple One": {
+      "sourceUrl": "https://www.apple.com/mx/apple-one/",
+      "plans": [
+        {
+          "id": "individual-monthly",
+          "name": "Individual",
+          "price": 279,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "familiar-monthly",
+          "name": "Familiar",
+          "price": 359,
+          "billingCycle": "monthly"
+        }
+      ]
+    },
+    "iCloud+": {
+      "sourceUrl": "https://www.apple.com/mx/icloud/",
+      "plans": [
+        {
+          "id": "50-gb-monthly",
+          "name": "50 GB",
+          "price": 17,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "200-gb-monthly",
+          "name": "200 GB",
+          "price": 49,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "2-tb-monthly",
+          "name": "2 TB",
+          "price": 179,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "6-tb-monthly",
+          "name": "6 TB",
+          "price": 499,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "12-tb-monthly",
+          "name": "12 TB",
+          "price": 999,
+          "billingCycle": "monthly"
+        }
+      ]
+    }
+  }
+}

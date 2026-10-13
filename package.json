@@ -9,8 +9,8 @@
     "preview": "vite preview",
     "test": "node --import tsx --test tests/*.test.ts",
     "ios": "npm run build && npx cap sync ios",
-    "pricing:tr": "node ./scripts/scrape-tr-pricing.js",
-    "pricing:tr:full": "node ./scripts/scrape-tr-pricing.js && node ./scripts/scrape-tr-pricing-puppeteer.js"
+    "pricing:tr": "node ./scripts/scrape-tr-pricing.cjs",
+    "pricing:tr:full": "node ./scripts/scrape-tr-pricing.cjs && node ./scripts/scrape-tr-pricing-puppeteer.cjs"
   },
   "dependencies": {
     "@capacitor/app-launcher": "^8.0.1",

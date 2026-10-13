@@ -1,7 +1,7 @@
 {
   "country": "AU",
   "currency": "AUD",
-  "updatedAt": "2026-10-13T13:56:26.076Z",
+  "updatedAt": "2026-10-13T17:42:03.392Z",
   "services": {
     "Netflix": {
       "appStore": [
@@ -39,6 +39,34 @@
           "id": "netflix-2-screens",
           "name": "Netflix 2 Screens",
           "price": 12.99,
+          "billingCycle": "monthly"
+        }
+      ]
+    },
+    "Spotify": {
+      "web": [
+        {
+          "id": "individual-monthly",
+          "name": "Individual",
+          "price": 15.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "student-monthly",
+          "name": "Student",
+          "price": 7.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "duo-monthly",
+          "name": "Duo",
+          "price": 22.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "family-monthly",
+          "name": "Family",
+          "price": 27.99,
           "billingCycle": "monthly"
         }
       ]
@@ -128,6 +156,62 @@
           "name": "Microsoft 365 Premium Annual",
           "price": 329,
           "billingCycle": "yearly"
+        }
+      ]
+    },
+    "Apple One": {
+      "web": [
+        {
+          "id": "individual-monthly",
+          "name": "Individual",
+          "price": 24.95,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "family-monthly",
+          "name": "Family",
+          "price": 34.95,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "premier-monthly",
+          "name": "Premier",
+          "price": 52.95,
+          "billingCycle": "monthly"
+        }
+      ]
+    },
+    "iCloud+": {
+      "web": [
+        {
+          "id": "50-gb-monthly",
+          "name": "50 GB",
+          "price": 1.49,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "200-gb-monthly",
+          "name": "200 GB",
+          "price": 4.49,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "2-tb-monthly",
+          "name": "2 TB",
+          "price": 14.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "6-tb-monthly",
+          "name": "6 TB",
+          "price": 44.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "12-tb-monthly",
+          "name": "12 TB",
+          "price": 89.99,
+          "billingCycle": "monthly"
         }
       ]
     },

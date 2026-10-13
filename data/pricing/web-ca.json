@@ -1,0 +1,95 @@
+{
+  "country": "CA",
+  "currency": "CAD",
+  "source": "web",
+  "updatedAt": "2026-10-13T17:41:32.231Z",
+  "services": {
+    "Spotify": {
+      "sourceUrl": "https://www.spotify.com/ca-en/premium/",
+      "plans": [
+        {
+          "id": "individual-monthly",
+          "name": "Individual",
+          "price": 13.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "student-monthly",
+          "name": "Student",
+          "price": 6.39,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "duo-monthly",
+          "name": "Duo",
+          "price": 19.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "family-monthly",
+          "name": "Family",
+          "price": 23.99,
+          "billingCycle": "monthly"
+        }
+      ]
+    },
+    "Apple One": {
+      "sourceUrl": "https://www.apple.com/ca/apple-one/",
+      "plans": [
+        {
+          "id": "individual-monthly",
+          "name": "Individual",
+          "price": 22.95,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "family-monthly",
+          "name": "Family",
+          "price": 30.95,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "premier-monthly",
+          "name": "Premier",
+          "price": 46.95,
+          "billingCycle": "monthly"
+        }
+      ]
+    },
+    "iCloud+": {
+      "sourceUrl": "https://www.apple.com/ca/icloud/",
+      "plans": [
+        {
+          "id": "50-gb-monthly",
+          "name": "50 GB",
+          "price": 1.29,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "200-gb-monthly",
+          "name": "200 GB",
+          "price": 3.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "2-tb-monthly",
+          "name": "2 TB",
+          "price": 12.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "6-tb-monthly",
+          "name": "6 TB",
+          "price": 39.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "12-tb-monthly",
+          "name": "12 TB",
+          "price": 79.99,
+          "billingCycle": "monthly"
+        }
+      ]
+    }
+  }
+}

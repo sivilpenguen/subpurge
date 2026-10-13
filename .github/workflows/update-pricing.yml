@@ -8,7 +8,6 @@ on:
 permissions:
   contents: write
   pull-requests: write
-  models: read            # GitHub Models (free tier) for web price extraction
 
 jobs:
   pricing:
@@ -42,19 +41,17 @@ jobs:
       - name: Turkey web scrapers
         continue-on-error: true
         run: |
-          node scripts/scrape-tr-pricing.js
-          node scripts/scrape-tr-pricing-puppeteer.js
+          node scripts/scrape-tr-pricing.cjs
+          node scripts/scrape-tr-pricing-puppeteer.cjs
 
       # 2) App Store prices for every country (storefront is in the URL)
       - name: App Store prices
         continue-on-error: true
         run: node scripts/pricing/fetch-appstore.mjs
 
-      # 3) Web prices for other countries via GitHub Models
-      - name: Web prices (GitHub Models)
+      # 3) Web prices for other countries: plain parsers on country-specific pages
+      - name: Web prices
         continue-on-error: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node scripts/pricing/fetch-web.mjs
 
       - name: Build country files

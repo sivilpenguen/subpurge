@@ -6,7 +6,7 @@ import { pricingCountryFor, type CountryPricing } from '../src/core/utils/remote
 // @ts-expect-error — plain .mjs build script
 import { parseInAppPurchases } from '../scripts/pricing/fetch-appstore.mjs';
 // @ts-expect-error — plain .mjs build script
-import { validate } from '../scripts/pricing/fetch-web.mjs';
+import { parseAppleOne, parseICloud, parseSpotify, priceIn, tokens } from '../scripts/pricing/fetch-web.mjs';
 
 const US: CountryPricing = {
   country: 'US', currency: 'USD', updatedAt: '2026-10-13T00:00:00Z',
@@ -67,9 +67,19 @@ test('App Store parser reads the In-App Purchases list and drops noise', () => {
   ]);
 });
 
-test('web extraction answers are rejected in the wrong currency', () => {
-  assert.equal(validate({ currency: 'USD', plans: [{ name: 'Individual', price: 11.99, billingCycle: 'monthly' }] }, 'EUR'), null);
-  assert.equal(validate({ currency: 'EUR', plans: [{ name: 'Individual', price: 11.99, billingCycle: 'monthly' }] }, 'EUR')?.length, 1);
+test('web parsers read Spotify, iCloud+ and Apple One pages', () => {
+  const spotify = tokens('<p>Premium</p><p>Individual</p><p>$0 for 1 month</p><p>$12.99 / month after</p><p>Premium</p><p>Duo</p><p>$18.99 / month</p>');
+  assert.deepEqual(parseSpotify(spotify, 'USD').map((p: { name: string; price: number }) => [p.name, p.price]), [['Individual', 12.99], ['Duo', 18.99]]);
+  const icloud = tokens('<b>50 Go</b><span>0,99 €/mois</span><b>2 To</b><span>9,99 €/mois</span>');
+  assert.deepEqual(parseICloud(icloud, 'EUR').map((p: { name: string }) => p.name), ['50 GB', '2 TB']);
+  const one = tokens('<b>Individual</b><span>£18.95</span><b>Apple TV</b><span>£9.99</span><b>Not</b><span>£29.96</span><b>Family</b><span>£24.95</span>');
+  assert.deepEqual(parseAppleOne(one, 'GBP').map((p: { name: string; price: number }) => [p.name, p.price]), [['Individual', 18.95], ['Family', 24.95]]);
+});
+
+test('web prices in another currency are ignored', () => {
+  assert.equal(priceIn('$12.99 / month', 'EUR'), null);
+  assert.equal(priceIn('12,99 € / Monat', 'EUR'), 12.99);
+  assert.equal(priceIn('R$ 23,90', 'BRL'), 23.9);
 });
 
 test('App Store parser decodes HTML entities in names', () => {
