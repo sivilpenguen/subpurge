@@ -9,6 +9,8 @@ import { ServiceLogo } from '../components/ServiceLogo';
 import { currencyFor, money } from '../format';
 import { IconChevron, IconPlus, IconSearch } from '../icons';
 import { useUI } from '../shell';
+import { useFlows } from '../flows';
+import { PRESET_CURRENCY } from '../../core/store/logic';
 
 const CYCLES: BillingCycle[] = ['weekly', 'monthly', 'yearly'];
 const TRACKING: TrackingType[] = ['renewal', 'expiry'];
@@ -37,6 +39,7 @@ export function EditPage({ id, closing }: { id?: string; closing: boolean }) {
   const store = useStore();
   const { subscriptions, locale, currency, t, remotePricing } = store;
   const { pop, showDialog, showToast } = useUI();
+  const { ensureCapacity, startCancel } = useFlows();
   const presets = useMemo(() => getEffectivePresets(remotePricing), [remotePricing]);
 
   const existing = id ? subscriptions.find(s => s.id === id) ?? null : null;
@@ -103,11 +106,11 @@ export function EditPage({ id, closing }: { id?: string; closing: boolean }) {
     setLogoUrl(preset.logoUrl);
     setManageDeepLink(preset.manageDeepLink);
     setQuickCancelUrl(preset.quickCancelUrl ?? '');
-    if (preset.plans?.[0]) applyPlan(preset.plans[0]);
-    else setSelectedPlanId(null);
+    if (preset.plans?.[0] && subCurrency.code === PRESET_CURRENCY) applyPlan(preset.plans[0]);
+    else { setSelectedPlanId(null); setPrice(''); }
     setQuery('');
     setPicking(false);
-    if (!preset.plans?.length) setTimeout(() => priceRef.current?.focus(), 350);
+    if (!preset.plans?.length || subCurrency.code !== PRESET_CURRENCY) setTimeout(() => priceRef.current?.focus(), 350);
   };
 
   const fail = (message: string) => showDialog({ message, actions: [{ label: t.ok, variant: 'primary' }] });
@@ -176,7 +179,7 @@ export function EditPage({ id, closing }: { id?: string; closing: boolean }) {
         { label: t.cancel },
         existing.isActive
           ? { label: t.terminate, variant: 'destructive', onPress: () => { store.toggleActive(existing.id); pop(); } }
-          : { label: t.reactivate, variant: 'primary', onPress: () => { store.toggleActive(existing.id); pop(); } },
+          : { label: t.reactivate, variant: 'primary', onPress: () => { if (!ensureCapacity()) return; store.toggleActive(existing.id); pop(); } },
       ],
     });
   };
@@ -185,7 +188,8 @@ export function EditPage({ id, closing }: { id?: string; closing: boolean }) {
   const grouped = SERVICE_CATEGORIES
     .map(cat => ({ id: cat.id, label: t.categories[cat.id as keyof typeof t.categories] ?? cat.label, items: presets.filter(p => p.category === cat.id) }))
     .filter(g => g.items.length > 0);
-  const plans = selectedPreset?.plans?.filter(p => p.billingCycle === cycle) ?? [];
+  // Bundled plan prices are TRY; never offer them for a subscription in another currency.
+  const plans = subCurrency.code === PRESET_CURRENCY ? selectedPreset?.plans?.filter(p => p.billingCycle === cycle) ?? [] : [];
   const cycleLabels: Record<BillingCycle, string> = { weekly: t.weekly, monthly: t.monthly2, yearly: t.yearly2 };
 
   return (
@@ -264,7 +268,7 @@ export function EditPage({ id, closing }: { id?: string; closing: boolean }) {
                 value={cycle}
                 onChange={v => {
                   setCycle(v);
-                  const plan = selectedPreset?.plans?.find(p => p.billingCycle === v);
+                  const plan = subCurrency.code === PRESET_CURRENCY ? selectedPreset?.plans?.find(p => p.billingCycle === v) : undefined;
                   if (plan) { setSelectedPlanId(plan.id); setPrice(plan.price.toFixed(2)); } else setSelectedPlanId(null);
                 }}
               />
@@ -396,6 +400,11 @@ export function EditPage({ id, closing }: { id?: string; closing: boolean }) {
             )}
 
             <div className="form-actions">
+              {isEdit && existing.isActive && (
+                <button className="btn danger-ghost" onClick={() => { pop(); setTimeout(() => startCancel(existing), 260); }}>
+                  {t.cancelAction}
+                </button>
+              )}
               {isEdit && (
                 <button className={`btn ${existing.isActive ? 'danger-ghost' : 'ghost'}`} onClick={handleTerminate}>
                   {existing.isActive ? t.terminate : t.reactivate}

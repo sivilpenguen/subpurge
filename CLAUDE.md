@@ -26,8 +26,9 @@ src/core/      pure logic, no DOM/Capacitor UI — safe for tests
   utils/       subscriptionDates, subscriptionSummary, exchangeRates (Frankfurter), remotePricing (GitHub raw JSON)
 src/platform/  Capacitor wrappers: storage (Preferences, AsyncStorage-shaped), notifications (LocalNotifications),
                backup (Filesystem + Share export, <input type=file> import), native (links, haptics, status bar)
-src/ui/        shell.tsx (dialog, undo toast, page stack, Sheet), screens/, components/, styles.css (design tokens)
-src/App.tsx    tabs (home / purge / settings), onboarding + coach-mark tour, theme + notification sync
+src/ui/        shell.tsx (dialog, undo toast, page stack, Sheet; layers drawn by <UIOutlet/>),
+               flows.tsx (cancel flow + Pro/paywall context), screens/, components/, styles.css (design tokens)
+src/App.tsx    tabs (Liste = HomeScreen, Kes = DeckScreen, Ayarlar), AppSplash, onboarding + coach marks
 ```
 
 ### State: `src/core/store/useSubscriptionStore.ts`
@@ -43,6 +44,22 @@ Every subscription carries `currencyCode` (the currency it was entered in). The 
 ### Subscription data model
 
 `trackingType: 'renewal' | 'expiry'` — renewal has `nextBillingDate`, expiry has `expiryDate`. Spend history accumulates in `completedCyclesCarry` / `accruedSpentCarry`, settled whenever price, cycle or active state changes. Dates are `YYYY-MM-DD` strings parsed at local noon (see `subscriptionDates.ts`).
+
+### Cancel flow and savings
+
+`useFlows().startCancel(sub)` asks where the user pays (`billedVia`: appstore / googleplay / web / operator), shows steps, opens the page (App Store subscriptions deep link, Play subscriptions, or the service's cancel URL) and, when the app becomes visible again, asks "did you cancel?". Yes → `confirmCancellation` terminates it and appends to `purgeLog` (yearly amount), which feeds the "saved per year" counter on the Kes tab.
+
+### Pro (freemium)
+
+`src/platform/purchases.ts`: one non-consumable (`com.rakuappdigital.subpurge.pro`) via RevenueCat; `REVENUECAT_API_KEY` empty = purchases unavailable on device, local mock flag in the browser. Free tier: `FREE_ACTIVE_LIMIT` (6) active subscriptions; export is Pro. `useFlows().ensureCapacity()` gates adding/reactivating.
+
+### Regions and prices
+
+Default currency comes from the device *region* (`getRegionCurrency`), not the language. Bundled plan prices are TRY (`PRESET_CURRENCY`): plan templates and price-raise alerts only apply to TRY subscriptions.
+
+### Launch sequence (iOS)
+
+LaunchScreen + `SceneDelegate.showRakuSplash()` show RA·KU on white for 2 s (+0.3 s fade), same as the other RAKU apps. Then `AppSplash` (web) cycles the "stop paying" line in all five languages for ~3 s; it hides the native Capacitor splash only after it has painted.
 
 ### Notifications
 

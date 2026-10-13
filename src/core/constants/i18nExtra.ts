@@ -53,7 +53,7 @@ const tr: ExtraTranslations = {
   coachSteps: [
     { title: 'Abonelik ekle', body: 'İlk aboneliğini eklemek için buraya dokun.' },
     { title: 'Kaydır', body: 'Sola kaydır: sonlandır. Sağa kaydır: son 7 günde kullandım. ⋯ menüsünde daha fazlası var.' },
-    { title: 'Purge Mode', body: 'Kullanmadığın, zamlanmış ya da gözden geçirme zamanı gelen abonelikler burada toplanır.' },
+    { title: 'Kes', body: 'Kullanmadığın, zamlanmış ya da gözden geçirme zamanı gelen abonelikler burada toplanır.' },
   ],
   coachNext: 'Sonraki',
   coachDone: 'Anladım',
@@ -104,7 +104,7 @@ const en: ExtraTranslations = {
   coachSteps: [
     { title: 'Add a subscription', body: 'Tap here to add your first subscription.' },
     { title: 'Swipe', body: 'Swipe left to terminate. Swipe right to mark as used in the last 7 days. The ⋯ menu has more.' },
-    { title: 'Purge Mode', body: 'Idle, price-raised and due-for-review subscriptions are collected here.' },
+    { title: 'Cut', body: 'Idle, price-raised and due-for-review subscriptions are collected here.' },
   ],
   coachNext: 'Next',
   coachDone: 'Got it',
@@ -155,7 +155,7 @@ const es: ExtraTranslations = {
   coachSteps: [
     { title: 'Añade una suscripción', body: 'Toca aquí para añadir tu primera suscripción.' },
     { title: 'Desliza', body: 'Desliza a la izquierda para cancelar. A la derecha para marcar como usada en los últimos 7 días. El menú ⋯ tiene más.' },
-    { title: 'Purge Mode', body: 'Aquí se reúnen las suscripciones inactivas, encarecidas o pendientes de revisión.' },
+    { title: 'Cortar', body: 'Aquí se reúnen las suscripciones inactivas, encarecidas o pendientes de revisión.' },
   ],
   coachNext: 'Siguiente',
   coachDone: 'Entendido',
@@ -206,7 +206,7 @@ const de: ExtraTranslations = {
   coachSteps: [
     { title: 'Abo hinzufügen', body: 'Tippe hier, um dein erstes Abo hinzuzufügen.' },
     { title: 'Wischen', body: 'Nach links: beenden. Nach rechts: in den letzten 7 Tagen genutzt. Im ⋯-Menü gibt es mehr.' },
-    { title: 'Purge Mode', body: 'Hier landen ungenutzte, teurer gewordene und fällige Abos.' },
+    { title: 'Kündigen', body: 'Hier landen ungenutzte, teurer gewordene und fällige Abos.' },
   ],
   coachNext: 'Weiter',
   coachDone: 'Verstanden',
@@ -257,7 +257,7 @@ const fr: ExtraTranslations = {
   coachSteps: [
     { title: 'Ajouter un abonnement', body: 'Touche ici pour ajouter ton premier abonnement.' },
     { title: 'Glisse', body: 'À gauche : résilier. À droite : utilisé ces 7 derniers jours. Le menu ⋯ propose plus.' },
-    { title: 'Purge Mode', body: 'Les abonnements inactifs, augmentés ou à revoir sont réunis ici.' },
+    { title: 'Couper', body: 'Les abonnements inactifs, augmentés ou à revoir sont réunis ici.' },
   ],
   coachNext: 'Suivant',
   coachDone: 'Compris',

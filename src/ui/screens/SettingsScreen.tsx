@@ -9,6 +9,7 @@ import { scheduleNotificationTestAsync, syncSubscriptionNotificationsAsync } fro
 import { currencyName, money, toDisplay } from '../format';
 import { IconCheck, IconChevron } from '../icons';
 import { Sheet, useUI } from '../shell';
+import { useFlows } from '../flows';
 
 const FLAGS: Record<Locale, string> = { tr: '🇹🇷', en: '🇬🇧', es: '🇪🇸', de: '🇩🇪', fr: '🇫🇷' };
 
@@ -17,6 +18,7 @@ export function SettingsScreen({ onShowTour }: { onShowTour: () => void }) {
   const { currency, locale, subscriptions, themeMode, t, exchangeRates } = store;
   const { push, showDialog, showToast } = useUI();
   const [sheet, setSheet] = useState<'lang' | 'currency' | null>(null);
+  const { isPro, proPrice, openPaywall } = useFlows();
 
   const active = subscriptions.filter(s => s.isActive);
   const ended = subscriptions.filter(s => !s.isActive);
@@ -35,6 +37,10 @@ export function SettingsScreen({ onShowTour }: { onShowTour: () => void }) {
   };
 
   const runExport = async (kind: 'json' | 'csv') => {
+    if (!isPro) {
+      openPaywall('export');
+      return;
+    }
     try {
       if (kind === 'json') await exportJSON(subscriptions, currency);
       else await exportCSV(subscriptions, currency);
@@ -97,6 +103,13 @@ export function SettingsScreen({ onShowTour }: { onShowTour: () => void }) {
         <h1 className="screen-title">{t.settings}</h1>
       </header>
 
+      <div className="section-label"><span className="eyebrow">{t.proTitle}</span></div>
+      <div className="group">
+        {isPro
+          ? <div className="group-row"><div className="group-row-body group-row-title">{t.proActive}</div><span className="pill ok">PRO</span></div>
+          : row(t.proTitle, t.proTagline, () => openPaywall(), proPrice)}
+      </div>
+
       <div className="section-label"><span className="eyebrow">{t.appearance}</span></div>
       <div style={{ margin: '0 var(--gutter)' }}>
         <div className="segment" role="group">
@@ -129,8 +142,8 @@ export function SettingsScreen({ onShowTour }: { onShowTour: () => void }) {
 
       <div className="section-label"><span className="eyebrow">{t.backupSection}</span></div>
       <div className="group">
-        {row(t.exportJSON, t.exportJSONHint, () => { void runExport('json'); })}
-        {row(t.exportCSV, t.exportCSVHint, () => { void runExport('csv'); })}
+        {row(t.exportJSON, t.exportJSONHint, () => { void runExport('json'); }, isPro ? undefined : 'PRO')}
+        {row(t.exportCSV, t.exportCSVHint, () => { void runExport('csv'); }, isPro ? undefined : 'PRO')}
         {row(t.importJSON, t.importJSONHint, () => { void runImport(); })}
       </div>
 

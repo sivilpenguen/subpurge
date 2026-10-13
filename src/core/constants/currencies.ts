@@ -29,3 +29,26 @@ export const CURRENCIES: Currency[] = [
 ];
 
 export const DEFAULT_CURRENCY = CURRENCIES[0];
+
+// Region → currency for the currencies above (euro area collapsed to EUR).
+const REGION_CURRENCY: Record<string, string> = {
+  TR: 'TRY', US: 'USD', GB: 'GBP', JP: 'JPY', CN: 'CNY', AU: 'AUD', CA: 'CAD', CH: 'CHF', HK: 'HKD',
+  SG: 'SGD', SE: 'SEK', KR: 'KRW', NO: 'NOK', NZ: 'NZD', IN: 'INR', MX: 'MXN', ZA: 'ZAR', BR: 'BRL',
+  DK: 'DKK', PL: 'PLN',
+};
+const EURO_AREA = new Set(['AT', 'BE', 'CY', 'DE', 'EE', 'ES', 'FI', 'FR', 'GR', 'HR', 'IE', 'IT', 'LT', 'LU', 'LV', 'MT', 'NL', 'PT', 'SI', 'SK']);
+
+/**
+ * Default currency from the device *region* (not its language: a Turkish
+ * speaker in Germany pays in euros). Falls back to USD when unknown.
+ */
+export function getRegionCurrency(languageTag: string): Currency {
+  let region: string | undefined;
+  try {
+    region = new Intl.Locale(languageTag).maximize().region;
+  } catch {
+    region = languageTag.split('-')[1];
+  }
+  const code = region ? (EURO_AREA.has(region) ? 'EUR' : REGION_CURRENCY[region]) : undefined;
+  return CURRENCIES.find(c => c.code === (code ?? 'USD')) ?? CURRENCIES[1];
+}

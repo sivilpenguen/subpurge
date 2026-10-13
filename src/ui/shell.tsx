@@ -2,7 +2,7 @@
  * App-wide UI services: dialog (replaces ThemedAlert), undo toast, and a tiny
  * stack navigator for full-screen pages layered over the tabs.
  */
-import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { haptic } from '../platform/native';
 
 // ─── Exit animations ─────────────────────────────────────────────────────────
@@ -97,6 +97,21 @@ export function useUI(): UICtx {
   return ctx;
 }
 
+type OutletState = {
+  stack: StackEntry[];
+  toast: Toast | null;
+  dialog: { id: number; config: DialogConfig } | null;
+  clearToast: () => void;
+  closeDialog: (id: number) => void;
+  renderRoute: (route: Route, closing: boolean) => ReactNode;
+};
+
+const OutletContext = createContext<OutletState | null>(null);
+
+/**
+ * Holds navigation, toast and dialog state. The layers themselves are drawn by
+ * <UIOutlet/>, so pages can sit inside providers that need useUI themselves.
+ */
 export function UIProvider({ children, renderRoute }: { children: ReactNode; renderRoute: (route: Route, closing: boolean) => ReactNode }) {
   const [dialog, setDialog] = useState<{ id: number; config: DialogConfig } | null>(null);
   const [toast, setToast] = useState<Toast | null>(null);
@@ -127,24 +142,31 @@ export function UIProvider({ children, renderRoute }: { children: ReactNode; ren
   }, []);
 
   const clearToast = useCallback(() => setToast(null), []);
-  const value = { showDialog, showToast, push, pop };
+  // An action may open a follow-up dialog; only clear if this one is still current.
+  const closeDialog = useCallback((id: number) => setDialog(d => (d?.id === id ? null : d)), []);
+  const value = useMemo(() => ({ showDialog, showToast, push, pop }), [showDialog, showToast, push, pop]);
 
   return (
     <UIContext.Provider value={value}>
-      {children}
+      <OutletContext.Provider value={{ stack, toast, dialog, clearToast, closeDialog, renderRoute }}>
+        {children}
+      </OutletContext.Provider>
+    </UIContext.Provider>
+  );
+}
+
+export function UIOutlet() {
+  const state = useContext(OutletContext);
+  if (!state) return null;
+  const { stack, toast, dialog, clearToast, closeDialog, renderRoute } = state;
+  return (
+    <>
       {stack.map(entry => (
         <div key={entry.key} style={{ display: 'contents' }}>{renderRoute(entry.route, entry.closing)}</div>
       ))}
       {toast && <ToastView key={toast.id} toast={toast} onDone={clearToast} />}
-      {dialog && (
-        <Dialog
-          key={dialog.id}
-          config={dialog.config}
-          // An action may open a follow-up dialog; only clear if this one is still current.
-          onClose={() => setDialog(d => (d?.id === dialog.id ? null : d))}
-        />
-      )}
-    </UIContext.Provider>
+      {dialog && <Dialog key={dialog.id} config={dialog.config} onClose={() => closeDialog(dialog.id)} />}
+    </>
   );
 }
 

@@ -18,7 +18,7 @@
 | Birincil kategori | Finance |
 | İkincil kategori | Productivity |
 | Yaş derecelendirmesi | 4+ (anketteki tüm sorulara "Hayır/None") |
-| Fiyat | Ücretsiz (freemium kararı sonrası IAP eklenecek) |
+| Fiyat | Ücretsiz + uygulama içi satın alma (SubPurge Pro, tek seferlik) |
 | Copyright | 2026 Dogus Lutfu Telatar |
 | Privacy Policy URL | https://github.com/sivilpenguen/subpurge/blob/main/PRIVACY_POLICY.md |
 | Support URL | https://github.com/sivilpenguen/subpurge |
@@ -26,6 +26,22 @@
 | Şifreleme (Export Compliance) | Muaf — Info.plist'te `ITSAppUsesNonExemptEncryption = false` |
 | Cihazlar | iPhone + iPad |
 | Sürüm / Build | 1.0.0 (1) |
+
+## Uygulama içi satın alma: SubPurge Pro
+
+| Alan | Değer |
+|---|---|
+| Tür | Non-Consumable (tek seferlik) |
+| Product ID | com.rakuappdigital.subpurge.pro |
+| Reference Name | SubPurge Pro |
+| Fiyat | Temel: **$4.99**. **Türkiye: ₺149,99 elle girilmeli** (girilmezse Apple TL fiyatını dolardan otomatik hesaplar) |
+| Lansman | İlk hafta Türkiye ₺99,99 (ASC → Pricing → planlı fiyat değişikliği) |
+| Aile Paylaşımı | Açık |
+| Görünen ad / açıklama (EN) | SubPurge Pro — Unlimited subscriptions, backup and CSV export, and every future Pro feature. One payment, yours forever. |
+| Görünen ad / açıklama (TR) | SubPurge Pro — Sınırsız abonelik, yedek ve CSV dışa aktarma, gelecekteki tüm Pro özellikleri. Tek ödeme, sonsuza kadar senin. |
+| İnceleme ekran görüntüsü | `resources/appstore/` altındaki ödeme ekranı görüntüsü |
+
+Ücretsiz sürüm 6 aktif abonelikle sınırlı; 7. eklenirken ya da dışa aktarmaya dokununca ödeme ekranı açılır. Satın alma RevenueCat üzerinden: RevenueCat'te uygulamayı oluştur, App Store public key'ini (`appl_…`) `src/platform/purchases.ts` içindeki `REVENUECAT_API_KEY`'e yaz. Anahtar boşken uygulama satın almayı "şu an kullanılamıyor" diye gösterir.
 
 ## App Privacy (gizlilik etiketi)
 
@@ -64,7 +80,11 @@ REMINDERS THAT MATTER
 
 YOUR DATA STAYS ON YOUR DEVICE
 • No account, no ads, no tracking
-• Back up as JSON or export to CSV whenever you want
+• Back up as JSON or export to CSV whenever you want (Pro)
+
+FREE AND PRO
+• Track up to 6 active subscriptions for free
+• SubPurge Pro is a one-time purchase: unlimited subscriptions and every future Pro feature. No subscription — we won’t sell you one.
 
 Also: 25+ ready-made services with current plans, 21 currencies with automatic conversion, light and dark themes, iPhone and iPad, in English, Turkish, Spanish, German and French.
 
@@ -99,14 +119,18 @@ TEK DOKUNUŞLA İPTAL
 
 VERİLERİN CİHAZINDA KALIR
 • Hesap yok, reklam yok, takip yok
-• İstediğin zaman JSON yedeği al ya da CSV'ye aktar
+• İstediğin zaman JSON yedeği al ya da CSV'ye aktar (Pro)
+
+ÜCRETSİZ VE PRO
+• 6 aktif aboneliğe kadar ücretsiz
+• SubPurge Pro tek seferlik satın alma: sınırsız abonelik ve gelecekteki tüm Pro özellikleri. Abonelik yok; sana abonelik satmıyoruz.
 
 Ayrıca: güncel planlarıyla 25'ten fazla hazır servis, otomatik kur çevirisiyle 21 para birimi, açık ve koyu tema, iPhone ve iPad desteği; Türkçe, İngilizce, İspanyolca, Almanca ve Fransızca.
 
 ## App Review notları (Notes)
 
 ```
-No login is required. On first launch, tap "Try with demo data" on the last onboarding page to load sample subscriptions. Settings → "Send test notification" schedules two local notifications 5 and 10 seconds later. All data is stored locally; the app only downloads public price data and ECB exchange rates.
+No login is required. On first launch, tap "Try with demo data" on the last onboarding page to load sample subscriptions. Settings → "Send test notification" schedules two local notifications 5 and 10 seconds later. All data is stored locally; the app only downloads public price data and ECB exchange rates. The free version allows 6 active subscriptions; adding a 7th shows the SubPurge Pro paywall (one-time, non-consumable, with Restore Purchases).
 ```
 
 Sign-in required: **No**. İletişim: ad-soyad, telefon, subpurgeapp@gmail.com.

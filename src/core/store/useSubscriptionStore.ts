@@ -18,11 +18,13 @@ import { storage as AsyncStorage } from '../../platform/storage';
 import { SERVICE_PRESETS } from '../constants/services';
 import { getExchangeRates } from '../utils/exchangeRates';
 import { fetchRemotePricing, type RemotePricingData } from '../utils/remotePricing';
-import { Currency, DEFAULT_CURRENCY } from '../constants/currencies';
+import { Currency, getRegionCurrency } from '../constants/currencies';
 import { isLocale, TRANSLATIONS } from '../constants/i18n';
 import type { Locale, Translations } from '../constants/i18n';
 import { EXTRA_TRANSLATIONS } from '../constants/i18nExtra';
 import type { ExtraTranslations } from '../constants/i18nExtra';
+import { FLOW_TRANSLATIONS } from '../constants/i18nFlow';
+import type { FlowTranslations } from '../constants/i18nFlow';
 import {
   addMonthsToDateValue,
   formatDateInput,
@@ -30,9 +32,10 @@ import {
 } from '../utils/subscriptionDates';
 import { getCompletedCycleCountBetween } from './subscriptionCalculations';
 import { findPlanTemplate } from './subscriptionFilters';
-import type { Subscription, ThemeMode, TrackingType } from './subscriptionTypes';
+import type { BillingSource, PurgeLogEntry, Subscription, ThemeMode, TrackingType } from './subscriptionTypes';
+import { toYearly } from './subscriptionCalculations';
 
-export type AppTranslations = Omit<Translations, 'currencySymbolNote'> & ExtraTranslations;
+export type AppTranslations = Omit<Translations, 'currencySymbolNote'> & ExtraTranslations & FlowTranslations;
 
 // ─── Re-exports (backward compat — all existing imports still work) ───────────
 export type { TrackingType, Subscription, PriceChangeInfo, ThemeMode } from './subscriptionTypes';
@@ -87,6 +90,7 @@ const StoredSubscriptionSchema = z.object({
   lastUsedAt: z.string().nullable().optional(),
   notes: z.string().optional(),
   currencyCode: z.string().optional(),
+  billedVia: z.enum(['appstore', 'googleplay', 'web', 'operator']).optional(),
 });
 
 type StoredSubscription = z.infer<typeof StoredSubscriptionSchema>;
@@ -103,6 +107,9 @@ interface StoreState {
   isHydrated: boolean;
   exchangeRates: Record<string, number>;
   remotePricing: RemotePricingData | null;
+  purgeLog: PurgeLogEntry[];
+  confirmCancellation: (id: string) => void;
+  setBilledVia: (id: string, billedVia: BillingSource) => void;
   addSubscription: (sub: Omit<Subscription, 'id'>) => void;
   updateSubscription: (id: string, sub: Partial<Subscription>) => void;
   deleteSubscription: (id: string) => void;
@@ -127,6 +134,7 @@ const CURRENCY_KEY = 'subpurge_currency';
 const LOCALE_KEY = 'subpurge_locale';
 const THEME_KEY = 'subpurge_theme_mode';
 const ONBOARDED_KEY = 'subpurge_onboarded';
+const PURGE_LOG_KEY = 'subpurge_purge_log';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
@@ -174,6 +182,14 @@ const DEMO_COPY: Record<Locale, {
 
 function persistItem(key: string, value: string, errorMessage: string) {
   void AsyncStorage.setItem(key, value).catch(err => console.error(errorMessage, err));
+}
+
+function getDeviceCurrency(): Currency {
+  try {
+    return getRegionCurrency(navigator.languages?.[0] ?? navigator.language);
+  } catch {
+    return getRegionCurrency('en-US');
+  }
 }
 
 function getSystemTheme(): ThemeMode {
@@ -272,6 +288,7 @@ export function normalizeSubscription(raw: StoredSubscription, referenceNowISO: 
     notes: raw.notes,
     // Older builds dropped this on every load; amounts were entered in the then-selected currency.
     currencyCode: raw.currencyCode ?? fallbackCurrencyCode,
+    billedVia: raw.billedVia,
   };
 }
 
@@ -355,18 +372,19 @@ function createDemoSubscriptions(locale: Locale, now = new Date()): Subscription
 
 export function useSubscriptionStore(): StoreState {
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
-  const [currency, setCurrencyState] = useState<Currency>(DEFAULT_CURRENCY);
+  const [currency, setCurrencyState] = useState<Currency>(getDeviceCurrency());
   const [locale, setLocaleState] = useState<Locale>(getDeviceLocale());
   const [themeMode, setThemeModeState] = useState<ThemeMode>(getSystemTheme());
   const [hasOnboarded, setHasOnboardedState] = useState(false);
   const [exchangeRates, setExchangeRates] = useState<Record<string, number>>({});
   const [remotePricing, setRemotePricing] = useState<RemotePricingData | null>(null);
   const [isHydrated, setIsHydrated] = useState(false);
+  const [purgeLog, setPurgeLog] = useState<PurgeLogEntry[]>([]);
 
   useEffect(() => {
     void (async () => {
       // ── Currency (first: legacy subscriptions without a currencyCode inherit it) ──
-      let storedCurrency: Currency = DEFAULT_CURRENCY;
+      let storedCurrency: Currency = getDeviceCurrency();
       const cur = await AsyncStorage.getItem(CURRENCY_KEY);
       if (cur) {
         try {
@@ -420,6 +438,12 @@ export function useSubscriptionStore(): StoreState {
       // ── Onboarded ──
       const onboarded = await AsyncStorage.getItem(ONBOARDED_KEY);
       if (onboarded === '1') setHasOnboardedState(true);
+
+      // ── Purge log ──
+      const log = await AsyncStorage.getItem(PURGE_LOG_KEY);
+      if (log) {
+        try { setPurgeLog(JSON.parse(log) as PurgeLogEntry[]); } catch { void AsyncStorage.removeItem(PURGE_LOG_KEY); }
+      }
       setIsHydrated(true);
 
       // ── Remote pricing (arka planda, UI'yi bloklamaz) ──
@@ -482,6 +506,25 @@ export function useSubscriptionStore(): StoreState {
     }));
   };
 
+  // The user came back from the cancel page and said yes: end it and count the yearly saving.
+  const confirmCancellation = (id: string) => {
+    const sub = subscriptions.find(s => s.id === id);
+    if (!sub) return;
+    if (sub.isActive) toggleActive(id);
+    setPurgeLog(prev => {
+      const next = [
+        ...prev.filter(e => e.id !== id),
+        { id, name: sub.name, yearly: toYearly(sub.price, sub.billingCycle), currencyCode: sub.currencyCode ?? currency.code, date: formatDateInput(new Date()) },
+      ];
+      persistItem(PURGE_LOG_KEY, JSON.stringify(next), 'Failed to save purge log');
+      return next;
+    });
+  };
+
+  const setBilledVia = (id: string, billedVia: BillingSource) => {
+    update(subs => subs.map(s => s.id === id ? { ...s, billedVia } : s));
+  };
+
   const markSubscriptionUsed = (id: string, usedAt = formatDateInput(new Date())) => {
     update(subs => subs.map(s => s.id === id ? { ...s, lastUsedAt: usedAt } : s));
   };
@@ -493,7 +536,9 @@ export function useSubscriptionStore(): StoreState {
 
   const resetAllData = () => {
     save([]);
-    setCurrencyState(DEFAULT_CURRENCY);
+    setPurgeLog([]);
+    void AsyncStorage.removeItem(PURGE_LOG_KEY).catch(() => {});
+    setCurrencyState(getDeviceCurrency());
     setLocaleState(getDeviceLocale());
     setThemeModeState(getSystemTheme());
     void Promise.all([
@@ -536,9 +581,9 @@ export function useSubscriptionStore(): StoreState {
   };
 
   return {
-    subscriptions, currency, locale, themeMode, hasOnboarded, isHydrated, exchangeRates, remotePricing,
-    t: { ...TRANSLATIONS[locale], ...EXTRA_TRANSLATIONS[locale] },
-    addSubscription, updateSubscription, deleteSubscription, restoreSubscription, toggleActive,
+    subscriptions, currency, locale, themeMode, hasOnboarded, isHydrated, exchangeRates, remotePricing, purgeLog,
+    t: { ...TRANSLATIONS[locale], ...EXTRA_TRANSLATIONS[locale], ...FLOW_TRANSLATIONS[locale] },
+    addSubscription, updateSubscription, deleteSubscription, restoreSubscription, toggleActive, confirmCancellation, setBilledVia,
     markSubscriptionUsed, snoozeReviewReminder, resetAllData, setOnboarded,
     setCurrency, setLocale, setThemeMode, toggleThemeMode, loadDemoSubscriptions, restoreFromBackup,
   };

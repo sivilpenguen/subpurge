@@ -56,7 +56,11 @@ export function getInactiveSubscriptions(subscriptions: Subscription[], now = ne
     .sort((a, b) => (a.lastUsedAt ?? '').localeCompare(b.lastUsedAt ?? ''));
 }
 
+/** Bundled plan prices are Turkish storefront prices; only compare like with like. */
+export const PRESET_CURRENCY = 'TRY';
+
 export function getPriceChangeInfo(subscription: Subscription): PriceChangeInfo | null {
+  if (subscription.currencyCode && subscription.currencyCode !== PRESET_CURRENCY) return null;
   const plan = findPlanTemplate(subscription);
   if (!plan || plan.price <= subscription.price) return null;
   return {

@@ -1,7 +1,7 @@
 /**
  * Pure subscription logic, free of React and Capacitor imports — what tests import.
  */
-export type { TrackingType, Subscription, PriceChangeInfo, ThemeMode } from './subscriptionTypes';
+export type { TrackingType, Subscription, PriceChangeInfo, ThemeMode, BillingSource, PurgeLogEntry } from './subscriptionTypes';
 export {
   getCompletedCycleCountBetween,
   getCompletedCycleCount,
@@ -21,4 +21,5 @@ export {
   getInactiveSubscriptions,
   getPriceChangeInfo,
   getPriceIncreaseSubscriptions,
+  PRESET_CURRENCY,
 } from './subscriptionFilters';

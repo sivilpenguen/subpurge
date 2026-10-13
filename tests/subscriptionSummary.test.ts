@@ -172,3 +172,19 @@ test('getSummaryTotals handles mixed active recurring plans', () => {
   assert.equal(totals.monthlyTotal, 425);
   assert.equal(totals.yearlyCost, 5100);
 });
+
+test('default currency follows the device region, not the language', async () => {
+  const { getRegionCurrency } = await import('../src/core/constants/currencies');
+  assert.equal(getRegionCurrency('tr-TR').code, 'TRY');
+  assert.equal(getRegionCurrency('tr-DE').code, 'EUR');
+  assert.equal(getRegionCurrency('en-GB').code, 'GBP');
+  assert.equal(getRegionCurrency('en-US').code, 'USD');
+  assert.equal(getRegionCurrency('fr-FR').code, 'EUR');
+});
+
+test('TRY plan templates never flag a raise on a non-TRY subscription', async () => {
+  const { getPriceChangeInfo } = await import('../src/core/store/logic');
+  const base = { id: 'x', name: 'Netflix', color: '#000', icon: '🎬', price: 1, billingCycle: 'monthly' as const, startDate: '2026-01-01', trackingType: 'renewal' as const, currentPeriodStart: '2026-01-01', completedCyclesCarry: 0, accruedSpentCarry: 0, isActive: true, planTemplateId: 'standard' };
+  assert.equal(getPriceChangeInfo({ ...base, currencyCode: 'USD' }), null);
+  assert.notEqual(getPriceChangeInfo({ ...base, currencyCode: 'TRY' }), null);
+});
