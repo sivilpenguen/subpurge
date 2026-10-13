@@ -1,26 +1,39 @@
-Subpurge Gizlilik Politikası
-Son güncelleme: 29 Mayıs 2026
+# Subpurge Gizlilik Politikası / Privacy Policy
 
-1. Genel Bakış
-Subpurge ("uygulama"), aboneliklerinizi takip etmenize yardımcı olan bir kişisel finans uygulamasıdır. Gizliliğiniz bizim için önceliktir. Bu politika, hangi verilerin toplandığını ve nasıl kullanıldığını açıklar.
+Son güncelleme / Last updated: 13 Ekim 2026 / October 13, 2026
 
-2. Toplanan Veriler
-Subpurge herhangi bir kişisel veri toplamaz, depolamaz veya üçüncü taraflarla paylaşmaz. Uygulamaya girdiğiniz tüm veriler (abonelik adları, fiyatlar, tarihler ve notlar) yalnızca cihazınızda yerel olarak saklanır.
+## Türkçe
 
-3. İnternet Bağlantısı
-Uygulama yalnızca servis fiyatlarını güncellemek amacıyla GitHub'daki herkese açık bir dosyaya bağlanır. Bu işlem sırasında kullanıcı verisi iletilmez.
+**1. Genel bakış.** Subpurge, aboneliklerinizi takip etmenize yardımcı olan bir kişisel finans uygulamasıdır. Hesap açmanız gerekmez.
 
-4. Bildirimler
-Abonelik hatırlatmaları yalnızca cihazınızda yerel bildirim olarak planlanır. Bildirim verileri cihazınızın dışına çıkmaz.
+**2. Toplanan veriler.** Subpurge kişisel veri toplamaz, sunucuya göndermez ve üçüncü taraflarla paylaşmaz. Girdiğiniz tüm bilgiler (abonelik adları, fiyatlar, tarihler, notlar) yalnızca cihazınızda saklanır.
 
-5. Üçüncü Taraf Hizmetler
-Uygulama herhangi bir analitik, reklam veya üçüncü taraf izleme hizmeti kullanmaz.
+**3. İnternet bağlantısı.** Uygulama yalnızca iki herkese açık kaynaktan veri *indirir*: güncel servis fiyatları için GitHub'daki herkese açık bir dosya ve döviz kurları için Frankfurter API (Avrupa Merkez Bankası kurları). Bu isteklerde sizin abonelik verileriniz gönderilmez.
 
-6. Veri Silme
-Uygulama verilerinizi silmek için Ayarlar → Tüm Verileri Sıfırla seçeneğini kullanabilir ya da uygulamayı kaldırabilirsiniz.
+**4. Bildirimler.** Yenileme ve kullanım hatırlatmaları cihazınızda yerel bildirim olarak planlanır; cihaz dışına çıkmaz.
 
-7. Çocukların Gizliliği
-Uygulama 13 yaşın altındaki çocuklara yönelik değildir ve bu kişilerden kasıtlı olarak veri toplamaz.
+**5. Yedekleme.** Yedek (JSON/CSV) dosyaları yalnızca siz paylaş menüsünden bir hedef seçtiğinizde dışa aktarılır.
 
-8. İletişim
-Gizlilik politikasıyla ilgili sorularınız için: subpurgeapp@gmail.com
+**6. Üçüncü taraf hizmetler.** Analitik, reklam veya izleme hizmeti kullanılmaz.
+
+**7. Veri silme.** Ayarlar → Tüm Verileri Sıfırla ile ya da uygulamayı silerek tüm verileri kaldırabilirsiniz.
+
+**8. İletişim.** subpurgeapp@gmail.com
+
+## English
+
+**1. Overview.** Subpurge is a personal finance app that helps you keep track of your subscriptions. No account is required.
+
+**2. Data collection.** Subpurge does not collect personal data, does not send it to any server and does not share it with third parties. Everything you enter (subscription names, prices, dates, notes) is stored only on your device.
+
+**3. Network access.** The app only *downloads* data from two public sources: a public file on GitHub with current service prices, and the Frankfurter API for exchange rates (European Central Bank rates). None of your subscription data is sent in these requests.
+
+**4. Notifications.** Renewal and usage reminders are scheduled as local notifications on your device and never leave it.
+
+**5. Backups.** Backup files (JSON/CSV) are exported only when you choose a destination in the share sheet.
+
+**6. Third-party services.** No analytics, advertising or tracking services are used.
+
+**7. Deleting data.** Use Settings → Reset All Data, or delete the app, to remove all data.
+
+**8. Contact.** subpurgeapp@gmail.com

@@ -91,7 +91,7 @@ export function EditPage({ id, closing }: { id?: string; closing: boolean }) {
     haptic.tap();
     setSelectedPlanId(plan.id);
     setCycle(plan.billingCycle);
-    setPrice(plan.price.toString());
+    setPrice(plan.price.toFixed(2));
   };
 
   const selectPreset = (preset: ServicePreset, custom = false) => {
@@ -265,7 +265,7 @@ export function EditPage({ id, closing }: { id?: string; closing: boolean }) {
                 onChange={v => {
                   setCycle(v);
                   const plan = selectedPreset?.plans?.find(p => p.billingCycle === v);
-                  if (plan) { setSelectedPlanId(plan.id); setPrice(plan.price.toString()); } else setSelectedPlanId(null);
+                  if (plan) { setSelectedPlanId(plan.id); setPrice(plan.price.toFixed(2)); } else setSelectedPlanId(null);
                 }}
               />
             </div>
