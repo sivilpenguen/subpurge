@@ -15,9 +15,13 @@ function getFormatter(locale: Locale, digits: number) {
   return formatter;
 }
 
-/** "₺1.299,99" in TR, "$1,299.99" in EN — symbol always leads, like the original UI. */
+// Euro amounts are written "12,99 €" in German, French and Spanish.
+const SUFFIX_EURO: ReadonlySet<Locale> = new Set(['de', 'fr', 'es']);
+
+/** "₺1.299,99" in TR, "$1,299.99" in EN, "12,99 €" in DE/FR/ES. */
 export function money(amount: number, symbol: string, locale: Locale, digits = 2): string {
-  return `${symbol}${getFormatter(locale, digits).format(Number.isFinite(amount) ? amount : 0)}`;
+  const value = getFormatter(locale, digits).format(Number.isFinite(amount) ? amount : 0);
+  return symbol === '€' && SUFFIX_EURO.has(locale) ? `${value} €` : `${symbol}${value}`;
 }
 
 export function currencyFor(code: string | undefined, fallback: Currency): Currency {
