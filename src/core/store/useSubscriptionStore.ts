@@ -12,12 +12,13 @@
  * Shared types            → store/subscriptionTypes.ts
  */
 
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { z } from 'zod';
 import { storage as AsyncStorage } from '../../platform/storage';
 import { SERVICE_PRESETS } from '../constants/services';
 import { getExchangeRates } from '../utils/exchangeRates';
-import { fetchRemotePricing, type RemotePricingData } from '../utils/remotePricing';
+import { fetchCountryPricing, pricingCountryFor, type CountryPricing } from '../utils/remotePricing';
+import { createPlanLookup, type PlanLookup } from './pricing';
 import { Currency, getRegionCurrency } from '../constants/currencies';
 import { isLocale, TRANSLATIONS } from '../constants/i18n';
 import type { Locale, Translations } from '../constants/i18n';
@@ -105,7 +106,9 @@ interface StoreState {
   hasOnboarded: boolean;
   isHydrated: boolean;
   exchangeRates: Record<string, number>;
-  remotePricing: RemotePricingData | null;
+  remotePricing: CountryPricing | null;
+  /** Plans for a service in a currency/billing source: country file first, bundled TR plans as fallback. */
+  planLookup: PlanLookup;
   purgeLog: PurgeLogEntry[];
   confirmCancellation: (id: string) => void;
   setBilledVia: (id: string, billedVia: BillingSource) => void;
@@ -181,6 +184,14 @@ const DEMO_COPY: Record<Locale, {
 
 function persistItem(key: string, value: string, errorMessage: string) {
   void AsyncStorage.setItem(key, value).catch(err => console.error(errorMessage, err));
+}
+
+function getDeviceRegion(): string | undefined {
+  try {
+    return new Intl.Locale(navigator.languages?.[0] ?? navigator.language).maximize().region;
+  } catch {
+    return undefined;
+  }
 }
 
 function getDeviceCurrency(): Currency {
@@ -381,7 +392,7 @@ export function useSubscriptionStore(): StoreState {
   const [themeMode, setThemeModeState] = useState<ThemeMode>(getSystemTheme());
   const [hasOnboarded, setHasOnboardedState] = useState(false);
   const [exchangeRates, setExchangeRates] = useState<Record<string, number>>({});
-  const [remotePricing, setRemotePricing] = useState<RemotePricingData | null>(null);
+  const [remotePricing, setRemotePricing] = useState<CountryPricing | null>(null);
   const [isHydrated, setIsHydrated] = useState(false);
   const [purgeLog, setPurgeLog] = useState<PurgeLogEntry[]>([]);
 
@@ -451,12 +462,23 @@ export function useSubscriptionStore(): StoreState {
       setIsHydrated(true);
 
       // ── Remote pricing (arka planda, UI'yi bloklamaz) ──
-      void fetchRemotePricing().then(data => { if (data) setRemotePricing(data); });
 
       // ── Exchange rates (arka planda) ──
       void getExchangeRates('EUR').then(rates => setExchangeRates(rates)).catch(() => {});
     })();
   }, []);
+
+  // Prices for the display currency's country (weekly data, cached for a day).
+  useEffect(() => {
+    if (!isHydrated) return;
+    const country = pricingCountryFor(currency.code, getDeviceRegion());
+    if (!country) { setRemotePricing(null); return; }
+    let cancelled = false;
+    void fetchCountryPricing(country).then(data => { if (!cancelled) setRemotePricing(data); });
+    return () => { cancelled = true; };
+  }, [isHydrated, currency.code]);
+
+  const planLookup = useMemo(() => createPlanLookup(remotePricing), [remotePricing]);
 
   // Functional updates so back-to-back actions never read a stale list.
   const update = (fn: (subs: Subscription[]) => Subscription[]) => {
@@ -585,7 +607,7 @@ export function useSubscriptionStore(): StoreState {
   };
 
   return {
-    subscriptions, currency, locale, themeMode, hasOnboarded, isHydrated, exchangeRates, remotePricing, purgeLog,
+    subscriptions, currency, locale, themeMode, hasOnboarded, isHydrated, exchangeRates, remotePricing, planLookup, purgeLog,
     t: { ...TRANSLATIONS[locale], ...EXTRA_TRANSLATIONS[locale], ...FLOW_TRANSLATIONS[locale] },
     addSubscription, updateSubscription, deleteSubscription, restoreSubscription, toggleActive, confirmCancellation, setBilledVia,
     markSubscriptionUsed, snoozeReviewReminder, resetAllData, setOnboarded,

@@ -55,7 +55,15 @@ Every subscription carries `currencyCode` (the currency it was entered in). The 
 
 ### Regions and prices
 
-Default currency comes from the device *region* (`getRegionCurrency`), not the language. Bundled plan prices are TRY (`PRESET_CURRENCY`): plan templates and price-raise alerts only apply to TRY subscriptions.
+Default currency comes from the device *region* (`getRegionCurrency`), not the language.
+
+Prices come from a free weekly pipeline (`.github/workflows/update-pricing.yml`, sources in `scripts/pricing/sources.json`):
+1. Turkey web prices: hand-written scrapers (`scripts/scrape-tr-pricing*.js` → `data/pricing-tr.json`).
+2. App Store prices for 12 countries: each app's "In-App Purchases" list, storefront in the URL (`fetch-appstore.mjs` → `data/pricing/appstore-<cc>.json`). Rate-limited by Apple: ~2 s between requests.
+3. Web prices elsewhere: page text → GitHub Models (free tier, `GITHUB_TOKEN` + `models: read`) → validated JSON; answers in the wrong currency are dropped (`fetch-web.mjs` → `web-<cc>.json`).
+4. `build.mjs` merges into `data/pricing/<cc>.json`; `check-changes.mjs` sends >50% moves to a pull request instead of main.
+
+The app downloads only its country file (jsDelivr, raw GitHub fallback, cached 24 h). `createPlanLookup` (`src/core/store/pricing.ts`) picks App Store prices when the subscription is billed via the App Store, web prices otherwise, and falls back to the bundled TRY plans. Plans and price-raise alerts only ever compare like currencies.
 
 ### Launch sequence (iOS)
 

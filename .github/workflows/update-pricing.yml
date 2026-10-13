@@ -5,11 +5,15 @@ on:
     - cron: '0 3 * * 1'   # Her Pazartesi 03:00 UTC
   workflow_dispatch:        # Manuel tetikleme
 
+permissions:
+  contents: write
+  pull-requests: write
+  models: read            # GitHub Models (free tier) for web price extraction
+
 jobs:
-  scrape:
+  pricing:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
+    timeout-minutes: 120
 
     steps:
       - name: Checkout
@@ -34,18 +38,50 @@ jobs:
             libxcomposite1 libxdamage1 libxfixes3 libxrandr2 \
             libgbm1 libasound2t64 libpango-1.0-0 libpangocairo-1.0-0
 
-      - name: Run fetch-based scraper
-        run: node scripts/scrape-tr-pricing.js
+      # 1) Turkey web prices: hand-written scrapers
+      - name: Turkey web scrapers
+        continue-on-error: true
+        run: |
+          node scripts/scrape-tr-pricing.js
+          node scripts/scrape-tr-pricing-puppeteer.js
 
-      - name: Run Puppeteer scraper
-        run: node scripts/scrape-tr-pricing-puppeteer.js
+      # 2) App Store prices for every country (storefront is in the URL)
+      - name: App Store prices
+        continue-on-error: true
+        run: node scripts/pricing/fetch-appstore.mjs
+
+      # 3) Web prices for other countries via GitHub Models
+      - name: Web prices (GitHub Models)
+        continue-on-error: true
         env:
-          PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'false'
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/pricing/fetch-web.mjs
 
+      - name: Build country files
+        run: node scripts/pricing/build.mjs
+
+      - name: Check for large changes
+        id: check
+        run: node scripts/pricing/check-changes.mjs
+
+      # Normal weeks: straight to main. A price that moved >50% or vanished: pull request for review.
       - name: Commit updated pricing data
+        if: steps.check.outputs.needs_review != 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/pricing-tr.json
-          git diff --staged --quiet || git commit -m "chore: update TR pricing data [skip ci]"
+          git add data/pricing-tr.json data/pricing/
+          git diff --staged --quiet || git commit -m "chore: update pricing data [skip ci]"
           git push
+
+      - name: Open review pull request
+        if: steps.check.outputs.needs_review == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: pricing/review
+          commit-message: "chore: update pricing data (needs review)"
+          title: "Fiyat güncellemesi: kontrol gerekiyor"
+          body-path: data/pricing/REVIEW.md
+          add-paths: |
+            data/pricing-tr.json
+            data/pricing/

@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { getEffectivePresets, SERVICE_CATEGORIES, type BillingCycle, type ServicePlanTemplate, type ServicePreset } from '../../core/constants/services';
+import { useEffect, useRef, useState } from 'react';
+import { SERVICE_CATEGORIES, SERVICE_PRESETS, type BillingCycle, type ServicePlanTemplate, type ServicePreset } from '../../core/constants/services';
 import type { TrackingType } from '../../core/store/logic';
 import { useStore } from '../../core/store/useSubscriptionStore';
 import { addBillingCycleToDate, addMonthsToDateValue, compareDateValues, formatDateInput, isCalendarDate } from '../../core/utils/subscriptionDates';
@@ -10,7 +10,7 @@ import { currencyFor, money } from '../format';
 import { IconChevron, IconPlus, IconSearch } from '../icons';
 import { useUI } from '../shell';
 import { useFlows } from '../flows';
-import { PRESET_CURRENCY } from '../../core/store/logic';
+import type { BillingSource } from '../../core/store/logic';
 
 const CYCLES: BillingCycle[] = ['weekly', 'monthly', 'yearly'];
 const TRACKING: TrackingType[] = ['renewal', 'expiry'];
@@ -37,10 +37,10 @@ function Segment<T extends string>({ options, value, onChange }: { options: { va
 
 export function EditPage({ id, closing }: { id?: string; closing: boolean }) {
   const store = useStore();
-  const { subscriptions, locale, currency, t, remotePricing } = store;
+  const { subscriptions, locale, currency, t, planLookup } = store;
   const { pop, showDialog, showToast } = useUI();
   const { ensureCapacity, startCancel } = useFlows();
-  const presets = useMemo(() => getEffectivePresets(remotePricing), [remotePricing]);
+  const presets = SERVICE_PRESETS;
 
   const existing = id ? subscriptions.find(s => s.id === id) ?? null : null;
   const isEdit = !!existing;
@@ -71,14 +71,18 @@ export function EditPage({ id, closing }: { id?: string; closing: boolean }) {
   const [targetDateTouched, setTargetDateTouched] = useState(Boolean(existing?.nextBillingDate || existing?.expiryDate));
   const [urlError, setUrlError] = useState('');
   const [showMore, setShowMore] = useState(isEdit);
+  const [billedVia, setBilledVia] = useState<BillingSource | undefined>(existing?.billedVia);
   const [selectedPlanId, setSelectedPlanId] = useState<string | null>(() => {
-    if (!matchingPreset?.plans?.length || !existing) return null;
-    if (existing.planTemplateId) return existing.planTemplateId;
-    return matchingPreset.plans.find(p => p.billingCycle === existing.billingCycle && p.price.toFixed(2) === existing.price.toFixed(2))?.id ?? null;
+    const known = existing ? planLookup(existing.name, subCurrency.code, existing.billedVia)?.plans : undefined;
+    if (!known?.length || !existing) return null;
+    if (existing.planTemplateId && known.some(p => p.id === existing.planTemplateId)) return existing.planTemplateId;
+    return known.find(p => p.billingCycle === existing.billingCycle && p.price.toFixed(2) === existing.price.toFixed(2))?.id ?? null;
   });
   const priceRef = useRef<HTMLInputElement>(null);
 
-  const selectedPreset = presets.find(p => p.name === name);
+  // Plans for this service in the subscription's currency, from where the user pays.
+  const planSet = name ? planLookup(name, subCurrency.code, billedVia) : null;
+  const allPlans = planSet?.plans ?? [];
   const trackedDate = trackingType === 'renewal' ? nextBillingDate : expiryDate;
   const suggestedTracked = isCalendarDate(startDate) ? addBillingCycleToDate(startDate, cycle) : '';
   const reviewBase = isCalendarDate(trackedDate ?? '') ? trackedDate! : today;
@@ -106,11 +110,12 @@ export function EditPage({ id, closing }: { id?: string; closing: boolean }) {
     setLogoUrl(preset.logoUrl);
     setManageDeepLink(preset.manageDeepLink);
     setQuickCancelUrl(preset.quickCancelUrl ?? '');
-    if (preset.plans?.[0] && subCurrency.code === PRESET_CURRENCY) applyPlan(preset.plans[0]);
+    const first = custom ? undefined : planLookup(preset.name, subCurrency.code, billedVia)?.plans[0];
+    if (first) applyPlan(first);
     else { setSelectedPlanId(null); setPrice(''); }
     setQuery('');
     setPicking(false);
-    if (!preset.plans?.length || subCurrency.code !== PRESET_CURRENCY) setTimeout(() => priceRef.current?.focus(), 350);
+    if (!first) setTimeout(() => priceRef.current?.focus(), 350);
   };
 
   const fail = (message: string) => showDialog({ message, actions: [{ label: t.ok, variant: 'primary' }] });
@@ -153,6 +158,7 @@ export function EditPage({ id, closing }: { id?: string; closing: boolean }) {
       lastUsedAt: existing?.lastUsedAt ?? today,
       notes: notes.trim(),
       currencyCode: existing?.currencyCode ?? currency.code,
+      billedVia,
     };
 
     if (isEdit) {
@@ -189,7 +195,7 @@ export function EditPage({ id, closing }: { id?: string; closing: boolean }) {
     .map(cat => ({ id: cat.id, label: t.categories[cat.id as keyof typeof t.categories] ?? cat.label, items: presets.filter(p => p.category === cat.id) }))
     .filter(g => g.items.length > 0);
   // Bundled plan prices are TRY; never offer them for a subscription in another currency.
-  const plans = subCurrency.code === PRESET_CURRENCY ? selectedPreset?.plans?.filter(p => p.billingCycle === cycle) ?? [] : [];
+  const plans = allPlans.filter(p => p.billingCycle === cycle);
   const cycleLabels: Record<BillingCycle, string> = { weekly: t.weekly, monthly: t.monthly2, yearly: t.yearly2 };
 
   return (
@@ -268,20 +274,44 @@ export function EditPage({ id, closing }: { id?: string; closing: boolean }) {
                 value={cycle}
                 onChange={v => {
                   setCycle(v);
-                  const plan = subCurrency.code === PRESET_CURRENCY ? selectedPreset?.plans?.find(p => p.billingCycle === v) : undefined;
+                  const plan = allPlans.find(p => p.billingCycle === v);
                   if (plan) { setSelectedPlanId(plan.id); setPrice(plan.price.toFixed(2)); } else setSelectedPlanId(null);
                 }}
               />
             </div>
 
+            <div className="field">
+              <span className="eyebrow field-label">{t.whereBilled}</span>
+              <div className="choice-grid" role="group">
+                {(['appstore', 'googleplay', 'web', 'operator'] as const).map(source => (
+                  <button
+                    key={source}
+                    className="plan"
+                    aria-pressed={billedVia === source}
+                    onClick={() => {
+                      haptic.tap();
+                      const next = billedVia === source ? undefined : source;
+                      setBilledVia(next);
+                      // Prices differ by where you pay (App Store vs website): re-pick the plan.
+                      const nextPlan = planLookup(name, subCurrency.code, next)?.plans.find(p => p.billingCycle === cycle);
+                      if (nextPlan) applyPlan(nextPlan);
+                      else setSelectedPlanId(null);
+                    }}
+                  >
+                    <div className="plan-name">{t.billingShort[source]}</div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
             {plans.length > 0 && (
               <div className="field">
-                <span className="eyebrow field-label">{t.planTemplates}</span>
+                <span className="eyebrow field-label">{t.planTemplates} · {planSet ? t.planSource[planSet.source] : ''}</span>
                 <div className="plans">
                   {plans.map(plan => (
                     <button key={plan.id} className="plan" aria-pressed={plan.id === selectedPlanId} onClick={() => applyPlan(plan)}>
                       <div className="plan-name">{plan.name}</div>
-                      <div className="plan-price">{money(plan.price, '₺', locale)}</div>
+                      <div className="plan-price">{money(plan.price, subCurrency.symbol, locale)}</div>
                     </button>
                   ))}
                   <button className="plan" aria-pressed={selectedPlanId === null} onClick={() => { setSelectedPlanId(null); priceRef.current?.focus(); }}>

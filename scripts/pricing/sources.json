@@ -1,0 +1,130 @@
+{
+  "countries": {
+    "tr": "TRY",
+    "us": "USD",
+    "gb": "GBP",
+    "de": "EUR",
+    "fr": "EUR",
+    "es": "EUR",
+    "it": "EUR",
+    "nl": "EUR",
+    "ca": "CAD",
+    "au": "AUD",
+    "mx": "MXN",
+    "br": "BRL"
+  },
+  "services": {
+    "Netflix": {
+      "appStoreId": 363590051
+    },
+    "Spotify": {
+      "appStoreId": 324684580,
+      "web": {
+        "us": "https://www.spotify.com/us/premium/",
+        "gb": "https://www.spotify.com/uk/premium/",
+        "de": "https://www.spotify.com/de/premium/",
+        "fr": "https://www.spotify.com/fr/premium/",
+        "es": "https://www.spotify.com/es/premium/",
+        "it": "https://www.spotify.com/it/premium/",
+        "nl": "https://www.spotify.com/nl/premium/",
+        "ca": "https://www.spotify.com/ca-en/premium/",
+        "au": "https://www.spotify.com/au/premium/",
+        "mx": "https://www.spotify.com/mx/premium/",
+        "br": "https://www.spotify.com/br-pt/premium/"
+      }
+    },
+    "Amazon Prime": {
+      "appStoreId": 545519333
+    },
+    "YouTube Premium": {
+      "appStoreId": 544007664
+    },
+    "Disney+": {
+      "appStoreId": 1446075923
+    },
+    "Exxen": {
+      "appStoreId": 1543402064
+    },
+    "Gain": {
+      "appStoreId": 1516180910
+    },
+    "Tod": {
+      "appStoreId": 1615398541
+    },
+    "Microsoft 365": {
+      "appStoreId": 541164041
+    },
+    "Xbox Game Pass": {
+      "appStoreId": 736179781
+    },
+    "Apple One": {
+      "web": {
+        "us": "https://www.apple.com/apple-one/",
+        "gb": "https://www.apple.com/uk/apple-one/",
+        "de": "https://www.apple.com/de/apple-one/",
+        "fr": "https://www.apple.com/fr/apple-one/",
+        "es": "https://www.apple.com/es/apple-one/",
+        "it": "https://www.apple.com/it/apple-one/",
+        "nl": "https://www.apple.com/nl/apple-one/",
+        "ca": "https://www.apple.com/ca/apple-one/",
+        "au": "https://www.apple.com/au/apple-one/",
+        "mx": "https://www.apple.com/mx/apple-one/",
+        "br": "https://www.apple.com/br/apple-one/"
+      }
+    },
+    "iCloud+": {
+      "web": {
+        "us": "https://www.apple.com/icloud/",
+        "gb": "https://www.apple.com/uk/icloud/",
+        "de": "https://www.apple.com/de/icloud/",
+        "fr": "https://www.apple.com/fr/icloud/",
+        "es": "https://www.apple.com/es/icloud/",
+        "it": "https://www.apple.com/it/icloud/",
+        "nl": "https://www.apple.com/nl/icloud/",
+        "ca": "https://www.apple.com/ca/icloud/",
+        "au": "https://www.apple.com/au/icloud/",
+        "mx": "https://www.apple.com/mx/icloud/",
+        "br": "https://www.apple.com/br/icloud/"
+      }
+    },
+    "Canva": {
+      "appStoreId": 897446215
+    },
+    "Duolingo Plus": {
+      "appStoreId": 570060128
+    },
+    "HBO Max": {
+      "appStoreId": 1666653815
+    },
+    "CapCut": {
+      "appStoreId": 1500855883
+    },
+    "Gemini": {
+      "appStoreId": 6477489729
+    },
+    "ChatGPT Plus": {
+      "appStoreId": 6448311069
+    },
+    "LinkedIn Premium": {
+      "appStoreId": 288429040
+    },
+    "Dropbox": {
+      "appStoreId": 327630330
+    },
+    "X (Twitter)": {
+      "appStoreId": 333903271
+    },
+    "Zoom": {
+      "appStoreId": 546505307
+    },
+    "Instagram": {
+      "appStoreId": 389801252
+    },
+    "MUBI": {
+      "appStoreId": 626148774
+    },
+    "Tabii": {
+      "appStoreId": 1668441657
+    }
+  }
+}

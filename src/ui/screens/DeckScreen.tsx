@@ -7,6 +7,7 @@ import {
   type Subscription,
 } from '../../core/store/logic';
 import { useStore } from '../../core/store/useSubscriptionStore';
+import type { PlanLookup } from '../../core/store/pricing';
 import { formatDateInput, addMonthsToDateValue } from '../../core/utils/subscriptionDates';
 import { haptic } from '../../platform/native';
 import { ServiceLogo } from '../components/ServiceLogo';
@@ -17,20 +18,20 @@ import { useUI } from '../shell';
 const FLING = 110;
 
 /** Everything that deserves a keep-or-cut decision, idle first. */
-function useCandidates(subscriptions: Subscription[]) {
+function useCandidates(subscriptions: Subscription[], lookup: PlanLookup) {
   return useMemo(() => {
     const seen = new Map<string, Subscription>();
     const idle = getInactiveSubscriptions(subscriptions);
     const review = getDueReviewSubscriptions(subscriptions);
-    const raised = subscriptions.filter(s => s.isActive && getPriceChangeInfo(s));
+    const raised = subscriptions.filter(s => s.isActive && getPriceChangeInfo(s, lookup));
     for (const s of [...idle, ...raised, ...review]) seen.set(s.id, s);
     return [...seen.values()];
-  }, [subscriptions]);
+  }, [subscriptions, lookup]);
 }
 
 export function DeckScreen() {
   const store = useStore();
-  const { subscriptions, t, locale, currency, exchangeRates, purgeLog } = store;
+  const { subscriptions, t, locale, currency, exchangeRates, purgeLog, planLookup } = store;
   const { showToast } = useUI();
   const { startCancel } = useFlows();
   const [skipped, setSkipped] = useState<Set<string>>(new Set());
@@ -38,7 +39,7 @@ export function DeckScreen() {
   const [flying, setFlying] = useState<0 | 1 | -1>(0);
   const start = useRef<{ x: number; id: number } | null>(null);
 
-  const all = useCandidates(subscriptions);
+  const all = useCandidates(subscriptions, planLookup);
   const deck = all.filter(s => !skipped.has(s.id));
   const card = deck[0];
   const next = deck[1];
@@ -46,7 +47,7 @@ export function DeckScreen() {
 
   const keep = (s: Subscription) => {
     const today = formatDateInput(new Date());
-    const raise = getPriceChangeInfo(s);
+    const raise = getPriceChangeInfo(s, planLookup);
     // Keeping means: I use it, I accept the new price, ask me again in 3 months.
     store.updateSubscription(s.id, {
       lastUsedAt: today,
@@ -77,7 +78,7 @@ export function DeckScreen() {
     const out: { tone: string; text: string }[] = [];
     const days = getDaysSinceLastUsed(s);
     if (days !== null && days >= 15) out.push({ tone: 'soon', text: t.unusedFor(days) });
-    const raise = getPriceChangeInfo(s);
+    const raise = getPriceChangeInfo(s, planLookup);
     if (raise) {
       const symbol = currencyFor(s.currencyCode, currency).symbol;
       out.push({ tone: 'late', text: t.priceRaised(symbol, raise.oldPrice.toFixed(2), raise.newPrice.toFixed(2)) });

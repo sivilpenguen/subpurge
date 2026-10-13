@@ -21,6 +21,8 @@ export interface FlowTranslations {
   whereBilled: string;
   billingLabels: Record<BillingSource, string>;
   billingSteps: Record<BillingSource, string[]>;
+  billingShort: Record<BillingSource, string>;
+  planSource: { web: string; appStore: string };
   openPage: string;
   changeBilling: string;
   didYouCancel: (name: string) => string;
@@ -64,6 +66,8 @@ const tr: FlowTranslations = {
     web: ['Hesap sayfasında üyelik / plan bölümünü bul', '"İptal et" adımlarını sonuna kadar tamamla', 'Buraya geri dön'],
     operator: ['Operatörünün uygulamasını ya da müşteri hizmetlerini aç', 'Ek paket / dijital servis aboneliğini kapat', 'Buraya geri dön'],
   },
+  billingShort: { appstore: 'App Store', googleplay: 'Google Play', web: 'Web', operator: 'Operatör' },
+  planSource: { web: 'Web fiyatları', appStore: 'App Store fiyatları' },
   openPage: 'Sayfayı aç',
   changeBilling: 'Ödeme yerini değiştir',
   didYouCancel: name => `${name} iptal ettin mi?`,
@@ -107,6 +111,8 @@ const en: FlowTranslations = {
     web: ['Find the membership / plan section of your account', 'Finish every cancel step', 'Come back here'],
     operator: ['Open your carrier’s app or customer service', 'Turn off the add-on / digital service', 'Come back here'],
   },
+  billingShort: { appstore: 'App Store', googleplay: 'Google Play', web: 'Website', operator: 'Carrier' },
+  planSource: { web: 'Website prices', appStore: 'App Store prices' },
   openPage: 'Open the page',
   changeBilling: 'Change where I pay',
   didYouCancel: name => `Did you cancel ${name}?`,
@@ -150,6 +156,8 @@ const es: FlowTranslations = {
     web: ['Busca la sección de plan en tu cuenta', 'Completa todos los pasos de cancelación', 'Vuelve aquí'],
     operator: ['Abre la app o el servicio de tu operador', 'Desactiva el servicio digital', 'Vuelve aquí'],
   },
+  billingShort: { appstore: 'App Store', googleplay: 'Google Play', web: 'Web', operator: 'Operador' },
+  planSource: { web: 'Precios web', appStore: 'Precios de App Store' },
   openPage: 'Abrir la página',
   changeBilling: 'Cambiar dónde pago',
   didYouCancel: name => `¿Cancelaste ${name}?`,
@@ -193,6 +201,8 @@ const de: FlowTranslations = {
     web: ['Suche im Konto den Bereich Mitgliedschaft / Tarif', 'Schließe alle Kündigungsschritte ab', 'Komm hierher zurück'],
     operator: ['Öffne die App oder den Kundendienst deines Anbieters', 'Deaktiviere den Zusatzdienst', 'Komm hierher zurück'],
   },
+  billingShort: { appstore: 'App Store', googleplay: 'Google Play', web: 'Website', operator: 'Anbieter' },
+  planSource: { web: 'Website-Preise', appStore: 'App-Store-Preise' },
   openPage: 'Seite öffnen',
   changeBilling: 'Zahlungsort ändern',
   didYouCancel: name => `Hast du ${name} gekündigt?`,
@@ -236,6 +246,8 @@ const fr: FlowTranslations = {
     web: ['Trouve la section abonnement de ton compte', 'Termine toutes les étapes de résiliation', 'Reviens ici'],
     operator: ['Ouvre l’app ou le service client de ton opérateur', 'Désactive le service numérique', 'Reviens ici'],
   },
+  billingShort: { appstore: 'App Store', googleplay: 'Google Play', web: 'Site web', operator: 'Opérateur' },
+  planSource: { web: 'Prix du site', appStore: 'Prix App Store' },
   openPage: 'Ouvrir la page',
   changeBilling: 'Changer où je paie',
   didYouCancel: name => `As-tu résilié ${name} ?`,

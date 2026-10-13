@@ -1,5 +1,4 @@
 import pricingTr from '../../../data/pricing-tr.json';
-import type { RemotePricingData } from '../utils/remotePricing';
 
 export type BillingCycle = 'monthly' | 'yearly' | 'weekly';
 
@@ -41,11 +40,8 @@ type PricingTrServices = Record<string, { plans: PricingTrPlan[] }>;
  * Aynı ID varsa fiyatı günceller; yoksa yeni plan olarak ekler.
  * `npm run pricing:tr` çalıştırıldığında otomatik devreye girer.
  */
-function applyPricingOverrides(
-  presets: ServicePreset[],
-  remotePricing?: RemotePricingData | null,
-): ServicePreset[] {
-  const trServices = (remotePricing ?? pricingTr).services as PricingTrServices;
+function applyPricingOverrides(presets: ServicePreset[]): ServicePreset[] {
+  const trServices = pricingTr.services as PricingTrServices;
 
   return presets.map(preset => {
     const trService = trServices[preset.name];
@@ -252,10 +248,6 @@ const BASE_PRESETS: ServicePreset[] = [
 
 export const SERVICE_PRESETS = applyPricingOverrides(BASE_PRESETS);
 
-export function getEffectivePresets(remotePricing?: RemotePricingData | null): ServicePreset[] {
-  if (!remotePricing) return SERVICE_PRESETS;
-  return applyPricingOverrides(BASE_PRESETS, remotePricing);
-}
 
 export const BILLING_CYCLE_LABELS: Record<BillingCycle, string> = {
   weekly: 'Haftalık',

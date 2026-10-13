@@ -21,7 +21,7 @@ function renderRoute(route: Route, closing: boolean) {
 }
 
 function Shell() {
-  const { subscriptions, locale, themeMode, t, isHydrated, hasOnboarded } = useStore();
+  const { subscriptions, locale, themeMode, t, isHydrated, hasOnboarded, planLookup } = useStore();
   const [tab, setTab] = useState<Tab>('home');
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [splash, setSplash] = useState(true);
@@ -50,9 +50,9 @@ function Shell() {
   }, [splash, isHydrated, hasOnboarded, onboardingChecked]);
 
   const cutCount = useMemo(() => {
-    const ids = new Set([...getDueReviewSubscriptions(subscriptions), ...getInactiveSubscriptions(subscriptions), ...getPriceIncreaseSubscriptions(subscriptions)].map(s => s.id));
+    const ids = new Set([...getDueReviewSubscriptions(subscriptions), ...getInactiveSubscriptions(subscriptions), ...getPriceIncreaseSubscriptions(subscriptions, planLookup)].map(s => s.id));
     return ids.size;
-  }, [subscriptions]);
+  }, [subscriptions, planLookup]);
 
   const startTour = useCallback(() => {
     setTab('home');
