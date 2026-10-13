@@ -6,9 +6,9 @@
  */
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import type { Subscription } from '../store/useSubscriptionStore';
-import { getTrackedDate } from '../store/useSubscriptionStore';
-import { parseDateValue, formatDateInput } from '../utils/subscriptionDates';
+import type { Subscription } from '../src/core/store/logic';
+import { getTrackedDate } from '../src/core/store/logic';
+import { parseDateValue, formatDateInput } from '../src/core/utils/subscriptionDates';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 const INACTIVITY_DAYS = 7;

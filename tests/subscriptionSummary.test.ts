@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { isLocale } from '../constants/i18n';
-import type { Subscription } from '../store/useSubscriptionStore';
-import { getMonthlyEquivalent, getMonthlySpendHistory, getSummaryTotals } from '../utils/subscriptionSummary';
+import { isLocale } from '../src/core/constants/i18n';
+import type { Subscription } from '../src/core/store/logic';
+import { getMonthlyEquivalent, getMonthlySpendHistory, getSummaryTotals } from '../src/core/utils/subscriptionSummary';
 
 function makeSub(overrides: Partial<Subscription> & { price: number; billingCycle: Subscription['billingCycle'] }): Subscription {
   const today = new Date().toISOString().slice(0, 10);

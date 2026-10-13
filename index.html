@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="tr" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no" />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="icon" type="image/png" href="badger.png" />
+    <title>Subpurge</title>
+    <script>
+      // Paint the right background before React hydrates the stored theme.
+      try {
+        if (window.matchMedia('(prefers-color-scheme: light)').matches) document.documentElement.dataset.theme = 'light';
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

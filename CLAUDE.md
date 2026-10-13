@@ -5,67 +5,56 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-npm start              # Start Expo dev server
-npm run ios            # Run on iOS simulator
-npm run android        # Run on Android emulator
-npm run web            # Run in browser
-npm run lint           # ESLint
-npm test               # Run tests (Node test runner with tsx)
+npm run dev            # Vite dev server (browser)
+npm run build          # Typecheck + production build into dist/
+npm run ios            # build + npx cap sync ios (then open ios/App/App.xcodeproj or build via xcodebuild)
+npm test               # Node test runner with tsx (tests/*.test.ts)
 npm run pricing:tr     # Scrape Turkish pricing data into data/pricing-tr.json
 ```
 
+Single test file: `node --import tsx --test tests/subscriptionDates.test.ts`
+
 ## Architecture
 
-**Subpurge** is an Expo/React Native subscription tracker. It uses Expo Router (file-based routing) and stores all state in a single React Context + AsyncStorage store — no external backend.
+**Subpurge** is a subscription tracker: React 19 + Vite, wrapped for iOS with Capacitor 8 (bundle id `com.rakuappdigital.subpurge`, team `JF86RYY9ZS`). No backend; all data is local. It was an Expo/React Native app until October 2026 (see git history before the `capacitor` branch).
 
-### State management: `store/useSubscriptionStore.ts`
+```
+src/core/      pure logic, no DOM/Capacitor UI — safe for tests
+  constants/   services (presets + TR plans), currencies, i18n (TRANSLATIONS) + i18nExtra (strings added in the rewrite)
+  store/       subscriptionTypes, subscriptionCalculations, subscriptionFilters, logic.ts (barrel tests import),
+               useSubscriptionStore.ts (React state + persistence + Zod hydration)
+  utils/       subscriptionDates, subscriptionSummary, exchangeRates (Frankfurter), remotePricing (GitHub raw JSON)
+src/platform/  Capacitor wrappers: storage (Preferences, AsyncStorage-shaped), notifications (LocalNotifications),
+               backup (Filesystem + Share export, <input type=file> import), native (links, haptics, status bar)
+src/ui/        shell.tsx (dialog, undo toast, page stack, Sheet), screens/, components/, styles.css (design tokens)
+src/App.tsx    tabs (home / purge / settings), onboarding + coach-mark tour, theme + notification sync
+```
 
-The entire app state lives here. `useSubscriptionStore()` is a custom hook that manages subscriptions, currency, locale, and theme via `useState` + `AsyncStorage`. It is exposed via `StoreContext`, and all screens access it with `useStore()`.
+### State: `src/core/store/useSubscriptionStore.ts`
 
-Key business logic also lives in this file:
-- **`getCompletedCycleCount` / `getSubscriptionTotalSpent`**: computed from `completedCyclesCarry + unsettled cycles since currentPeriodStart`
-- **`getCurrentCycleProratedSpent`**: time-weighted cost within the current billing window
-- **`settleSubscriptionHistory`**: called on price/cycle change or deactivation — freezes accrued history into carry fields and resets `currentPeriodStart`
-- **`getTrackedDate`**: returns `nextBillingDate` (renewal) or `expiryDate` (expiry) depending on `trackingType`
-- **`getDueReviewSubscriptions` / `getInactiveSubscriptions` / `getPriceIncreaseSubscriptions`**: filter helpers used by the Purge Mode screen
+Single hook exposed via `StoreContext` / `useStore()`. Mutations use functional updates (`update(fn)`), so back-to-back actions never read a stale list. `t` is `TRANSLATIONS[locale]` merged with `EXTRA_TRANSLATIONS[locale]`. `restoreSubscription(snapshot, index)` backs the undo toast.
+
+Storage keys are unchanged from the Expo version (`subpurge_subscriptions`, `subpurge_currency`, …); on iOS they live in UserDefaults as `CapacitorStorage.<key>`.
+
+### Currency model
+
+Every subscription carries `currencyCode` (the currency it was entered in). The settings currency is the *display* currency: totals convert via `convertAmount` with EUR-based Frankfurter rates; row prices show the subscription's own symbol. Hydration fills a missing `currencyCode` with the stored display currency (older builds dropped the field on load).
 
 ### Subscription data model
 
-Each `Subscription` has two tracking modes (`trackingType: 'renewal' | 'expiry'`):
-- **renewal**: recurring, has `nextBillingDate`, auto-advances on each cycle
-- **expiry**: fixed-term (e.g. annual prepay), has `expiryDate`, doesn't auto-renew
+`trackingType: 'renewal' | 'expiry'` — renewal has `nextBillingDate`, expiry has `expiryDate`. Spend history accumulates in `completedCyclesCarry` / `accruedSpentCarry`, settled whenever price, cycle or active state changes. Dates are `YYYY-MM-DD` strings parsed at local noon (see `subscriptionDates.ts`).
 
-Spend history is accumulated in two carry fields (`completedCyclesCarry`, `accruedSpentCarry`) that are settled and snapshotted whenever the price, billing cycle, or active state changes. This avoids recomputing full history from scratch on every render.
+### Notifications
 
-### Navigation
+`planReminders` (pure, tested) yields an inactivity reminder (7 days after last use) and a tracked-date reminder (4 days before) per active subscription, at 10:00. `syncSubscriptionNotificationsAsync` diffs pending notifications by a hashed numeric id of the fingerprint. Permission is requested only when the first subscription is saved or the test button is used.
 
-- `app/_layout.tsx` — root: wraps everything in `StoreProvider`, syncs notifications on subscription changes
-- `app/(tabs)/` — three tabs: `index` (subscription list), `explore` (Purge Mode), `settings`
-- `app/add-subscription.tsx` — modal for add/edit
-- `app/summary.tsx` — summary/stats screen
+### UI conventions
 
-### Constants & i18n
+- Styling is plain CSS in `src/ui/styles.css` with tokens under `[data-theme='dark'|'light']`. Money uses `.num` / monospace tabular figures; red is reserved for purge/destructive actions.
+- Format money with `money(amount, symbol, locale)` from `src/ui/format.ts`, never `toFixed`.
+- New user-facing strings go into `i18nExtra.ts` for all five locales (tr, en, es, de, fr).
+- Service logos: `public/logos/*.png`, mapped in `components/ServiceLogo.tsx`; fallback is a coloured monogram.
 
-- `constants/services.ts` — `SERVICE_PRESETS`: list of known services with colors, icons, logo URLs, deep links, and `ServicePlanTemplate[]` for price-change detection
-- `constants/currencies.ts` — supported currencies with symbols
-- `constants/i18n.ts` — `TRANSLATIONS` object keyed by `Locale` (`tr | en | es | de | fr`); locale is auto-detected from device and stored in AsyncStorage
-- `constants/theme.ts` — `getTheme(themeMode)` returns a typed theme object; `ThemeMode` is `'dark' | 'light'`
+### iOS
 
-### Utils
-
-- `utils/subscriptionDates.ts` — all date arithmetic; dates are stored as `YYYY-MM-DD` calendar strings, parsed at noon local time to avoid DST shifts; `getUpcomingBillingDate` advances from start date until a future date
-- `utils/subscriptionSummary.ts` — `getSummaryTotals` for dashboard numbers
-- `utils/subscriptionNotifications.ts` — schedules local notifications; synced in `NotificationSync` component on every subscription change
-- `utils/subscriptionLinks.ts` — deep link / quick-cancel URL helpers
-
-### Testing
-
-Tests use Node's built-in test runner with `tsx` for TypeScript. Test files live in `tests/` and are named `*.test.ts`. Run a single test file:
-
-```bash
-node --import tsx --test tests/subscriptionDates.test.ts
-```
-
-### Local service logos
-
-`constants/localLogos.ts` maps service names to bundled assets in `assets/logos/`. `components/ServiceLogo.tsx` uses this map with a fallback to Clearbit URLs from `SERVICE_PRESETS`.
+`ios/App` is committed. `PrivacyInfo.xcprivacy` declares UserDefaults (CA92.1) and file timestamps (C617.1). iPhone-only, portrait. App icon source: `resources/app-icon-1024.png` (badger on cream). For CLI archive/upload see the team's App Store Connect API key workflow (manual Release signing).

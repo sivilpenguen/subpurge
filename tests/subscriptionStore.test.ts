@@ -15,7 +15,7 @@ import {
   toMonthly,
   toYearly,
   type Subscription,
-} from '../store/useSubscriptionStore';
+} from '../src/core/store/logic';
 
 function makeSub(overrides: Partial<Subscription> = {}): Subscription {
   return {

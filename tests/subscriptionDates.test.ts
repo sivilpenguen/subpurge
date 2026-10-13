@@ -6,7 +6,7 @@ import {
   formatRelativeDayLabel,
   getUpcomingBillingDate,
   isCalendarDate,
-} from '../utils/subscriptionDates';
+} from '../src/core/utils/subscriptionDates';
 
 test('isCalendarDate validates real calendar dates', () => {
   assert.equal(isCalendarDate('2024-02-29'), true);
