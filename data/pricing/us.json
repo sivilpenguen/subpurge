@@ -1,0 +1,493 @@
+{
+  "country": "US",
+  "currency": "USD",
+  "updatedAt": "2026-10-13T13:56:26.072Z",
+  "services": {
+    "Netflix": {
+      "appStore": [
+        {
+          "id": "netflix-2-screens-unlimited-streaming",
+          "name": "Netflix 2 Screens - Unlimited Streaming",
+          "price": 19.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "netflix",
+          "name": "Netflix",
+          "price": 19.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "netflix-standard",
+          "name": "Netflix Standard",
+          "price": 19.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "netflix-premium",
+          "name": "Netflix Premium",
+          "price": 26.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "netflix-4-screens-unlimited-streaming",
+          "name": "Netflix 4 Screens - Unlimited Streaming",
+          "price": 26.99,
+          "billingCycle": "monthly"
+        }
+      ]
+    },
+    "YouTube Premium": {
+      "appStore": [
+        {
+          "id": "youtube-premium",
+          "name": "YouTube Premium",
+          "price": 20.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "youtube-premium-family",
+          "name": "Youtube Premium Family",
+          "price": 34.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "premium-lite",
+          "name": "Premium Lite",
+          "price": 11.99,
+          "billingCycle": "monthly"
+        }
+      ]
+    },
+    "Disney+": {
+      "appStore": [
+        {
+          "id": "disney-premium",
+          "name": "Disney+ Premium",
+          "price": 21.49,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "disney-basic-monthly",
+          "name": "Disney+ Basic Monthly",
+          "price": 12.49,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "disney-bundle-duo-basic",
+          "name": "Disney Bundle Duo Basic",
+          "price": 12.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "disney-hulu-bundle-premium",
+          "name": "Disney+, Hulu Bundle Premium",
+          "price": 21.99,
+          "billingCycle": "monthly"
+        }
+      ]
+    },
+    "Gain": {
+      "appStore": [
+        {
+          "id": "ayl-k-abonelik",
+          "name": "Aylık Abonelik",
+          "price": 9.99,
+          "billingCycle": "monthly"
+        }
+      ]
+    },
+    "Microsoft 365": {
+      "appStore": [
+        {
+          "id": "microsoft-365-personal",
+          "name": "Microsoft 365 Personal",
+          "price": 9.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "microsoft-365-family",
+          "name": "Microsoft 365 Family",
+          "price": 12.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "microsoft-365-premium-monthly",
+          "name": "Microsoft 365 Premium Monthly",
+          "price": 19.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "microsoft-365-basic",
+          "name": "Microsoft 365 Basic",
+          "price": 1.99,
+          "billingCycle": "monthly"
+        }
+      ]
+    },
+    "Canva": {
+      "appStore": [
+        {
+          "id": "canva-pro-monthly",
+          "name": "Canva Pro - Monthly",
+          "price": 14.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "canva-business-monthly",
+          "name": "Canva Business - Monthly",
+          "price": 25,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "canva-pro-yearly",
+          "name": "Canva Pro - Yearly",
+          "price": 119.99,
+          "billingCycle": "yearly"
+        },
+        {
+          "id": "canva-teams-monthly",
+          "name": "Canva Teams - Monthly",
+          "price": 30,
+          "billingCycle": "monthly"
+        }
+      ]
+    },
+    "Duolingo Plus": {
+      "appStore": [
+        {
+          "id": "super-duolingo",
+          "name": "Super Duolingo",
+          "price": 9.99,
+          "billingCycle": "monthly"
+        }
+      ]
+    },
+    "HBO Max": {
+      "appStore": [
+        {
+          "id": "standard-monthly",
+          "name": "Standard Monthly",
+          "price": 18.49,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "basic-with-ads-monthly",
+          "name": "Basic With Ads Monthly",
+          "price": 10.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "premium-monthly",
+          "name": "Premium Monthly",
+          "price": 22.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "standard-yearly",
+          "name": "Standard Yearly",
+          "price": 184.99,
+          "billingCycle": "yearly"
+        },
+        {
+          "id": "premium-yearly",
+          "name": "Premium Yearly",
+          "price": 229.99,
+          "billingCycle": "yearly"
+        },
+        {
+          "id": "basic-with-ads-yearly",
+          "name": "Basic With Ads Yearly",
+          "price": 109.99,
+          "billingCycle": "yearly"
+        }
+      ]
+    },
+    "CapCut": {
+      "appStore": [
+        {
+          "id": "standard-monthly-subscription",
+          "name": "Standard Monthly Subscription",
+          "price": 9.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "pro-monthly-subscription",
+          "name": "Pro Monthly Subscription",
+          "price": 19.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "monthly-subscription",
+          "name": "Monthly Subscription",
+          "price": 19.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "yearly-subscription",
+          "name": "Yearly Subscription",
+          "price": 89.99,
+          "billingCycle": "yearly"
+        }
+      ]
+    },
+    "Gemini": {
+      "appStore": [
+        {
+          "id": "google-ai-pro-5-tb",
+          "name": "Google AI Pro (5 TB)",
+          "price": 19.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "google-ai-plus-400-gb",
+          "name": "Google AI Plus (400 GB)",
+          "price": 4.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "google-ai-ultra-30-tb",
+          "name": "Google AI Ultra (30 TB)",
+          "price": 199.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "100-gb",
+          "name": "100 GB",
+          "price": 1.99,
+          "billingCycle": "monthly"
+        }
+      ]
+    },
+    "ChatGPT Plus": {
+      "appStore": [
+        {
+          "id": "chatgpt-plus",
+          "name": "ChatGPT Plus",
+          "price": 19.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "chatgpt-go",
+          "name": "ChatGPT Go",
+          "price": 8,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "chatgpt-pro-100",
+          "name": "ChatGPT Pro 100",
+          "price": 100,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "chatgpt-pro-200",
+          "name": "ChatGPT Pro 200",
+          "price": 200,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "chatgpt-pro-500",
+          "name": "ChatGPT Pro 500",
+          "price": 500,
+          "billingCycle": "monthly"
+        }
+      ]
+    },
+    "LinkedIn Premium": {
+      "appStore": [
+        {
+          "id": "premium-career",
+          "name": "Premium Career",
+          "price": 39.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "premium-business",
+          "name": "Premium Business",
+          "price": 69.99,
+          "billingCycle": "monthly"
+        }
+      ]
+    },
+    "Dropbox": {
+      "appStore": [
+        {
+          "id": "dropbox-plus-monthly",
+          "name": "Dropbox Plus - Monthly",
+          "price": 11.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "dropbox-professional-monthly",
+          "name": "Dropbox Professional - Monthly",
+          "price": 19.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "dropbox-simple-monthly",
+          "name": "Dropbox Simple - Monthly",
+          "price": 6.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "dropbox-plus-annual",
+          "name": "Dropbox Plus - Annual",
+          "price": 119.99,
+          "billingCycle": "yearly"
+        },
+        {
+          "id": "dropbox-family-monthly",
+          "name": "Dropbox Family - Monthly",
+          "price": 19.99,
+          "billingCycle": "monthly"
+        }
+      ]
+    },
+    "X (Twitter)": {
+      "appStore": [
+        {
+          "id": "x-premium-monthly",
+          "name": "X Premium (Monthly)",
+          "price": 11,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "x-premium-basic-monthly",
+          "name": "X Premium Basic (Monthly)",
+          "price": 4,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "x-premium-plus-monthly",
+          "name": "X Premium Plus (Monthly)",
+          "price": 50,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "x-premium-annual",
+          "name": "X Premium (Annual)",
+          "price": 114.99,
+          "billingCycle": "yearly"
+        },
+        {
+          "id": "promote-post-for-25",
+          "name": "Promote Post for $25",
+          "price": 25,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "x-premium-basic-annual",
+          "name": "X Premium Basic (Annual)",
+          "price": 42,
+          "billingCycle": "yearly"
+        },
+        {
+          "id": "promote-post-for-50",
+          "name": "Promote Post for $50",
+          "price": 50,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "x-premium-plus-annual",
+          "name": "X Premium Plus (Annual)",
+          "price": 490,
+          "billingCycle": "yearly"
+        }
+      ]
+    },
+    "Zoom": {
+      "appStore": [
+        {
+          "id": "zoom-workplace-pro-monthly",
+          "name": "Zoom Workplace Pro (Monthly)",
+          "price": 16.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "zoom-workplace-pro-annual",
+          "name": "Zoom Workplace Pro (Annual)",
+          "price": 169.99,
+          "billingCycle": "yearly"
+        },
+        {
+          "id": "my-notes-monthly",
+          "name": "My Notes (Monthly)",
+          "price": 10,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "my-notes-annual",
+          "name": "My Notes (Annual)",
+          "price": 100,
+          "billingCycle": "yearly"
+        }
+      ]
+    },
+    "Instagram": {
+      "appStore": [
+        {
+          "id": "instagram-badge",
+          "name": "Instagram Badge",
+          "price": 4.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "meta-verified-standard",
+          "name": "Meta Verified Standard",
+          "price": 14.99,
+          "billingCycle": "monthly"
+        }
+      ]
+    },
+    "MUBI": {
+      "appStore": [
+        {
+          "id": "mubi-monthly",
+          "name": "MUBI Monthly",
+          "price": 14.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "mubi",
+          "name": "MUBI",
+          "price": 14.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "mubi-yearly",
+          "name": "MUBI Yearly",
+          "price": 119.99,
+          "billingCycle": "yearly"
+        },
+        {
+          "id": "mubi-go-monthly",
+          "name": "MUBI GO Monthly",
+          "price": 19.99,
+          "billingCycle": "monthly"
+        }
+      ]
+    },
+    "Tabii": {
+      "appStore": [
+        {
+          "id": "premium",
+          "name": "Premium",
+          "price": 6.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "reklam-i-c-erir-ayl-k",
+          "name": "Reklam İçerir - Aylık",
+          "price": 4.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "basic",
+          "name": "Basic",
+          "price": 49.99,
+          "billingCycle": "monthly"
+        }
+      ]
+    }
+  }
+}

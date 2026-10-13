@@ -8,7 +8,7 @@ import { toYearly } from '../core/store/logic';
 import { useStore } from '../core/store/useSubscriptionStore';
 import { formatDateInput } from '../core/utils/subscriptionDates';
 import { haptic, openSubscriptionLink } from '../platform/native';
-import { fallbackProPrice, fetchProPrice, FREE_ACTIVE_LIMIT, loadProStatus, purchasePro, restorePro } from '../platform/purchases';
+import { fallbackProPrice, fetchProPrice, FREE_ACTIVE_LIMIT, loadProStatus, onProChanged, purchasePro, restorePro } from '../platform/purchases';
 import { ServiceLogo } from './components/ServiceLogo';
 import { money, toDisplay } from './format';
 import { IconCheck, IconExternal } from './icons';
@@ -192,6 +192,7 @@ export function FlowProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     void loadProStatus().then(setPro);
     void fetchProPrice().then(setStorePrice);
+    return onProChanged(setPro);
   }, []);
 
   const confirm = useCallback((sub: Subscription) => {

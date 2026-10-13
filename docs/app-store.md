@@ -34,14 +34,13 @@
 | Tür | Non-Consumable (tek seferlik) |
 | Product ID | com.rakuappdigital.subpurge.pro |
 | Reference Name | SubPurge Pro |
-| Fiyat | Temel: **$4.99**. **Türkiye: ₺149,99 elle girilmeli** (girilmezse Apple TL fiyatını dolardan otomatik hesaplar) |
-| Lansman | İlk hafta Türkiye ₺99,99 (ASC → Pricing → planlı fiyat değişikliği) |
+| Fiyat | Temel: **$3.99** (ABD). Elle: **Türkiye ₺179,99**, **25 euro mağazası 3,99 €**. Diğer ülkeler Apple'ın dolardan otomatik eşitlemesiyle (ör. £3,99, ¥600, R$24,90). ASC'de ayarlı. |
 | Aile Paylaşımı | Açık |
 | Görünen ad / açıklama (EN) | SubPurge Pro — Unlimited subscriptions, CSV export and every future Pro feature. One payment, yours forever. |
 | Görünen ad / açıklama (TR) | SubPurge Pro — Sınırsız abonelik, CSV dışa aktarma ve gelecekteki tüm Pro özellikleri. Tek ödeme, sonsuza kadar senin. |
 | İnceleme ekran görüntüsü | `resources/appstore/` altındaki ödeme ekranı görüntüsü |
 
-Ücretsiz sürüm 3 aktif abonelikle sınırlı; 4. eklenirken ya da CSV dışa aktarmaya dokununca ödeme ekranı açılır. Satın alma RevenueCat üzerinden: RevenueCat'te uygulamayı oluştur, App Store public key'ini (`appl_…`) `src/platform/purchases.ts` içindeki `REVENUECAT_API_KEY`'e yaz. Anahtar boşken uygulama satın almayı "şu an kullanılamıyor" diye gösterir.
+Ücretsiz sürüm 3 aktif abonelikle sınırlı; 4. eklenirken ya da CSV dışa aktarmaya dokununca ödeme ekranı açılır. Satın alma doğrudan StoreKit 2 ile (`ios/App/App/SubpurgePlugins.swift`); üçüncü taraf servis yok.
 
 ## App Privacy (gizlilik etiketi)
 

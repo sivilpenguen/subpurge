@@ -23,7 +23,6 @@
     "@capacitor/share": "^8.0.3",
     "@capacitor/splash-screen": "^8.0.2",
     "@capacitor/status-bar": "^8.0.4",
-    "@revenuecat/purchases-capacitor": "^13.7.3",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "zod": "^4.6.7"

@@ -5,6 +5,11 @@ import { fetchText, inferCycle, NotFoundError, OUT_DIR, parseLocalizedPrice, rea
 
 // Creator subscriptions, trials and region-locked leftovers aren't plans a user picks.
 const NOISE = /@|trial|free|ücretsiz|deneme|gratis|kostenlos|gratuit|gratuito|\bonly\b/i;
+// One-off purchases that sit in the same list: tips, coins, rentals, boosts.
+const NOT_A_PLAN = /super ?chat|super ?thanks|super ?sticker|movies ?& ?shows|\bcoins?\b|\btokens?\b|\bcredits?\b|\bgems?\b|\bboosts?\b|\bstickers?\b|\bgifts?\b|\btips?\b|donat|rental|kirala/i;
+
+const ENTITIES = { '&amp;': '&', '&quot;': '"', '&#39;': "'", '&apos;': "'", '&lt;': '<', '&gt;': '>', '&nbsp;': ' ' };
+const decode = text => text.replace(/&(amp|quot|#39|apos|lt|gt|nbsp);/g, m => ENTITIES[m]).replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)));
 
 export function parseInAppPurchases(html) {
   const start = html.search(/<dt[^>]*>\s*In-App Purchases\s*<\/dt>/);
@@ -13,10 +18,10 @@ export function parseInAppPurchases(html) {
   const block = html.slice(start, end === -1 ? undefined : end);
   const seen = new Map();
   for (const m of block.matchAll(/<div class="text-pair[^"]*"><span>([^<]+)<\/span>\s*<span>([^<]+)<\/span>/g)) {
-    const name = m[1].trim();
-    const price = parseLocalizedPrice(m[2]);
+    const name = decode(m[1]).trim();
+    const price = parseLocalizedPrice(decode(m[2]));
     const key = name.toLowerCase();
-    if (!name || NOISE.test(name) || !Number.isFinite(price) || price <= 0 || seen.has(key)) continue;
+    if (!name || NOISE.test(name) || NOT_A_PLAN.test(name) || !Number.isFinite(price) || price <= 0 || seen.has(key)) continue;
     // Apple lists the most popular items first; keep the first price per name.
     seen.set(key, { id: slug(name), name, price, billingCycle: inferCycle(name) });
   }

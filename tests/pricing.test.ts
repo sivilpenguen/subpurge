@@ -71,3 +71,16 @@ test('web extraction answers are rejected in the wrong currency', () => {
   assert.equal(validate({ currency: 'USD', plans: [{ name: 'Individual', price: 11.99, billingCycle: 'monthly' }] }, 'EUR'), null);
   assert.equal(validate({ currency: 'EUR', plans: [{ name: 'Individual', price: 11.99, billingCycle: 'monthly' }] }, 'EUR')?.length, 1);
 });
+
+test('App Store parser decodes HTML entities in names', () => {
+  const html = `<dt>In-App Purchases</dt><dd><div class="text-pair x"><span>Plus &amp; Family</span> <span>$3.99</span></div></dd>`;
+  assert.equal(parseInAppPurchases(html)[0].name, 'Plus & Family');
+});
+
+test('App Store parser skips one-off items (tips, rentals)', () => {
+  const html = `<dt>In-App Purchases</dt><dd>
+    <div class="text-pair x"><span>Super Chat</span> <span>$1.99</span></div>
+    <div class="text-pair x"><span>Movies &amp; Shows</span> <span>$3.99</span></div>
+    <div class="text-pair x"><span>Premium Lite</span> <span>$11.99</span></div></dd>`;
+  assert.deepEqual(parseInAppPurchases(html).map((p: { name: string }) => p.name), ['Premium Lite']);
+});

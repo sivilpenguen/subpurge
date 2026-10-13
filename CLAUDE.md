@@ -51,7 +51,7 @@ Every subscription carries `currencyCode` (the currency it was entered in). The 
 
 ### Pro (freemium)
 
-`src/platform/purchases.ts`: one non-consumable (`com.rakuappdigital.subpurge.pro`) via RevenueCat; `REVENUECAT_API_KEY` empty = purchases unavailable on device, local mock flag in the browser. Free tier: `FREE_ACTIVE_LIMIT` (3) active subscriptions; CSV export is Pro, the JSON backup stays free. `useFlows().ensureCapacity()` gates adding/reactivating.
+`src/platform/purchases.ts`: one non-consumable (`com.rakuappdigital.subpurge.pro`) through StoreKit 2 via the local `SubpurgeStore` plugin (`ios/App/App/SubpurgePlugins.swift`, registered in `MainViewController`); a local flag stands in for it in the browser. Free tier: `FREE_ACTIVE_LIMIT` (3) active subscriptions; CSV export is Pro, the JSON backup stays free. `useFlows().ensureCapacity()` gates adding/reactivating.
 
 ### Regions and prices
 

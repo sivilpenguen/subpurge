@@ -1,0 +1,488 @@
+{
+  "country": "MX",
+  "currency": "MXN",
+  "source": "appstore",
+  "updatedAt": "2026-10-13T13:45:31.040Z",
+  "services": {
+    "Netflix": [
+      {
+        "id": "netflix-2s-plan",
+        "name": "Netflix 2S Plan",
+        "price": 269,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "netflix",
+        "name": "Netflix",
+        "price": 269,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "netflix-standard",
+        "name": "Netflix Standard",
+        "price": 269,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "netflix-premium",
+        "name": "Netflix Premium",
+        "price": 369,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "netflix-2-screens-unlimited-streaming",
+        "name": "Netflix 2 Screens - Unlimited Streaming",
+        "price": 269,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "netflix-4s-plan",
+        "name": "Netflix 4S Plan",
+        "price": 369,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "netflix-4-screens-unlimited-streaming",
+        "name": "Netflix 4 Screens - Unlimited Streaming",
+        "price": 369,
+        "billingCycle": "monthly"
+      }
+    ],
+    "YouTube Premium": [
+      {
+        "id": "youtube-premium",
+        "name": "YouTube Premium",
+        "price": 209,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "youtube-red",
+        "name": "YouTube Red",
+        "price": 209,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "youtube-premium-family",
+        "name": "YouTube Premium Family",
+        "price": 419,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "premium-lite",
+        "name": "Premium Lite",
+        "price": 129,
+        "billingCycle": "monthly"
+      }
+    ],
+    "Disney+": [
+      {
+        "id": "disney-premium",
+        "name": "Disney+ Premium",
+        "price": 339,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "disney-standard",
+        "name": "Disney+ Standard",
+        "price": 259,
+        "billingCycle": "monthly"
+      }
+    ],
+    "Gain": [
+      {
+        "id": "ayl-k-abonelik",
+        "name": "Aylık Abonelik",
+        "price": 199,
+        "billingCycle": "monthly"
+      }
+    ],
+    "Microsoft 365": [
+      {
+        "id": "microsoft-365-personal",
+        "name": "Microsoft 365 Personal",
+        "price": 184,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "microsoft-365-family",
+        "name": "Microsoft 365 Family",
+        "price": 225,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "microsoft-365-premium-monthly",
+        "name": "Microsoft 365 Premium Monthly",
+        "price": 375,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "microsoft-365-basic",
+        "name": "Microsoft 365 Basic",
+        "price": 39,
+        "billingCycle": "monthly"
+      }
+    ],
+    "Canva": [
+      {
+        "id": "canva-pro-monthly",
+        "name": "Canva Pro - Monthly",
+        "price": 150,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "canva-business-monthly",
+        "name": "Canva Business - Monthly",
+        "price": 210,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "canva-pro-yearly",
+        "name": "Canva Pro - Yearly",
+        "price": 1209,
+        "billingCycle": "yearly"
+      },
+      {
+        "id": "canva-teams-monthly",
+        "name": "Canva Teams - Monthly",
+        "price": 330,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "canva-business-yearly",
+        "name": "Canva Business - Yearly",
+        "price": 2100,
+        "billingCycle": "yearly"
+      }
+    ],
+    "Duolingo Plus": [
+      {
+        "id": "super-duolingo",
+        "name": "Super Duolingo",
+        "price": 1439,
+        "billingCycle": "monthly"
+      }
+    ],
+    "HBO Max": [
+      {
+        "id": "basic-with-ads-monthly",
+        "name": "Basic with ads Monthly",
+        "price": 149,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "legacy-standard-monthly",
+        "name": "Legacy Standard Monthly",
+        "price": 239,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "standard-monthly",
+        "name": "Standard Monthly",
+        "price": 239,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "platinum-monthly",
+        "name": "Platinum Monthly",
+        "price": 299,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "legacy-standard-3-month",
+        "name": "Legacy Standard 3 Month",
+        "price": 609,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "legacy-standard-yearly",
+        "name": "Legacy Standard Yearly",
+        "price": 2149,
+        "billingCycle": "yearly"
+      },
+      {
+        "id": "standard-yearly",
+        "name": "Standard Yearly",
+        "price": 2149,
+        "billingCycle": "yearly"
+      },
+      {
+        "id": "platinum-yearly",
+        "name": "Platinum Yearly",
+        "price": 2849,
+        "billingCycle": "yearly"
+      },
+      {
+        "id": "basic-with-ads-yearly",
+        "name": "Basic with ads Yearly",
+        "price": 1429,
+        "billingCycle": "yearly"
+      }
+    ],
+    "CapCut": [
+      {
+        "id": "standard-monthly-subscription",
+        "name": "Standard Monthly Subscription",
+        "price": 165,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "suscripcio-n-mensual",
+        "name": "Suscripción mensual",
+        "price": 165,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "monthly-subscription",
+        "name": "Monthly Subscription",
+        "price": 165,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "pro-monthly-subscription",
+        "name": "Pro Monthly Subscription",
+        "price": 330,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "standard-yearly-subscription",
+        "name": "Standard Yearly Subscription",
+        "price": 1499,
+        "billingCycle": "yearly"
+      }
+    ],
+    "Gemini": [
+      {
+        "id": "google-ai-plus-400-gb",
+        "name": "Google AI Plus (400 GB)",
+        "price": 99,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "google-ai-pro-5-tb",
+        "name": "Google AI Pro (5 TB)",
+        "price": 395,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "100-gb",
+        "name": "100 GB",
+        "price": 39,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "google-ai-ultra-30-tb",
+        "name": "Google AI Ultra (30 TB)",
+        "price": 3949,
+        "billingCycle": "monthly"
+      }
+    ],
+    "ChatGPT Plus": [
+      {
+        "id": "chatgpt-plus",
+        "name": "ChatGPT Plus",
+        "price": 399,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "chatgpt-go",
+        "name": "ChatGPT Go",
+        "price": 129,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "chatgpt-pro-100",
+        "name": "ChatGPT Pro 100",
+        "price": 1989,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "chatgpt-pro-200",
+        "name": "ChatGPT Pro 200",
+        "price": 3999,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "chatgpt-pro-500",
+        "name": "ChatGPT Pro 500",
+        "price": 9899,
+        "billingCycle": "monthly"
+      }
+    ],
+    "LinkedIn Premium": [
+      {
+        "id": "premium-career",
+        "name": "Premium Career",
+        "price": 599,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "premium-business",
+        "name": "Premium Business",
+        "price": 1499,
+        "billingCycle": "monthly"
+      }
+    ],
+    "Dropbox": [
+      {
+        "id": "dropbox-plus-monthly",
+        "name": "Dropbox Plus - Monthly",
+        "price": 229,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "dropbox-simple-monthly",
+        "name": "Dropbox Simple – Monthly",
+        "price": 149,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "dropbox-professional-monthly",
+        "name": "Dropbox Professional - Monthly",
+        "price": 369,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "dropbox-plus-annual",
+        "name": "Dropbox Plus - Annual",
+        "price": 2299,
+        "billingCycle": "yearly"
+      },
+      {
+        "id": "dropbox-family-monthly",
+        "name": "Dropbox Family - Monthly",
+        "price": 399,
+        "billingCycle": "monthly"
+      }
+    ],
+    "X (Twitter)": [
+      {
+        "id": "x-premium-monthly",
+        "name": "X Premium (Monthly)",
+        "price": 150,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "x-premium-basic-monthly",
+        "name": "X Premium Basic (Monthly)",
+        "price": 50,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "x-premium-plus-monthly",
+        "name": "X Premium Plus (Monthly)",
+        "price": 999,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "x-premium-annual",
+        "name": "X Premium (Annual)",
+        "price": 1500,
+        "billingCycle": "yearly"
+      },
+      {
+        "id": "promote-post",
+        "name": "Promote Post",
+        "price": 199,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "x-premium-basic-annual",
+        "name": "X Premium Basic (Annual)",
+        "price": 500,
+        "billingCycle": "yearly"
+      },
+      {
+        "id": "promote-post-for-25",
+        "name": "Promote Post for $25",
+        "price": 499,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "boosted-tweet-package",
+        "name": "Boosted Tweet package",
+        "price": 999,
+        "billingCycle": "monthly"
+      }
+    ],
+    "Zoom": [
+      {
+        "id": "zoom-workplace-pro-monthly",
+        "name": "Zoom Workplace Pro (Monthly)",
+        "price": 259,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "zoom-workplace-pro-annual",
+        "name": "Zoom Workplace Pro (Annual)",
+        "price": 2599,
+        "billingCycle": "yearly"
+      },
+      {
+        "id": "my-notes-monthly",
+        "name": "My Notes (Monthly)",
+        "price": 152,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "my-notes-annual",
+        "name": "My Notes (Annual)",
+        "price": 1520,
+        "billingCycle": "yearly"
+      }
+    ],
+    "Instagram": [
+      {
+        "id": "meta-verified-standard",
+        "name": "Meta Verified Standard",
+        "price": 215,
+        "billingCycle": "monthly"
+      }
+    ],
+    "MUBI": [
+      {
+        "id": "mubi-monthly",
+        "name": "MUBI Monthly",
+        "price": 219,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "mubi",
+        "name": "MUBI",
+        "price": 219,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "mubi-yearly",
+        "name": "MUBI Yearly",
+        "price": 1800,
+        "billingCycle": "yearly"
+      },
+      {
+        "id": "mubi-go-monthly",
+        "name": "MUBI GO Monthly",
+        "price": 279,
+        "billingCycle": "monthly"
+      }
+    ],
+    "Tabii": [
+      {
+        "id": "premium",
+        "name": "Premium",
+        "price": 89,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "reklam-i-c-erir-ayl-k",
+        "name": "Reklam İçerir - Aylık",
+        "price": 59,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "basic",
+        "name": "Basic",
+        "price": 599,
+        "billingCycle": "monthly"
+      }
+    ]
+  }
+}
