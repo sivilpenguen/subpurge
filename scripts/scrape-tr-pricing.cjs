@@ -221,6 +221,12 @@ function parseLinkedIn(html) {
 
 async function main() {
   const result = { country: 'TR', currency: 'TRY', updatedAt: new Date().toISOString(), services: {}, skipped: {} };
+  // A page that can't be read this week (layout change, geo-blocked runner) keeps last week's prices.
+  let previous = { services: {} };
+  try { previous = JSON.parse(await fs.readFile(OUTPUT_PATH, 'utf8')); } catch {}
+  const keepPrevious = service => {
+    if (previous.services?.[service]) result.services[service] = previous.services[service];
+  };
 
   for (const source of SOURCES) {
     process.stdout.write('Fetching ' + source.service + '... ');
@@ -229,6 +235,7 @@ async function main() {
       const parsed = source.parser(html);
       if (parsed.skipped) {
         result.skipped[source.service] = { reason: parsed.skipped, sourceUrl: source.url };
+        keepPrevious(source.service);
         console.log('⚠ skipped');
         continue;
       }
@@ -240,6 +247,7 @@ async function main() {
       console.log('✓ ' + parsed.plans.length + ' plan(s): ' + parsed.plans.map(p => p.name + ' ₺' + p.price).join(', '));
     } catch (err) {
       result.skipped[source.service] = { reason: err instanceof Error ? err.message : String(err), sourceUrl: source.url };
+      keepPrevious(source.service);
       console.log('✗ ' + (err instanceof Error ? err.message : String(err)));
     }
   }

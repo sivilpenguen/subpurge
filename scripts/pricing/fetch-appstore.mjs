@@ -16,14 +16,28 @@ export function parseInAppPurchases(html) {
   if (start === -1) return [];
   const end = html.indexOf('</dd>', start);
   const block = html.slice(start, end === -1 ? undefined : end);
-  const seen = new Map();
+  const byName = new Map(); // lower-cased name → { name, prices[] } in page order
   for (const m of block.matchAll(/<div class="text-pair[^"]*"><span>([^<]+)<\/span>\s*<span>([^<]+)<\/span>/g)) {
     const name = decode(m[1]).trim();
     const price = parseLocalizedPrice(decode(m[2]));
+    if (!name || NOISE.test(name) || NOT_A_PLAN.test(name) || !Number.isFinite(price) || price <= 0) continue;
     const key = name.toLowerCase();
-    if (!name || NOISE.test(name) || NOT_A_PLAN.test(name) || !Number.isFinite(price) || price <= 0 || seen.has(key)) continue;
-    // Apple lists the most popular items first; keep the first price per name.
-    seen.set(key, { id: slug(name), name, price, billingCycle: inferCycle(name) });
+    if (!byName.has(key)) byName.set(key, { name, prices: [] });
+    const entry = byName.get(key);
+    if (!entry.prices.includes(price)) entry.prices.push(price);
+  }
+  const seen = new Map();
+  for (const [key, { name, prices }] of byName) {
+    const low = Math.min(...prices);
+    const high = Math.max(...prices);
+    // Apps often list monthly and yearly under one name: ~10–12× apart means both.
+    if (prices.length > 1 && high / low >= 8 && high / low <= 13) {
+      seen.set(`${key}#m`, { id: `${slug(name)}-monthly`, name, price: low, billingCycle: 'monthly' });
+      seen.set(`${key}#y`, { id: `${slug(name)}-yearly`, name, price: high, billingCycle: 'yearly' });
+    } else {
+      // Otherwise the first (most popular) price wins.
+      seen.set(key, { id: slug(name), name, price: prices[0], billingCycle: inferCycle(name) });
+    }
   }
   return [...seen.values()];
 }

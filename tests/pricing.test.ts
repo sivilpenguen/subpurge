@@ -94,3 +94,16 @@ test('App Store parser skips one-off items (tips, rentals)', () => {
     <div class="text-pair x"><span>Premium Lite</span> <span>$11.99</span></div></dd>`;
   assert.deepEqual(parseInAppPurchases(html).map((p: { name: string }) => p.name), ['Premium Lite']);
 });
+
+test('App Store parser splits a name listed monthly and yearly', () => {
+  const html = `<dt>In-App Purchases</dt><dd>
+    <div class="text-pair x"><span>Google AI Plus</span> <span>₺1.999,99</span></div>
+    <div class="text-pair x"><span>Google AI Plus</span> <span>₺199,99</span></div>
+    <div class="text-pair x"><span>Pro</span> <span>₺99</span></div>
+    <div class="text-pair x"><span>Pro</span> <span>₺129</span></div></dd>`;
+  assert.deepEqual(parseInAppPurchases(html).map((p: { name: string; price: number; billingCycle: string }) => [p.name, p.price, p.billingCycle]), [
+    ['Google AI Plus', 199.99, 'monthly'],
+    ['Google AI Plus', 1999.99, 'yearly'],
+    ['Pro', 99, 'monthly'],
+  ]);
+});
