@@ -8,7 +8,9 @@
 
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
-  --gutter: 20px;
+  /* On wide screens (iPad) content stays in a centred ~680px column. */
+  --content: 680px;
+  --gutter: max(20px, calc((100vw - var(--content)) / 2));
   --radius: 18px;
   --radius-sm: 12px;
   --tabbar-h: 64px;
@@ -1056,6 +1058,8 @@ button:disabled {
 }
 
 .page-header {
+  padding-left: max(14px, calc(var(--gutter) - 6px)) !important;
+  padding-right: max(14px, calc(var(--gutter) - 6px)) !important;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
@@ -1759,4 +1763,65 @@ textarea.input {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ─── Wide screens (iPad) ─────────────────────────────────────────────── */
+@media (min-width: 700px) {
+  .sheet {
+    left: 50%;
+    right: auto;
+    width: min(560px, 100%);
+    transform: translateX(-50%);
+    animation-name: sheet-in-center;
+  }
+
+  .sheet.closing {
+    animation-name: sheet-out-center;
+  }
+
+  .onboarding {
+    padding-left: max(28px, calc((100vw - 520px) / 2));
+    padding-right: max(28px, calc((100vw - 520px) / 2));
+  }
+
+  .ob-mark {
+    width: 168px;
+    height: 168px;
+  }
+
+  .chips {
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+
+  .picker-grid {
+    grid-auto-flow: row;
+    grid-template-rows: none;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    overflow: visible;
+  }
+
+  .picker-item {
+    width: auto;
+  }
+
+  .kpis {
+    grid-template-columns: 2fr 1fr 1fr;
+  }
+
+  .kpi.feature {
+    grid-column: auto;
+  }
+
+  .chart {
+    height: 200px;
+  }
+}
+
+@keyframes sheet-in-center {
+  from { transform: translate(-50%, 100%); }
+}
+
+@keyframes sheet-out-center {
+  to { transform: translate(-50%, 100%); }
 }
