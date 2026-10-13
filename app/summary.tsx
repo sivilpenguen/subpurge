@@ -14,10 +14,10 @@ const BAR_AREA_HEIGHT = CHART_HEIGHT - LABEL_HEIGHT - VALUE_HEIGHT - 8; // space
 
 export default function SummaryScreen() {
   const router = useRouter();
-  const { subscriptions, currency, t, themeMode } = useStore();
+  const { subscriptions, currency, exchangeRates, t, themeMode } = useStore();
   const theme = getTheme(themeMode);
   const { width: screenWidth } = useWindowDimensions();
-  const { monthlyTotal, dailyCost, yearlyCost, subscriptionCount } = getSummaryTotals(subscriptions);
+  const { monthlyTotal, dailyCost, yearlyCost, subscriptionCount } = getSummaryTotals(subscriptions, currency.code, exchangeRates);
   const breakdown = [...subscriptions].sort((left, right) => getMonthlyEquivalent(right) - getMonthlyEquivalent(left));
   const trendData = useMemo(() => getMonthlySpendHistory(subscriptions, 6), [subscriptions]);
   const trendMax = useMemo(() => Math.max(...trendData.map(d => d.amount), 1), [trendData]);

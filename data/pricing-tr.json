@@ -1,7 +1,7 @@
 {
   "country": "TR",
   "currency": "TRY",
-  "updatedAt": "2026-05-28T08:06:06.938Z",
+  "updatedAt": "2026-06-26T11:57:45.364Z",
   "services": {
     "Spotify": {
       "sourceUrl": "https://www.spotify.com/tr-tr/premium/",
@@ -39,25 +39,25 @@
           "id": "individual",
           "name": "Individual",
           "billingCycle": "monthly",
-          "price": 49.99
+          "price": 79.99
         },
         {
           "id": "family",
           "name": "Family",
           "billingCycle": "monthly",
-          "price": 159.99
+          "price": 239.99
         },
         {
           "id": "student",
           "name": "Student",
           "billingCycle": "monthly",
-          "price": 52.99
+          "price": 79.99
         },
         {
           "id": "individual-yearly",
           "name": "Individual Yearly",
           "billingCycle": "yearly",
-          "price": 799.99
+          "price": 1199.99
         }
       ]
     },
@@ -71,62 +71,43 @@
           "billingCycle": "monthly"
         }
       ]
-    },
-    "iCloud": {
-      "sourceUrl": "https://www.apple.com/tr/icloud/",
-      "plans": [
-        {
-          "id": "50gb",
-          "name": "iCloud+ 50GB",
-          "price": 39.99,
-          "billingCycle": "monthly"
-        },
-        {
-          "id": "200gb",
-          "name": "iCloud+ 200GB",
-          "price": 129.99,
-          "billingCycle": "monthly"
-        },
-        {
-          "id": "2tb",
-          "name": "iCloud+ 2TB",
-          "price": 399.99,
-          "billingCycle": "monthly"
-        }
-      ]
     }
   },
   "skipped": {
     "Netflix": {
-      "reason": "Netflix TR plan prices not found even with JS.",
+      "reason": "Netflix TR plan prices not found in page (JS-rendered or geo-blocked).",
       "sourceUrl": "https://www.netflix.com/tr/signup/planform"
     },
     "Disney+": {
-      "reason": "Disney+ TR plan-select requires login (unsolvable without credentials).",
+      "reason": "Disney+ TR prices not found (JS-rendered, requires headless browser).",
       "sourceUrl": "https://www.disneyplus.com/tr-tr/sign-up/plan-select"
     },
     "Amazon Prime": {
-      "reason": "Amazon Prime TR prices not found.",
+      "reason": "Amazon Prime TR page returned no prices (may be rate-limited).",
       "sourceUrl": "https://www.amazon.com.tr/amazonprime"
     },
     "Exxen": {
-      "reason": "Exxen TR prices not found.",
-      "sourceUrl": "https://www.exxen.com/uyelik"
+      "reason": "Exxen prices not found on homepage (SPA — requires JS execution).",
+      "sourceUrl": "https://www.exxen.com"
     },
     "Puhu": {
-      "reason": "Puhu TR prices not found.",
+      "reason": "Puhu prices not found (SPA — requires JS execution).",
       "sourceUrl": "https://puhutv.com"
     },
     "TOD": {
-      "reason": "TOD TR prices not found.",
+      "reason": "TOD prices not found (Next.js SSR — prices may be client-rendered).",
       "sourceUrl": "https://www.tod.tv/tr/subscribe"
     },
     "ChatGPT": {
-      "reason": "ChatGPT pricing not found.",
+      "reason": "ChatGPT pricing page blocked or structure changed (403/bot protection).",
       "sourceUrl": "https://openai.com/chatgpt/pricing/"
     },
+    "iCloud": {
+      "reason": "iCloud TR prices not found in page (prices may be JS-rendered).",
+      "sourceUrl": "https://www.apple.com/tr/icloud/"
+    },
     "LinkedIn Premium": {
-      "reason": "LinkedIn Premium TR prices not found (may require login).",
+      "reason": "LinkedIn Premium TR prices not found (may require login or JS).",
       "sourceUrl": "https://www.linkedin.com/premium/products/?countryCode=TR"
     }
   }

@@ -15,7 +15,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { z } from 'zod';
-import { BillingCycle, SERVICE_PRESETS } from '../constants/services';
+import { SERVICE_PRESETS } from '../constants/services';
+import { fetchRemotePricing, RemotePricingData } from '../utils/remotePricing';
 import { Currency, DEFAULT_CURRENCY } from '../constants/currencies';
 import { isLocale, Locale, TRANSLATIONS, Translations } from '../constants/i18n';
 import { ThemeMode } from '../constants/theme';
@@ -24,12 +25,9 @@ import {
   formatDateInput,
   getUpcomingBillingDate,
 } from '../utils/subscriptionDates';
-import {
-  getCompletedCycleCountBetween,
-  getSubscriptionTotalSpent,
-} from './subscriptionCalculations';
+import { getCompletedCycleCountBetween } from './subscriptionCalculations';
 import { findPlanTemplate } from './subscriptionFilters';
-import type { PriceChangeInfo, Subscription, TrackingType } from './subscriptionTypes';
+import type { Subscription, TrackingType } from './subscriptionTypes';
 
 // ─── Re-exports (backward compat — all existing imports still work) ───────────
 export type { TrackingType, Subscription, PriceChangeInfo } from './subscriptionTypes';
@@ -83,6 +81,7 @@ const StoredSubscriptionSchema = z.object({
   reviewReminderDate: z.string().nullable().optional(),
   lastUsedAt: z.string().nullable().optional(),
   notes: z.string().optional(),
+  currencyCode: z.string().optional(),
 });
 
 type StoredSubscription = z.infer<typeof StoredSubscriptionSchema>;
@@ -96,6 +95,8 @@ interface StoreState {
   themeMode: ThemeMode;
   t: Translations;
   hasOnboarded: boolean;
+  exchangeRates: Record<string, number>;
+  remotePricing: RemotePricingData | null;
   addSubscription: (sub: Omit<Subscription, 'id'>) => void;
   updateSubscription: (id: string, sub: Partial<Subscription>) => void;
   deleteSubscription: (id: string) => void;
@@ -109,6 +110,7 @@ interface StoreState {
   setThemeMode: (themeMode: ThemeMode) => void;
   toggleThemeMode: () => void;
   loadDemoSubscriptions: () => void;
+  restoreFromBackup: (subscriptions: Subscription[], currency: Currency) => void;
 }
 
 // ─── Storage keys ─────────────────────────────────────────────────────────────
@@ -336,6 +338,8 @@ export function useSubscriptionStore(): StoreState {
   const [locale, setLocaleState] = useState<Locale>(getDeviceLocale());
   const [themeMode, setThemeModeState] = useState<ThemeMode>('dark');
   const [hasOnboarded, setHasOnboardedState] = useState(false);
+  const [exchangeRates, setExchangeRates] = useState<Record<string, number>>({});
+  const [remotePricing, setRemotePricing] = useState<RemotePricingData | null>(null);
 
   useEffect(() => {
     void (async () => {
@@ -388,8 +392,13 @@ export function useSubscriptionStore(): StoreState {
       const onboarded = await AsyncStorage.getItem(ONBOARDED_KEY);
       if (onboarded === '1') setHasOnboardedState(true);
 
-      // ── Pricing update (arka planda, UI'yi bloklamaz) ──
-      void import('../utils/pricingUpdater').then(m => m.fetchAndCachePricing());
+      // ── Remote pricing (arka planda, UI'yi bloklamaz) ──
+      void fetchRemotePricing().then(data => { if (data) setRemotePricing(data); });
+
+      // ── Exchange rates (arka planda) ──
+      void import('../utils/exchangeRates').then(m =>
+        m.getExchangeRates('EUR').then(rates => setExchangeRates(rates)).catch(() => {}),
+      );
     })();
   }, []);
 
@@ -460,6 +469,9 @@ export function useSubscriptionStore(): StoreState {
   const setCurrency = (c: Currency) => {
     setCurrencyState(c);
     persistItem(CURRENCY_KEY, JSON.stringify(c), 'Failed to save currency');
+    void import('../utils/exchangeRates').then(m =>
+      m.getExchangeRates('EUR').then(rates => setExchangeRates(rates)).catch(() => {}),
+    );
   };
 
   const setLocale = (l: Locale) => {
@@ -477,12 +489,17 @@ export function useSubscriptionStore(): StoreState {
 
   const loadDemoSubscriptions = () => { save(createDemoSubscriptions(locale)); };
 
+  const restoreFromBackup = (incoming: Subscription[], incomingCurrency: Currency) => {
+    save(incoming);
+    setCurrency(incomingCurrency);
+  };
+
   return {
-    subscriptions, currency, locale, themeMode, hasOnboarded,
+    subscriptions, currency, locale, themeMode, hasOnboarded, exchangeRates, remotePricing,
     t: TRANSLATIONS[locale],
     addSubscription, updateSubscription, deleteSubscription, toggleActive,
     markSubscriptionUsed, snoozeReviewReminder, resetAllData, setOnboarded,
-    setCurrency, setLocale, setThemeMode, toggleThemeMode, loadDemoSubscriptions,
+    setCurrency, setLocale, setThemeMode, toggleThemeMode, loadDemoSubscriptions, restoreFromBackup,
   };
 }
 

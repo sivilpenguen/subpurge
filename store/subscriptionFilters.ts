@@ -69,7 +69,7 @@ export function getPriceChangeInfo(subscription: Subscription): PriceChangeInfo 
 
 export function getPriceIncreaseSubscriptions(
   subscriptions: Subscription[],
-): Array<Subscription & { priceChange: PriceChangeInfo }> {
+): (Subscription & { priceChange: PriceChangeInfo })[] {
   return subscriptions
     .filter(s => s.isActive)
     .map(s => {

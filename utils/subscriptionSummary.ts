@@ -1,5 +1,6 @@
 import type { Subscription } from '../store/useSubscriptionStore';
 import { formatDateInput } from './subscriptionDates';
+import { convertAmount } from './exchangeRates';
 
 export function getMonthlyEquivalent(subscription: Pick<Subscription, 'billingCycle' | 'price'>): number {
   if (subscription.billingCycle === 'weekly') {
@@ -50,9 +51,20 @@ export function getMonthlySpendHistory(subscriptions: Subscription[], months = 6
   return result;
 }
 
-export function getSummaryTotals(subscriptions: Subscription[]) {
+export function getSummaryTotals(
+  subscriptions: Subscription[],
+  targetCurrencyCode?: string,
+  exchangeRates: Record<string, number> = {},
+) {
   const activeSubscriptions = subscriptions.filter(subscription => subscription.isActive);
-  const monthlyTotal = activeSubscriptions.reduce((sum, subscription) => sum + getMonthlyEquivalent(subscription), 0);
+  const monthlyTotal = activeSubscriptions.reduce((sum, subscription) => {
+    const monthly = getMonthlyEquivalent(subscription);
+    if (!targetCurrencyCode || !subscription.currencyCode || subscription.currencyCode === targetCurrencyCode) {
+      return sum + monthly;
+    }
+    const converted = convertAmount(monthly, subscription.currencyCode, targetCurrencyCode, exchangeRates);
+    return sum + converted;
+  }, 0);
 
   return {
     monthlyTotal,

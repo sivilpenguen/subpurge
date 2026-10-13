@@ -59,7 +59,7 @@ async function scrapeNetflix(browser) {
 
   const plans = await page.evaluate(() => {
     const results = [];
-    const rows = document.querySelectorAll('[data-uia*="plan"], .planCard, [class*="plan-card"], [class*="planCard"]');
+    document.querySelectorAll('[data-uia*="plan"], .planCard, [class*="plan-card"], [class*="planCard"]');
 
     // Tablo yapısı: her satır plan adı + fiyat
     document.querySelectorAll('tr, [role="row"]').forEach(row => {

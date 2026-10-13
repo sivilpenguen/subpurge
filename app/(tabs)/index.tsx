@@ -1,7 +1,6 @@
 import { useRouter } from 'expo-router';
-import { useMemo, useRef, useState } from 'react';
-import { View as RNView } from 'react-native';
-import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useMemo, useState } from 'react';
+import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -28,10 +27,9 @@ const STATUS_COLORS = {
   success: '#34C759',
 };
 
-type Tab = 'active' | 'ended';
-type ActiveFilter = 'all' | 'upcoming' | 'idle' | 'price';
+type Filter = 'all' | 'upcoming' | 'idle' | 'price' | 'ended';
 
-function sortSubscriptions(subscriptions: Subscription[], tab: Tab): Subscription[] {
+function sortSubscriptions(subscriptions: Subscription[], tab: 'active' | 'ended'): Subscription[] {
   return [...subscriptions].sort((left, right) => {
     if (tab === 'ended') {
       return (right.endedAt ?? '').localeCompare(left.endedAt ?? '');
@@ -136,19 +134,20 @@ export default function SubscriptionsScreen() {
     toggleActive,
     deleteSubscription,
     markSubscriptionUsed,
+    exchangeRates,
   } = useStore();
   const router = useRouter();
   const theme = getTheme(themeMode);
   const { registerRef } = useCoachMarks();
-  const [tab, setTab] = useState<Tab>('active');
-  const [activeFilter, setActiveFilter] = useState<ActiveFilter>('all');
+  const [filter, setFilter] = useState<Filter>('all');
+  const [searchQuery, setSearchQuery] = useState('');
   const { alertConfig, closeAlert, showAlert } = useAlertState();
 
   const active = useMemo(() => sortSubscriptions(subscriptions.filter(s => s.isActive), 'active'), [subscriptions]);
   const ended = useMemo(() => sortSubscriptions(subscriptions.filter(s => !s.isActive), 'ended'), [subscriptions]);
   const inactiveAlerts = useMemo(() => getInactiveSubscriptions(active), [active]);
   const priceAlerts = useMemo(() => getPriceIncreaseSubscriptions(active), [active]);
-  const { monthlyTotal } = useMemo(() => getSummaryTotals(subscriptions), [subscriptions]);
+  const { monthlyTotal } = useMemo(() => getSummaryTotals(subscriptions, currency.code, exchangeRates), [subscriptions, currency.code, exchangeRates]);
   const upcomingSoon = useMemo(
     () => active.filter(s => {
       const d = getTrackedDate(s);
@@ -158,14 +157,19 @@ export default function SubscriptionsScreen() {
     [active],
   );
 
-  const filteredActive = useMemo(() => {
-    if (activeFilter === 'upcoming') return upcomingSoon;
-    if (activeFilter === 'idle') return inactiveAlerts;
-    if (activeFilter === 'price') return priceAlerts;
+  const baseList = useMemo(() => {
+    if (filter === 'ended') return ended;
+    if (filter === 'upcoming') return upcomingSoon;
+    if (filter === 'idle') return inactiveAlerts;
+    if (filter === 'price') return priceAlerts;
     return active;
-  }, [active, activeFilter, inactiveAlerts, priceAlerts, upcomingSoon]);
+  }, [filter, active, ended, upcomingSoon, inactiveAlerts, priceAlerts]);
 
-  const displayed = tab === 'active' ? filteredActive : ended;
+  const displayed = useMemo(() => {
+    if (!searchQuery.trim()) return baseList;
+    const q = searchQuery.toLowerCase();
+    return baseList.filter(s => s.name.toLowerCase().includes(q));
+  }, [baseList, searchQuery]);
 
   const openQuickAccess = async (item: Subscription, mode: 'manage' | 'cancel') => {
     const opened = await openSubscriptionLink(
@@ -201,11 +205,12 @@ export default function SubscriptionsScreen() {
     });
   };
 
-  const filterOptions: { id: ActiveFilter; icon: string; label: string }[] = [
+  const filterOptions: { id: Filter; icon: string; label: string }[] = [
     { id: 'all', icon: '≡', label: t.filterAll },
     { id: 'upcoming', icon: '⧗', label: t.filterUpcoming },
     { id: 'idle', icon: '⊘', label: t.filterIdle },
     { id: 'price', icon: '△', label: t.filterPrice },
+    { id: 'ended', icon: '⊟', label: t.ended },
   ];
 
   const attentionCount = inactiveAlerts.length + priceAlerts.length;
@@ -287,54 +292,42 @@ export default function SubscriptionsScreen() {
         </View>
       </TouchableOpacity>
 
-      {/* Tabs */}
-      <View style={[styles.tabRow, { backgroundColor: theme.card, borderColor: theme.border }]}>
-        <TouchableOpacity
-          style={[styles.tabBtn, tab === 'active' && { backgroundColor: theme.cardStrong }]}
-          onPress={() => setTab('active')}
-          accessibilityRole="tab"
-          accessibilityState={{ selected: tab === 'active' }}
-        >
-          <Text style={[styles.tabBtnText, { color: tab === 'active' ? theme.text : theme.subtext }]}>
-            {t.active} {active.length > 0 && `(${active.length})`}
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.tabBtn, tab === 'ended' && { backgroundColor: theme.cardStrong }]}
-          onPress={() => setTab('ended')}
-          accessibilityRole="tab"
-          accessibilityState={{ selected: tab === 'ended' }}
-        >
-          <Text style={[styles.tabBtnText, { color: tab === 'ended' ? theme.text : theme.subtext }]}>
-            {t.ended} {ended.length > 0 && `(${ended.length})`}
-          </Text>
-        </TouchableOpacity>
+      {/* Search */}
+      <View style={[styles.searchRow, { backgroundColor: theme.card, borderColor: theme.border }]}>
+        <Text style={[styles.searchIcon, { color: theme.subtext }]}>⌕</Text>
+        <TextInput
+          style={[styles.searchInput, { color: theme.text }]}
+          placeholder={t.searchPlaceholder}
+          placeholderTextColor={theme.subtext}
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          returnKeyType="search"
+          clearButtonMode="while-editing"
+        />
       </View>
 
-      {/* Filters (active tab only) */}
-      {tab === 'active' && (
-        <View style={styles.filterRow}>
-          {filterOptions.map(option => {
-            const active = activeFilter === option.id;
-            return (
-              <TouchableOpacity
-                key={option.id}
-                style={styles.filterChip}
-                onPress={() => setActiveFilter(option.id)}
-                accessibilityLabel={option.label}
-                accessibilityRole="button"
-                accessibilityState={{ selected: active }}
-              >
-                <Text style={[styles.filterChipIcon, { color: active ? theme.text : theme.subtext }]}>{option.icon}</Text>
-                <Text style={[styles.filterChipText, { color: active ? theme.text : theme.subtext }]}>
-                  {option.label}
-                </Text>
-                {active && <View style={[styles.filterChipDot, { backgroundColor: theme.text }]} />}
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-      )}
+      {/* Filters */}
+      <View style={styles.filterRow}>
+        {filterOptions.map(option => {
+          const isActive = filter === option.id;
+          return (
+            <TouchableOpacity
+              key={option.id}
+              style={styles.filterChip}
+              onPress={() => setFilter(option.id)}
+              accessibilityLabel={option.label}
+              accessibilityRole="button"
+              accessibilityState={{ selected: isActive }}
+            >
+              <Text style={[styles.filterChipIcon, { color: isActive ? theme.text : theme.subtext }]}>{option.icon}</Text>
+              <Text style={[styles.filterChipText, { color: isActive ? theme.text : theme.subtext }]}>
+                {option.label}
+              </Text>
+              {isActive && <View style={[styles.filterChipDot, { backgroundColor: theme.text }]} />}
+            </TouchableOpacity>
+          );
+        })}
+      </View>
 
       <FlatList
         data={displayed}
@@ -394,7 +387,7 @@ export default function SubscriptionsScreen() {
                 monthlyEquivLabel={monthlyEquivLabel}
                 editHint={t.editSubscriptionHint}
                 theme={theme}
-                onOpenMenu={tab === 'active' ? openActiveActions : openEndedActions}
+                onOpenMenu={item.isActive ? openActiveActions : openEndedActions}
                 isLast={index === displayed.length - 1}
                 rowRef={index === 0 ? (r: any) => registerRef('subscriptionRow', r) : undefined}
               />
@@ -404,14 +397,14 @@ export default function SubscriptionsScreen() {
         contentContainerStyle={displayed.length === 0 ? styles.emptyContainer : styles.listContent}
         ListEmptyComponent={
           <View style={styles.empty}>
-            <Text style={[styles.emptyIcon, { color: theme.border }]}>{tab === 'active' ? '⬡' : '⊟'}</Text>
+            <Text style={[styles.emptyIcon, { color: theme.border }]}>{filter === 'ended' ? '⊟' : '⬡'}</Text>
             <Text style={[styles.emptyTitle, { color: theme.text }]}>
-              {tab === 'active' ? t.noSubscriptions : t.noEndedSubscriptions}
+              {filter === 'ended' ? t.noEndedSubscriptions : t.noSubscriptions}
             </Text>
             <Text style={[styles.emptySubtext, { color: theme.subtext }]}>
-              {tab === 'active' ? t.noSubscriptionsHint : t.noEndedSubscriptionsHint}
+              {filter === 'ended' ? t.noEndedSubscriptionsHint : t.noSubscriptionsHint}
             </Text>
-            {tab === 'active' && (
+            {filter !== 'ended' && (
               <TouchableOpacity
                 style={[styles.emptyAddBtn, { backgroundColor: theme.card, borderColor: theme.border }]}
                 onPress={() => router.push('/add-subscription')}
@@ -520,17 +513,19 @@ const styles = StyleSheet.create({
   statsNoteIcon: { fontSize: 11 },
   statsNoteText: { fontSize: 11, fontWeight: '500' },
   statsNoteDot: { fontSize: 14, lineHeight: 14 },
-  tabRow: {
+  searchRow: {
     flexDirection: 'row',
+    alignItems: 'center',
     marginHorizontal: 20,
     marginBottom: 10,
     borderRadius: 12,
     borderWidth: 1,
-    padding: 4,
-    gap: 4,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    gap: 8,
   },
-  tabBtn: { flex: 1, paddingVertical: 8, borderRadius: 9, alignItems: 'center' },
-  tabBtnText: { fontSize: 13, fontWeight: '600' },
+  searchIcon: { fontSize: 16 },
+  searchInput: { flex: 1, fontSize: 14, paddingVertical: 0 },
   filterRow: {
     flexDirection: 'row',
     justifyContent: 'center',

@@ -24,7 +24,7 @@ jobs:
         run: npm ci --ignore-scripts
 
       - name: Install Puppeteer browser
-        run: node -e "require('puppeteer').executablePath()" 2>/dev/null || npx puppeteer browsers install chrome
+        run: npx puppeteer browsers install chrome
 
       - name: Install system dependencies for Chromium
         run: |

@@ -1,0 +1,87 @@
+# 🤖 SUBPURGE: AI Agent Project Context & Development Guide
+
+This document is specifically designed to provide AI agents (Mirofish, Claude, ChatGPT, etc.) with a comprehensive overview of the **Subpurge** project. It details the tech stack, architecture, core functionalities, and coding conventions to ensure accurate and aligned contributions.
+
+## 📌 1. Project Overview
+**Name:** Subpurge
+**Type:** Mobile Application (iOS & Android) + Web (Beta)
+**Purpose:** A subscription management and tracking application. It allows users to track their recurring expenses (Netflix, Spotify, gym memberships, etc.), view upcoming billing dates, calculate total expenses, and manage cancellations.
+
+## 🛠 2. Technology Stack
+- **Framework:** React Native + Expo (v54.0.x)
+- **Routing:** Expo Router (File-based routing)
+- **Language:** TypeScript
+- **State Management:** Custom React Context + Hooks (`useSubscriptionStore.ts`), backed by `@react-native-async-storage/async-storage` for persistence.
+- **Validation:** Zod (for hydrating and validating data from local storage).
+- **UI & Animations:** React Native Reanimated, React Native Gesture Handler.
+- **Testing:** Node.js native test runner (`node --import tsx --test`).
+
+## 📁 3. Directory Structure & Architecture
+
+The application enforces a strict separation of concerns:
+
+- `app/` ➔ **Routing & Screens**
+  - Uses Expo Router for file-based routing.
+  - `(tabs)/`: Bottom tab navigation (Explore, Home, Settings).
+  - `add-subscription.tsx`: Screen to add or edit a subscription.
+  - `summary.tsx`: Expense summaries and insights.
+- `components/` ➔ **UI Components**
+  - `SwipeableSubscriptionCard.tsx`: Complex gesture-based UI for managing items in lists.
+  - `form/`: Reusable form elements (DatePicker, Pickers, Segment Controls).
+  - `ui/`: Core UI primitives (Icons).
+- `store/` ➔ **State & Domain Logic**
+  - **Crucial Separation:** 
+    - `useSubscriptionStore.ts`: Handles strictly React state (Context) and AsyncStorage CRUD operations.
+    - `subscriptionCalculations.ts`: Pure functions for math and financial logic (no React dependencies).
+    - `subscriptionFilters.ts`: Pure functions to sort and filter subscription lists.
+    - `subscriptionTypes.ts`: TypeScript interfaces (`Subscription`, `BillingCycle`, etc.).
+- `utils/` ➔ **Helpers & Infrastructure**
+  - Date manipulation (`subscriptionDates.ts`), notifications (`subscriptionNotifications.ts`), and deep link generators for cancellations (`subscriptionLinks.ts`).
+- `constants/` ➔ **Static Data**
+  - Supported services (`services.ts`), currencies (`currencies.ts`), theming (`theme.ts`).
+- `assets/logos/` ➔ **Local Imagery**
+  - Stores local icons for popular services (e.g., `netflix.png`, `spotify.png`).
+- `scripts/` ➔ **Automation**
+  - Node.js scripts using `puppeteer` to scrape the latest Turkish pricing data (`scrape-tr-pricing.js`).
+- `tests/` ➔ **Test Suite**
+  - Unit tests for core logic, dates, and store behavior.
+
+## 💾 4. Core Data Model (`Subscription` Entity)
+The primary entity is a `Subscription`. All agents should adhere to this interface when modifying data logic:
+```typescript
+export interface Subscription {
+  id: string; // Unique identifier
+  name: string; // E.g., "Netflix"
+  color: string; // UI theme color (Hex)
+  icon: string; // SF Symbol or fallback icon
+  logoUrl?: string; // Optional local/remote logo
+  price: number; // Cost per billing cycle
+  billingCycle: 'monthly' | 'yearly' | 'weekly';
+  startDate: string; // ISO Date String
+  trackingType: 'renewal' | 'expiry'; 
+  isActive: boolean; // Is the subscription currently active?
+  // ...other fields include nextBillingDate, expiryDate, currentPeriodStart, etc.
+}
+```
+
+## 🧠 5. AI Developer Instructions & Rules
+
+When generating code or suggesting architectural changes for Subpurge, adhere strictly to the following rules:
+
+1. **Maintain Separation of Concerns:**
+   - **Do NOT** put pure calculation logic inside React Components. Always add it to `store/subscriptionCalculations.ts` or `utils/`.
+   - **Do NOT** put React state logic in calculation files.
+2. **State Management:**
+   - Modify `store/useSubscriptionStore.ts` only for state structure changes. Use `AsyncStorage` to persist all critical user data. Validate data loading with `zod`.
+3. **UI / Styling:**
+   - Do not use Tailwind/NativeWind unless explicitly requested; use `StyleSheet.create` combined with `constants/theme.ts` for consistent colors/spacing.
+   - Utilize React Native Reanimated for complex animations.
+4. **Dates and Timezones:**
+   - Handle all dates using ISO strings (`YYYY-MM-DD`). Use the helper functions in `utils/subscriptionDates.ts` to prevent timezone mismatch bugs.
+5. **Testing Requirements:**
+   - When modifying calculation logic or state, always update or add tests in the `tests/` directory. Tests are executed via `npm run test` using the native Node test runner.
+6. **File Based Routing (Expo Router):**
+   - New screens must be created inside the `app/` directory following Expo Router conventions (`_layout.tsx` for shared wrappers, `[id].tsx` for dynamic params).
+
+---
+*End of Document. Start your analysis or implementation based on this structure.*

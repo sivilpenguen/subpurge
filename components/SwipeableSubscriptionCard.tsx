@@ -7,7 +7,7 @@
  *   → swipe right → positive action (Mark used / Reactivate)
  */
 import { Swipeable } from 'react-native-gesture-handler';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import type { AppTheme } from '../constants/theme';
 
 interface Props {

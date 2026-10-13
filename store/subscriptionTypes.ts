@@ -26,6 +26,7 @@ export interface Subscription {
   reviewReminderDate?: string | null;
   lastUsedAt?: string | null;
   notes?: string;
+  currencyCode?: string;
 }
 
 export interface PriceChangeInfo {

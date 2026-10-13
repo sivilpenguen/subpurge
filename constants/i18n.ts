@@ -94,6 +94,7 @@ export interface Translations {
   filterUpcoming: string;
   filterIdle: string;
   filterPrice: string;
+  searchPlaceholder: string;
   focusUpcoming: string;
   focusUpcomingHint: string;
   focusAttention: string;
@@ -159,6 +160,23 @@ export interface Translations {
   demoLoadMessage: string;
   demoLoadedTitle: string;
   demoLoadedMessage: string;
+
+  // Onboarding section header (settings)
+  onboardingSection: string;
+  onboardingShowTour: string;
+  onboardingShowTourHint: string;
+
+  // Data backup / export
+  backupSection: string;
+  exportJSON: string;
+  exportJSONHint: string;
+  exportCSV: string;
+  exportCSVHint: string;
+  importJSON: string;
+  importJSONHint: string;
+  importSuccess: string;
+  importSuccessHint: (count: number) => string;
+  importError: string;
 
   // Currency / reset
   currencySymbolNote: string;
@@ -270,6 +288,7 @@ const tr: Translations = {
   filterUpcoming: 'Yaklaşan',
   filterIdle: 'Atıl',
   filterPrice: 'Zamlı',
+  searchPlaceholder: 'Abonelik ara...',
   focusUpcoming: 'Bu hafta',
   focusUpcomingHint: '7 gün içinde yenilenecekler',
   focusAttention: 'Dikkat',
@@ -329,6 +348,19 @@ const tr: Translations = {
   demoLoadMessage: 'Mevcut abonelikler demo verisi ile değiştirilecek.',
   demoLoadedTitle: 'Demo verisi hazır',
   demoLoadedMessage: 'Örnek abonelikler yüklendi.',
+  onboardingSection: 'Tanıtım',
+  onboardingShowTour: 'Karşılama ekranını göster',
+  onboardingShowTourHint: 'Onboarding önizlemesi',
+  backupSection: 'Veri Yedekleme',
+  exportJSON: 'Yedeği Dışa Aktar (JSON)',
+  exportJSONHint: 'Tüm abonelikleri JSON dosyası olarak kaydet',
+  exportCSV: 'CSV Olarak Dışa Aktar',
+  exportCSVHint: 'Excel veya Numbers\'da açmak için CSV dosyası oluştur',
+  importJSON: 'Yedekten Geri Yükle',
+  importJSONHint: 'Daha önce oluşturulan JSON yedeğini içe aktar',
+  importSuccess: 'Geri Yükleme Başarılı',
+  importSuccessHint: (count: number) => `${count} abonelik yüklendi.`,
+  importError: 'Geçersiz yedek dosyası',
   currencySymbolNote: 'Para birimi değişimi sadece sembolü etkiler, fiyatları dönüştürmez.',
   resetData: 'Tüm Verileri Sil',
   resetDataHint: 'Uygulama kayıtlı tüm abonelikler ve ayarlar cihazdan silinir.',
@@ -430,6 +462,7 @@ const en: Translations = {
   filterUpcoming: 'Upcoming',
   filterIdle: 'Idle',
   filterPrice: 'Raised',
+  searchPlaceholder: 'Search subscriptions...',
   focusUpcoming: 'This week',
   focusUpcomingHint: 'Renewing in the next 7 days',
   focusAttention: 'Attention',
@@ -489,6 +522,19 @@ const en: Translations = {
   demoLoadMessage: 'Your current subscriptions will be replaced with demo data.',
   demoLoadedTitle: 'Demo ready',
   demoLoadedMessage: 'Example subscriptions have been loaded.',
+  onboardingSection: 'Onboarding',
+  onboardingShowTour: 'Show welcome screen',
+  onboardingShowTourHint: 'Preview onboarding',
+  backupSection: 'Data Backup',
+  exportJSON: 'Export Backup (JSON)',
+  exportJSONHint: 'Save all subscriptions as a JSON file',
+  exportCSV: 'Export as CSV',
+  exportCSVHint: 'Create a CSV file to open in Excel or Numbers',
+  importJSON: 'Restore from Backup',
+  importJSONHint: 'Import a previously created JSON backup',
+  importSuccess: 'Restore Successful',
+  importSuccessHint: (count: number) => `${count} subscriptions loaded.`,
+  importError: 'Invalid backup file',
   currencySymbolNote: 'Changing currency only updates the symbol, not the amounts.',
   resetData: 'Reset All Data',
   resetDataHint: 'Delete all subscriptions and settings from this device.',
@@ -590,6 +636,7 @@ const es: Translations = {
   filterUpcoming: 'Proximos',
   filterIdle: 'Inactivas',
   filterPrice: 'Subidas',
+  searchPlaceholder: 'Buscar suscripciones...',
   focusUpcoming: 'Esta semana',
   focusUpcomingHint: 'Renovaciones dentro de 7 dias',
   focusAttention: 'Atencion',
@@ -649,6 +696,19 @@ const es: Translations = {
   demoLoadMessage: 'Tus suscripciones actuales se reemplazarán con datos demo.',
   demoLoadedTitle: 'Demo lista',
   demoLoadedMessage: 'Se cargaron suscripciones de ejemplo.',
+  onboardingSection: 'Introducción',
+  onboardingShowTour: 'Mostrar pantalla de bienvenida',
+  onboardingShowTourHint: 'Vista previa del onboarding',
+  backupSection: 'Copia de Seguridad',
+  exportJSON: 'Exportar copia (JSON)',
+  exportJSONHint: 'Guardar todas las suscripciones como archivo JSON',
+  exportCSV: 'Exportar como CSV',
+  exportCSVHint: 'Crear un archivo CSV para abrir en Excel o Numbers',
+  importJSON: 'Restaurar desde copia',
+  importJSONHint: 'Importar una copia JSON creada anteriormente',
+  importSuccess: 'Restauración exitosa',
+  importSuccessHint: (count: number) => `${count} suscripciones cargadas.`,
+  importError: 'Archivo de copia inválido',
   currencySymbolNote: 'Cambiar la moneda solo actualiza el símbolo, no los importes.',
   resetData: 'Eliminar todos los datos',
   resetDataHint: 'Elimina todas las suscripciones y ajustes del dispositivo.',
@@ -750,6 +810,7 @@ const de: Translations = {
   filterUpcoming: 'Bald',
   filterIdle: 'Inaktiv',
   filterPrice: 'Erhoht',
+  searchPlaceholder: 'Abonnements suchen...',
   focusUpcoming: 'Diese Woche',
   focusUpcomingHint: 'Erneuerung innerhalb von 7 Tagen',
   focusAttention: 'Achtung',
@@ -809,6 +870,19 @@ const de: Translations = {
   demoLoadMessage: 'Deine aktuellen Abos werden durch Demo-Daten ersetzt.',
   demoLoadedTitle: 'Demo bereit',
   demoLoadedMessage: 'Beispielabos wurden geladen.',
+  onboardingSection: 'Einführung',
+  onboardingShowTour: 'Willkommensbildschirm anzeigen',
+  onboardingShowTourHint: 'Onboarding-Vorschau',
+  backupSection: 'Datensicherung',
+  exportJSON: 'Sicherung exportieren (JSON)',
+  exportJSONHint: 'Alle Abos als JSON-Datei speichern',
+  exportCSV: 'Als CSV exportieren',
+  exportCSVHint: 'CSV-Datei für Excel oder Numbers erstellen',
+  importJSON: 'Aus Sicherung wiederherstellen',
+  importJSONHint: 'Eine zuvor erstellte JSON-Sicherung importieren',
+  importSuccess: 'Wiederherstellung erfolgreich',
+  importSuccessHint: (count: number) => `${count} Abos geladen.`,
+  importError: 'Ungültige Sicherungsdatei',
   currencySymbolNote: 'Die Währungsänderung betrifft nur das Symbol, nicht die Beträge.',
   resetData: 'Alle Daten zurücksetzen',
   resetDataHint: 'Löscht alle Abos und Einstellungen von diesem Gerät.',
@@ -910,6 +984,7 @@ const fr: Translations = {
   filterUpcoming: 'A venir',
   filterIdle: 'Inactifs',
   filterPrice: 'Hausses',
+  searchPlaceholder: 'Rechercher...',
   focusUpcoming: 'Cette semaine',
   focusUpcomingHint: 'Renouvellements sous 7 jours',
   focusAttention: 'Attention',
@@ -969,6 +1044,19 @@ const fr: Translations = {
   demoLoadMessage: 'Vos abonnements actuels seront remplacés par les données de démo.',
   demoLoadedTitle: 'Démo prête',
   demoLoadedMessage: "Les abonnements d'exemple ont été chargés.",
+  onboardingSection: 'Introduction',
+  onboardingShowTour: "Afficher l'écran de bienvenue",
+  onboardingShowTourHint: "Aperçu de l'onboarding",
+  backupSection: 'Sauvegarde des données',
+  exportJSON: 'Exporter la sauvegarde (JSON)',
+  exportJSONHint: 'Enregistrer tous les abonnements en fichier JSON',
+  exportCSV: 'Exporter en CSV',
+  exportCSVHint: 'Créer un fichier CSV pour Excel ou Numbers',
+  importJSON: 'Restaurer depuis une sauvegarde',
+  importJSONHint: 'Importer une sauvegarde JSON créée précédemment',
+  importSuccess: 'Restauration réussie',
+  importSuccessHint: (count: number) => `${count} abonnements chargés.`,
+  importError: 'Fichier de sauvegarde invalide',
   currencySymbolNote: "Le changement de devise ne met à jour que le symbole, pas les montants.",
   resetData: 'Réinitialiser tout',
   resetDataHint: 'Supprime tous les abonnements et paramètres de cet appareil.',

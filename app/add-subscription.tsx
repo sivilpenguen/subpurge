@@ -7,7 +7,7 @@ import { PlanSelector } from '../components/form/PlanSelector';
 import { SegmentControl } from '../components/form/SegmentControl';
 import { ServicePicker } from '../components/form/ServicePicker';
 import { ThemedAlert } from '../components/ThemedAlert';
-import { BillingCycle, SERVICE_PRESETS, ServicePreset, ServicePlanTemplate } from '../constants/services';
+import { BillingCycle, getEffectivePresets, ServicePreset, ServicePlanTemplate } from '../constants/services';
 import { getTheme } from '../constants/theme';
 import { useAlertState } from '../hooks/useAlertState';
 import { TrackingType, useStore } from '../store/useSubscriptionStore';
@@ -32,8 +32,9 @@ function isValidExternalUrl(value: string): boolean {
 export default function AddSubscriptionScreen() {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id?: string }>();
-  const { subscriptions, locale, addSubscription, updateSubscription, toggleActive, themeMode, t } = useStore();
+  const { subscriptions, locale, currency, addSubscription, updateSubscription, toggleActive, themeMode, t, remotePricing } = useStore();
   const theme = getTheme(themeMode);
+  const servicePresets = useMemo(() => getEffectivePresets(remotePricing), [remotePricing]);
 
   const existing = id ? subscriptions.find(s => s.id === id) : null;
   const isEdit = !!existing;
@@ -41,8 +42,8 @@ export default function AddSubscriptionScreen() {
   const defaultStartDate = existing?.startDate ?? today;
   const defaultCycle = existing?.billingCycle ?? 'monthly';
   const defaultTrackingType = existing?.trackingType ?? 'renewal';
-  const matchingPreset = SERVICE_PRESETS.find(service => service.name === existing?.name);
-  const presetNames = useMemo(() => new Set(SERVICE_PRESETS.map(s => s.name)), []);
+  const matchingPreset = servicePresets.find(service => service.name === existing?.name);
+  const presetNames = useMemo(() => new Set(servicePresets.map(s => s.name)), [servicePresets]);
 
   const [name, setName] = useState(existing?.name ?? '');
   const [price, setPrice] = useState(existing?.price?.toString() ?? '');
@@ -87,7 +88,7 @@ export default function AddSubscriptionScreen() {
 
   const { alertConfig, closeAlert, showAlert } = useAlertState();
 
-  const selectedPreset = useMemo(() => SERVICE_PRESETS.find(s => s.name === name), [name]);
+  const selectedPreset = useMemo(() => servicePresets.find(s => s.name === name), [name, servicePresets]);
   const trackedDate = trackingType === 'renewal' ? nextBillingDate : expiryDate;
   const suggestedTrackedDate = isCalendarDate(startDate) ? addBillingCycleToDate(startDate, cycle) : '';
   const suggestedReviewDate = isCalendarDate(trackedDate ?? '') ? addMonthsToDateValue(trackedDate!, 3) : addMonthsToDateValue(today, 3);
@@ -213,6 +214,7 @@ export default function AddSubscriptionScreen() {
       reviewReminderDate: reviewReminderDate || null,
       lastUsedAt: existing?.lastUsedAt ?? today,
       notes: notes.trim(),
+      currencyCode: existing?.currencyCode ?? currency.code,
     };
 
     const executeSave = () => {

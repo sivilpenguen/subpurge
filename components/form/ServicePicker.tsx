@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useState } from 'react';
 import { ServiceLogo } from '../ServiceLogo';
-import { SERVICE_CATEGORIES, SERVICE_PRESETS, ServiceCategory, ServicePreset } from '../../constants/services';
+import { SERVICE_CATEGORIES, SERVICE_PRESETS, ServicePreset } from '../../constants/services';
 import { AppTheme } from '../../constants/theme';
 
 interface Props {
@@ -108,7 +108,7 @@ export function ServicePicker({
             >
               <Text style={{ fontSize: 20, color: theme.subtext }}>⊕</Text>
               <Text style={[styles.dropdownName, { color: theme.text }]}>
-                "{query.trim()}" ekle
+                &quot;{query.trim()}&quot; ekle
               </Text>
             </TouchableOpacity>
           ) : suggestions.slice(0, 8).map((preset, i) => (

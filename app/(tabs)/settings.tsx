@@ -22,10 +22,11 @@ import {
 } from '../../store/useSubscriptionStore';
 import { ThemedAlert } from '../../components/ThemedAlert';
 import { scheduleNotificationTestAsync, syncSubscriptionNotificationsAsync } from '../../utils/subscriptionNotifications';
+import { exportJSON, exportCSV, importJSON, BackupError } from '../../utils/dataBackup';
 
 export default function SettingsScreen() {
   const router = useRouter();
-  const { currency, setCurrency, locale, setLocale, subscriptions, themeMode, t, loadDemoSubscriptions, resetAllData } = useStore();
+  const { currency, setCurrency, locale, setLocale, subscriptions, themeMode, t, loadDemoSubscriptions, resetAllData, restoreFromBackup } = useStore();
   const { startTour } = useCoachMarks();
   const theme = getTheme(themeMode);
   const activeSubscriptions = subscriptions.filter(subscription => subscription.isActive);
@@ -118,13 +119,13 @@ export default function SettingsScreen() {
           <Text style={[styles.demoBtnHint, { color: theme.subtext }]}>{t.costBreakdown}</Text>
         </TouchableOpacity>
 
-        <Text style={[styles.sectionTitle, { marginTop: 24, color: theme.subtext }]}>Onboarding</Text>
+        <Text style={[styles.sectionTitle, { marginTop: 24, color: theme.subtext }]}>{t.onboardingSection}</Text>
         <TouchableOpacity
           style={[styles.demoBtn, { backgroundColor: theme.card, borderColor: theme.border }]}
           onPress={startTour}
         >
-          <Text style={[styles.demoBtnText, { color: theme.text }]}>Karşılama ekranını göster</Text>
-          <Text style={[styles.demoBtnHint, { color: theme.subtext }]}>Onboarding önizlemesi</Text>
+          <Text style={[styles.demoBtnText, { color: theme.text }]}>{t.onboardingShowTour}</Text>
+          <Text style={[styles.demoBtnHint, { color: theme.subtext }]}>{t.onboardingShowTourHint}</Text>
         </TouchableOpacity>
 
         <Text style={[styles.sectionTitle, { marginTop: 24, color: theme.subtext }]}>{t.notificationTests}</Text>
@@ -145,6 +146,69 @@ export default function SettingsScreen() {
         >
           <Text style={[styles.demoBtnText, { color: theme.text }]}>{t.runNotificationTest}</Text>
           <Text style={[styles.demoBtnHint, { color: theme.subtext }]}>{t.notificationTestsHint}</Text>
+        </TouchableOpacity>
+
+        <Text style={[styles.sectionTitle, { marginTop: 24, color: theme.subtext }]}>{t.backupSection}</Text>
+        <TouchableOpacity
+          style={[styles.demoBtn, { backgroundColor: theme.card, borderColor: theme.border }]}
+          onPress={async () => {
+            try {
+              await exportJSON(subscriptions, currency);
+            } catch (err) {
+              const msg = err instanceof BackupError ? err.message : t.importError;
+              setAlertConfig({ title: t.exportJSON, message: msg, actions: [{ label: t.ok, variant: 'primary' }], accent: 'destructive' });
+            }
+          }}
+        >
+          <Text style={[styles.demoBtnText, { color: theme.text }]}>{t.exportJSON}</Text>
+          <Text style={[styles.demoBtnHint, { color: theme.subtext }]}>{t.exportJSONHint}</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.demoBtn, { marginTop: 10, backgroundColor: theme.card, borderColor: theme.border }]}
+          onPress={async () => {
+            try {
+              await exportCSV(subscriptions, currency);
+            } catch (err) {
+              const msg = err instanceof BackupError ? err.message : t.importError;
+              setAlertConfig({ title: t.exportCSV, message: msg, actions: [{ label: t.ok, variant: 'primary' }], accent: 'destructive' });
+            }
+          }}
+        >
+          <Text style={[styles.demoBtnText, { color: theme.text }]}>{t.exportCSV}</Text>
+          <Text style={[styles.demoBtnHint, { color: theme.subtext }]}>{t.exportCSVHint}</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.demoBtn, { marginTop: 10, backgroundColor: theme.card, borderColor: theme.border }]}
+          onPress={async () => {
+            try {
+              const backup = await importJSON();
+              if (!backup) return;
+              setAlertConfig({
+                title: t.importJSON,
+                message: t.importSuccessHint(backup.subscriptions.length),
+                accent: 'destructive',
+                actions: [
+                  { label: t.cancel },
+                  {
+                    label: t.importJSON,
+                    variant: 'destructive',
+                    onPress: () => {
+                      restoreFromBackup(backup.subscriptions, backup.currency);
+                      setAlertConfig({ title: t.importSuccess, message: t.importSuccessHint(backup.subscriptions.length), actions: [{ label: t.ok, variant: 'primary' }] });
+                    },
+                  },
+                ],
+              });
+            } catch (err) {
+              const msg = err instanceof BackupError ? err.message : t.importError;
+              setAlertConfig({ title: t.importJSON, message: msg, actions: [{ label: t.ok, variant: 'primary' }], accent: 'destructive' });
+            }
+          }}
+        >
+          <Text style={[styles.demoBtnText, { color: theme.text }]}>{t.importJSON}</Text>
+          <Text style={[styles.demoBtnHint, { color: theme.subtext }]}>{t.importJSONHint}</Text>
         </TouchableOpacity>
 
         <Text style={[styles.sectionTitle, { marginTop: 24, color: theme.subtext }]}>{t.resetData}</Text>
@@ -170,35 +234,39 @@ export default function SettingsScreen() {
           <Text style={[styles.demoBtnHint, { color: theme.subtext }]}>{t.resetDataHint}</Text>
         </TouchableOpacity>
 
-        <Text style={[styles.sectionTitle, { marginTop: 24, color: theme.subtext }]}>{t.loadDemoData}</Text>
-        <TouchableOpacity
-          style={[styles.demoBtn, { backgroundColor: theme.card, borderColor: theme.border }]}
-          onPress={() => {
-            setAlertConfig({
-              title: t.demoLoadTitle,
-              message: t.demoLoadMessage,
-              accent: 'destructive',
-              actions: [
-                { label: t.cancel },
-                {
-                  label: t.loadDemoData,
-                  variant: 'destructive',
-                  onPress: () => {
-                    loadDemoSubscriptions();
-                    setAlertConfig({
-                      title: t.demoLoadedTitle,
-                      message: t.demoLoadedMessage,
-                      actions: [{ label: t.ok, variant: 'primary' }],
-                    });
-                  },
-                },
-              ],
-            });
-          }}
-        >
-          <Text style={[styles.demoBtnText, { color: theme.text }]}>{t.loadDemoData}</Text>
-          <Text style={[styles.demoBtnHint, { color: theme.subtext }]}>{t.loadDemoDataHint}</Text>
-        </TouchableOpacity>
+        {__DEV__ && (
+          <>
+            <Text style={[styles.sectionTitle, { marginTop: 24, color: theme.subtext }]}>{t.loadDemoData}</Text>
+            <TouchableOpacity
+              style={[styles.demoBtn, { backgroundColor: theme.card, borderColor: theme.border }]}
+              onPress={() => {
+                setAlertConfig({
+                  title: t.demoLoadTitle,
+                  message: t.demoLoadMessage,
+                  accent: 'destructive',
+                  actions: [
+                    { label: t.cancel },
+                    {
+                      label: t.loadDemoData,
+                      variant: 'destructive',
+                      onPress: () => {
+                        loadDemoSubscriptions();
+                        setAlertConfig({
+                          title: t.demoLoadedTitle,
+                          message: t.demoLoadedMessage,
+                          actions: [{ label: t.ok, variant: 'primary' }],
+                        });
+                      },
+                    },
+                  ],
+                });
+              }}
+            >
+              <Text style={[styles.demoBtnText, { color: theme.text }]}>{t.loadDemoData}</Text>
+              <Text style={[styles.demoBtnHint, { color: theme.subtext }]}>{t.loadDemoDataHint}</Text>
+            </TouchableOpacity>
+          </>
+        )}
       </ScrollView>
 
       <Modal visible={langModal} transparent animationType="slide" onRequestClose={() => setLangModal(false)}>

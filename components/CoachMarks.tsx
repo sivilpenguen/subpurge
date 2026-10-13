@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useRef, useState } from 'react';
+import { cloneElement, createContext, useCallback, useContext, useRef, useState } from 'react';
 import {
   Dimensions,
   Modal,
@@ -10,7 +10,7 @@ import {
 import { getTheme } from '../constants/theme';
 import { useStore } from '../store/useSubscriptionStore';
 
-const { width: SW, height: SH } = Dimensions.get('window');
+const { height: SH } = Dimensions.get('window');
 const PAD = 12;
 
 export interface CoachStep {
@@ -169,8 +169,7 @@ export function CoachMarkTarget({ stepKey, children }: { stepKey: string; childr
   const { registerRef } = useCoachMarks();
   return (
     <>
-      {/* @ts-ignore */}
-      {require('react').cloneElement(children, {
+      {cloneElement(children, {
         ref: (r: View | null) => registerRef(stepKey, r),
       })}
     </>
