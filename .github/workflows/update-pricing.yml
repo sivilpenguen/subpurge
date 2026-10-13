@@ -72,6 +72,8 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/pricing-tr.json data/pricing/
           git diff --staged --quiet || git commit -m "chore: update pricing data [skip ci]"
+          # main may have moved during the ~30 min run
+          git pull --rebase origin main
           git push
 
       - name: Open review pull request
