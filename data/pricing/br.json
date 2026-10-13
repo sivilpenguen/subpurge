@@ -1,7 +1,7 @@
 {
   "country": "BR",
   "currency": "BRL",
-  "updatedAt": "2026-10-13T17:42:03.394Z",
+  "updatedAt": "2026-10-13T22:49:46.247Z",
   "services": {
     "Netflix": {
       "appStore": [
@@ -102,10 +102,16 @@
     "Disney+": {
       "appStore": [
         {
-          "id": "disney-premium",
+          "id": "disney-premium-monthly",
           "name": "Disney+ Premium",
           "price": 69.9,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "disney-premium-yearly",
+          "name": "Disney+ Premium",
+          "price": 589,
+          "billingCycle": "yearly"
         },
         {
           "id": "disney-standard",
@@ -128,10 +134,16 @@
     "Microsoft 365": {
       "appStore": [
         {
-          "id": "microsoft-365-personal",
+          "id": "microsoft-365-personal-monthly",
           "name": "Microsoft 365 Personal",
           "price": 50.9,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "microsoft-365-personal-yearly",
+          "name": "Microsoft 365 Personal",
+          "price": 509,
+          "billingCycle": "yearly"
         },
         {
           "id": "microsoft-365-family",
@@ -230,10 +242,10 @@
           "billingCycle": "yearly"
         },
         {
-          "id": "canva-business-yearly",
-          "name": "Canva Business - Yearly",
-          "price": 489.9,
-          "billingCycle": "yearly"
+          "id": "canva-teams-monthly",
+          "name": "Canva Teams - Monthly",
+          "price": 80.9,
+          "billingCycle": "monthly"
         }
       ]
     },
@@ -364,10 +376,16 @@
     "ChatGPT Plus": {
       "appStore": [
         {
-          "id": "chatgpt-plus",
+          "id": "chatgpt-plus-monthly",
           "name": "ChatGPT Plus",
           "price": 99.9,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "chatgpt-plus-yearly",
+          "name": "ChatGPT Plus",
+          "price": 999.9,
+          "billingCycle": "yearly"
         },
         {
           "id": "chatgpt-go",
@@ -506,16 +524,16 @@
           "billingCycle": "yearly"
         },
         {
-          "id": "my-notes-annual",
-          "name": "My Notes (Annual)",
-          "price": 459,
-          "billingCycle": "yearly"
-        },
-        {
           "id": "my-notes-monthly",
           "name": "My Notes (Monthly)",
           "price": 45.9,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "my-notes-annual",
+          "name": "My Notes (Annual)",
+          "price": 459,
+          "billingCycle": "yearly"
         }
       ]
     },

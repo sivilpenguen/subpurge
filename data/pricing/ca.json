@@ -1,7 +1,7 @@
 {
   "country": "CA",
   "currency": "CAD",
-  "updatedAt": "2026-10-13T17:42:03.392Z",
+  "updatedAt": "2026-10-13T22:49:46.243Z",
   "services": {
     "Netflix": {
       "appStore": [
@@ -90,10 +90,16 @@
     "Disney+": {
       "appStore": [
         {
-          "id": "disney-premium",
+          "id": "disney-premium-monthly",
           "name": "Disney+ Premium",
           "price": 16.99,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "disney-premium-yearly",
+          "name": "Disney+ Premium",
+          "price": 169.99,
+          "billingCycle": "yearly"
         },
         {
           "id": "disney-standard",
@@ -122,10 +128,16 @@
     "Microsoft 365": {
       "appStore": [
         {
-          "id": "microsoft-365-personal",
+          "id": "microsoft-365-personal-monthly",
           "name": "Microsoft 365 Personal",
           "price": 11.49,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "microsoft-365-personal-yearly",
+          "name": "Microsoft 365 Personal",
+          "price": 114.99,
+          "billingCycle": "yearly"
         },
         {
           "id": "microsoft-365-family",
@@ -244,12 +256,6 @@
           "name": "Super Duolingo",
           "price": 119.99,
           "billingCycle": "monthly"
-        },
-        {
-          "id": "super-duolingo-family-plan",
-          "name": "Super Duolingo - Family Plan",
-          "price": 149.99,
-          "billingCycle": "monthly"
         }
       ]
     },
@@ -318,10 +324,16 @@
     "ChatGPT Plus": {
       "appStore": [
         {
-          "id": "chatgpt-plus",
+          "id": "chatgpt-plus-monthly",
           "name": "ChatGPT Plus",
           "price": 24.99,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "chatgpt-plus-yearly",
+          "name": "ChatGPT Plus",
+          "price": 249,
+          "billingCycle": "yearly"
         },
         {
           "id": "chatgpt-go",
@@ -368,28 +380,34 @@
     "Dropbox": {
       "appStore": [
         {
-          "id": "dropbox-plus-monthly",
-          "name": "Dropbox Plus - Monthly",
-          "price": 15.99,
+          "id": "dropbox-essentials-monthly",
+          "name": "Dropbox Essentials - Monthly",
+          "price": 31,
           "billingCycle": "monthly"
         },
         {
-          "id": "dropbox-plus-annual",
-          "name": "Dropbox Plus - Annual",
-          "price": 154.99,
+          "id": "dropbox-essentials-yearly",
+          "name": "Dropbox Essentials - Yearly",
+          "price": 314.99,
           "billingCycle": "yearly"
         },
         {
-          "id": "dropbox-professional-monthly",
-          "name": "Dropbox Professional - Monthly",
-          "price": 27.99,
+          "id": "dropbox-simple-monthly",
+          "name": "Dropbox Simple - Monthly",
+          "price": 9.99,
           "billingCycle": "monthly"
         },
         {
-          "id": "dropbox-professional-annual",
-          "name": "Dropbox Professional - Annual",
-          "price": 279.99,
+          "id": "dropbox-simple-annual",
+          "name": "Dropbox Simple - Annual",
+          "price": 77.99,
           "billingCycle": "yearly"
+        },
+        {
+          "id": "dropbox-simple-monthly",
+          "name": "Dropbox Simple – Monthly",
+          "price": 7.99,
+          "billingCycle": "monthly"
         }
       ]
     },
@@ -514,10 +532,16 @@
     "Tabii": {
       "appStore": [
         {
-          "id": "premium",
+          "id": "premium-monthly",
           "name": "Premium",
           "price": 6.99,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "premium-yearly",
+          "name": "Premium",
+          "price": 69.99,
+          "billingCycle": "yearly"
         },
         {
           "id": "reklam-i-c-erir-ayl-k",

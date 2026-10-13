@@ -1,7 +1,7 @@
 {
   "country": "IT",
   "currency": "EUR",
-  "updatedAt": "2026-10-13T17:42:03.390Z",
+  "updatedAt": "2026-10-13T22:49:46.241Z",
   "services": {
     "Netflix": {
       "appStore": [
@@ -102,10 +102,16 @@
     "Disney+": {
       "appStore": [
         {
-          "id": "disney-premium",
+          "id": "disney-premium-monthly",
           "name": "Disney+ Premium",
           "price": 15.99,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "disney-premium-yearly",
+          "name": "Disney+ Premium",
+          "price": 159.99,
+          "billingCycle": "yearly"
         },
         {
           "id": "disney-standard-with-ads",
@@ -134,16 +140,28 @@
     "Microsoft 365": {
       "appStore": [
         {
-          "id": "microsoft-365-personal",
+          "id": "microsoft-365-personal-monthly",
           "name": "Microsoft 365 Personal",
           "price": 10,
           "billingCycle": "monthly"
         },
         {
-          "id": "microsoft-365-family",
+          "id": "microsoft-365-personal-yearly",
+          "name": "Microsoft 365 Personal",
+          "price": 99,
+          "billingCycle": "yearly"
+        },
+        {
+          "id": "microsoft-365-family-monthly",
           "name": "Microsoft 365 Family",
           "price": 13,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "microsoft-365-family-yearly",
+          "name": "Microsoft 365 Family",
+          "price": 129,
+          "billingCycle": "yearly"
         },
         {
           "id": "microsoft-365-premium-monthly",
@@ -268,7 +286,7 @@
           "billingCycle": "monthly"
         },
         {
-          "id": "premium-amp-sports",
+          "id": "premium-sports",
           "name": "Premium & Sports",
           "price": 19.99,
           "billingCycle": "monthly"
@@ -312,10 +330,16 @@
           "billingCycle": "monthly"
         },
         {
-          "id": "google-ai-plus-400-gb",
+          "id": "google-ai-plus-400-gb-monthly",
           "name": "Google AI Plus (400 GB)",
           "price": 4.99,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "google-ai-plus-400-gb-yearly",
+          "name": "Google AI Plus (400 GB)",
+          "price": 49.99,
+          "billingCycle": "yearly"
         },
         {
           "id": "100-gb",
@@ -334,10 +358,16 @@
     "ChatGPT Plus": {
       "appStore": [
         {
-          "id": "chatgpt-plus",
+          "id": "chatgpt-plus-monthly",
           "name": "ChatGPT Plus",
           "price": 22.99,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "chatgpt-plus-yearly",
+          "name": "ChatGPT Plus",
+          "price": 229,
+          "billingCycle": "yearly"
         },
         {
           "id": "chatgpt-go",
@@ -508,10 +538,16 @@
           "billingCycle": "monthly"
         },
         {
-          "id": "mubi",
+          "id": "mubi-monthly",
           "name": "MUBI",
-          "price": 11.99,
+          "price": 4.99,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "mubi-yearly",
+          "name": "MUBI",
+          "price": 39.99,
+          "billingCycle": "yearly"
         },
         {
           "id": "mubi-yearly",
@@ -524,6 +560,18 @@
     "Tabii": {
       "appStore": [
         {
+          "id": "premium-monthly",
+          "name": "Premium",
+          "price": 6.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "premium-yearly",
+          "name": "Premium",
+          "price": 69.99,
+          "billingCycle": "yearly"
+        },
+        {
           "id": "reklam-i-c-erir-ayl-k",
           "name": "Reklam İçerir - Aylık",
           "price": 4.99,
@@ -533,12 +581,6 @@
           "id": "basic",
           "name": "Basic",
           "price": 49.99,
-          "billingCycle": "monthly"
-        },
-        {
-          "id": "premium",
-          "name": "Premium",
-          "price": 69.99,
           "billingCycle": "monthly"
         }
       ]

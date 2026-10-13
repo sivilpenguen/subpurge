@@ -2,7 +2,7 @@
   "country": "MX",
   "currency": "MXN",
   "source": "appstore",
-  "updatedAt": "2026-10-13T13:45:31.040Z",
+  "updatedAt": "2026-10-13T22:47:14.022Z",
   "services": {
     "Netflix": [
       {
@@ -76,10 +76,16 @@
     ],
     "Disney+": [
       {
-        "id": "disney-premium",
+        "id": "disney-premium-monthly",
         "name": "Disney+ Premium",
         "price": 339,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "disney-premium-yearly",
+        "name": "Disney+ Premium",
+        "price": 2849,
+        "billingCycle": "yearly"
       },
       {
         "id": "disney-standard",
@@ -104,10 +110,16 @@
         "billingCycle": "monthly"
       },
       {
-        "id": "microsoft-365-family",
+        "id": "microsoft-365-family-monthly",
         "name": "Microsoft 365 Family",
         "price": 225,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "microsoft-365-family-yearly",
+        "name": "Microsoft 365 Family",
+        "price": 2299,
+        "billingCycle": "yearly"
       },
       {
         "id": "microsoft-365-premium-monthly",
@@ -156,10 +168,16 @@
     ],
     "Duolingo Plus": [
       {
-        "id": "super-duolingo",
+        "id": "super-duolingo-monthly",
+        "name": "Super Duolingo",
+        "price": 149,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "super-duolingo-yearly",
         "name": "Super Duolingo",
         "price": 1439,
-        "billingCycle": "monthly"
+        "billingCycle": "yearly"
       }
     ],
     "HBO Max": [
@@ -278,10 +296,16 @@
     ],
     "ChatGPT Plus": [
       {
-        "id": "chatgpt-plus",
+        "id": "chatgpt-plus-monthly",
         "name": "ChatGPT Plus",
         "price": 399,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "chatgpt-plus-yearly",
+        "name": "ChatGPT Plus",
+        "price": 3999,
+        "billingCycle": "yearly"
       },
       {
         "id": "chatgpt-go",
@@ -446,10 +470,16 @@
         "billingCycle": "monthly"
       },
       {
-        "id": "mubi",
+        "id": "mubi-monthly",
         "name": "MUBI",
-        "price": 219,
+        "price": 69,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "mubi-yearly",
+        "name": "MUBI",
+        "price": 849,
+        "billingCycle": "yearly"
       },
       {
         "id": "mubi-yearly",
@@ -466,10 +496,16 @@
     ],
     "Tabii": [
       {
-        "id": "premium",
+        "id": "premium-monthly",
         "name": "Premium",
         "price": 89,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "premium-yearly",
+        "name": "Premium",
+        "price": 899,
+        "billingCycle": "yearly"
       },
       {
         "id": "reklam-i-c-erir-ayl-k",
