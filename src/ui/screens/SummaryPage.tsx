@@ -14,13 +14,13 @@ export function SummaryPage({ closing }: { closing: boolean }) {
   const active = subscriptions.filter(s => s.isActive);
 
   const trend = useMemo(() => {
-    const months = getMonthlySpendHistory(subscriptions, 6);
+    const months = getMonthlySpendHistory(subscriptions, 6, currency.code, exchangeRates);
     // Re-label with the app locale (the util uses the runtime default).
     return months.map(m => ({
       ...m,
       label: new Date(`${m.isoMonth}-15T12:00:00`).toLocaleString(locale, { month: 'short' }),
     }));
-  }, [subscriptions, locale]);
+  }, [subscriptions, locale, currency.code, exchangeRates]);
   const trendMax = Math.max(...trend.map(d => d.amount), 1);
   const currentIsoMonth = new Date().toISOString().slice(0, 7);
 

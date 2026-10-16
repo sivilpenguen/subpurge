@@ -14,6 +14,18 @@ export function getMonthlyEquivalent(subscription: Pick<Subscription, 'billingCy
   return subscription.price;
 }
 
+function toTarget(
+  amount: number,
+  subscription: Pick<Subscription, 'currencyCode'>,
+  targetCurrencyCode: string | undefined,
+  exchangeRates: Record<string, number>,
+): number {
+  if (!targetCurrencyCode || !subscription.currencyCode || subscription.currencyCode === targetCurrencyCode) {
+    return amount;
+  }
+  return convertAmount(amount, subscription.currencyCode, targetCurrencyCode, exchangeRates);
+}
+
 export interface MonthSpend {
   label: string;
   amount: number;
@@ -24,7 +36,12 @@ export interface MonthSpend {
  * Returns approximate monthly-equivalent spend for the last `months` calendar months.
  * For each month, sums getMonthlyEquivalent of subscriptions that were active during it.
  */
-export function getMonthlySpendHistory(subscriptions: Subscription[], months = 6): MonthSpend[] {
+export function getMonthlySpendHistory(
+  subscriptions: Subscription[],
+  months = 6,
+  targetCurrencyCode?: string,
+  exchangeRates: Record<string, number> = {},
+): MonthSpend[] {
   const now = new Date();
   const result: MonthSpend[] = [];
 
@@ -43,7 +60,7 @@ export function getMonthlySpendHistory(subscriptions: Subscription[], months = 6
         const notEndedBefore = sub.endedAt == null || sub.endedAt >= monthStart;
         return started && notEndedBefore;
       })
-      .reduce((sum, sub) => sum + getMonthlyEquivalent(sub), 0);
+      .reduce((sum, sub) => sum + toTarget(getMonthlyEquivalent(sub), sub, targetCurrencyCode, exchangeRates), 0);
 
     result.push({ label, amount, isoMonth });
   }
@@ -57,14 +74,10 @@ export function getSummaryTotals(
   exchangeRates: Record<string, number> = {},
 ) {
   const activeSubscriptions = subscriptions.filter(subscription => subscription.isActive);
-  const monthlyTotal = activeSubscriptions.reduce((sum, subscription) => {
-    const monthly = getMonthlyEquivalent(subscription);
-    if (!targetCurrencyCode || !subscription.currencyCode || subscription.currencyCode === targetCurrencyCode) {
-      return sum + monthly;
-    }
-    const converted = convertAmount(monthly, subscription.currencyCode, targetCurrencyCode, exchangeRates);
-    return sum + converted;
-  }, 0);
+  const monthlyTotal = activeSubscriptions.reduce(
+    (sum, subscription) => sum + toTarget(getMonthlyEquivalent(subscription), subscription, targetCurrencyCode, exchangeRates),
+    0,
+  );
 
   return {
     monthlyTotal,

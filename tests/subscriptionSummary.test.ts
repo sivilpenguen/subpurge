@@ -135,6 +135,14 @@ test('getMonthlySpendHistory: uses monthly equivalent for yearly billing', () =>
   assert.equal(history[0].amount, 100);
 });
 
+test('getMonthlySpendHistory: converts other currencies to the display currency', () => {
+  const tl = makeSub({ price: 100, billingCycle: 'monthly', currencyCode: 'TRY' });
+  const usd = makeSub({ price: 10, billingCycle: 'monthly', currencyCode: 'USD' });
+  // EUR-based rates: 1 EUR = 40 TRY = 1.25 USD → 10 USD = 320 TRY
+  const history = getMonthlySpendHistory([tl, usd], 1, 'TRY', { EUR: 1, TRY: 40, USD: 1.25 });
+  assert.equal(history[0].amount, 420);
+});
+
 test('getSummaryTotals handles mixed active recurring plans', () => {
   const totals = getSummaryTotals([
     {
