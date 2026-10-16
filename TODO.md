@@ -17,8 +17,8 @@ Yayın türü: onaydan sonra otomatik (`AFTER_APPROVAL`).
 - [ ] İnceleme sonucunu kontrol et (ASC API: `GET /v1/apps/6822311775/appStoreVersions`)
 - [ ] **Red gelirse:** en olası sebep 5. ekran görüntüsündeki "Google Play" butonu (Guideline 2.3.10). Çözüm: `*-5-add` ekranlarını Google Play görünmeyecek şekilde yeniden çek (iPhone 1320×2868, iPad 2064×2752, 5 dil), sadece görselleri değiştir — yeni build gerekmez
 - [ ] Onaydan sonra: canlı mağazada Pro satın alma + Geri Yükle'yi gerçek cihazda dene (ilk IAP, TestFlight'ta inceleme öncesi ürün yüklenmeyebilir)
-- [ ] Küçük İşletme Programı başvurusu (%15 komisyon) — kullanıcı yapacak, satışa açılmadan önce
-- [ ] Ücretli Uygulamalar Sözleşmesi + banka/vergi bilgisi ASC > Business'ta aktif mi bak (API'den görünmüyor; Meltix/Sadrazam satış yaptığı için muhtemelen aktif)
+- [ ] Küçük İşletme Programı: başvuru 16 Ekim 2026'da yapıldı (hesap geneli, tüm uygulamalar), onay e-postası bekleniyor — gelince bu maddeyi kapat
+- [x] Ücretli Uygulamalar Sözleşmesi kabul edilmiş (SBP formunda teyit edildi)
 
 ## Güvenlik (kullanıcı)
 
