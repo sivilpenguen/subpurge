@@ -1,7 +1,7 @@
 {
   "country": "DE",
   "currency": "EUR",
-  "updatedAt": "2026-10-13T17:42:03.387Z",
+  "updatedAt": "2026-10-19T08:54:52.165Z",
   "services": {
     "Netflix": {
       "appStore": [
@@ -84,10 +84,16 @@
     "Disney+": {
       "appStore": [
         {
-          "id": "disney-premium",
+          "id": "disney-premium-monthly",
           "name": "Disney+ Premium",
           "price": 15.99,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "disney-premium-yearly",
+          "name": "Disney+ Premium",
+          "price": 159.99,
+          "billingCycle": "yearly"
         },
         {
           "id": "disney-standard",
@@ -116,10 +122,16 @@
     "Microsoft 365": {
       "appStore": [
         {
-          "id": "microsoft-365-personal",
+          "id": "microsoft-365-personal-monthly",
           "name": "Microsoft 365 Personal",
           "price": 10,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "microsoft-365-personal-yearly",
+          "name": "Microsoft 365 Personal",
+          "price": 99,
+          "billingCycle": "yearly"
         },
         {
           "id": "microsoft-365-family",
@@ -256,7 +268,7 @@
           "billingCycle": "monthly"
         },
         {
-          "id": "premium-amp-sports",
+          "id": "premium-sports",
           "name": "Premium & Sports",
           "price": 19.99,
           "billingCycle": "monthly"
@@ -322,10 +334,16 @@
     "ChatGPT Plus": {
       "appStore": [
         {
-          "id": "chatgpt-plus",
+          "id": "chatgpt-plus-monthly",
           "name": "ChatGPT Plus",
           "price": 22.99,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "chatgpt-plus-yearly",
+          "name": "ChatGPT Plus",
+          "price": 229,
+          "billingCycle": "yearly"
         },
         {
           "id": "chatgpt-go",
@@ -412,63 +430,57 @@
     "X (Twitter)": {
       "appStore": [
         {
-          "id": "ticketed-space-1-99",
-          "name": "Ticketed Space ($1.99)",
-          "price": 1.99,
+          "id": "x-premium-monthly",
+          "name": "X Premium (Monthly)",
+          "price": 11,
           "billingCycle": "monthly"
         },
         {
-          "id": "ticketed-space-99",
-          "name": "Ticketed Space ($.99)",
-          "price": 0.99,
+          "id": "x-premium-basic-monthly",
+          "name": "X Premium Basic (Monthly)",
+          "price": 4,
           "billingCycle": "monthly"
         },
         {
-          "id": "ticketed-space-2-99",
-          "name": "Ticketed Space ($2.99)",
-          "price": 2.99,
+          "id": "x-premium-plus-monthly",
+          "name": "X Premium Plus (Monthly)",
+          "price": 57,
           "billingCycle": "monthly"
         },
         {
-          "id": "ticketed-space-3-99",
-          "name": "Ticketed Space ($3.99)",
-          "price": 3.99,
+          "id": "x-premium-annual",
+          "name": "X Premium (Annual)",
+          "price": 107.99,
+          "billingCycle": "yearly"
+        },
+        {
+          "id": "promote-post",
+          "name": "Promote Post",
+          "price": 10,
           "billingCycle": "monthly"
         },
         {
-          "id": "ticketed-space-10-99",
-          "name": "Ticketed Space ($10.99)",
-          "price": 11.99,
+          "id": "x-premium-basic-annual",
+          "name": "X Premium Basic (Annual)",
+          "price": 36,
+          "billingCycle": "yearly"
+        },
+        {
+          "id": "promote-post-for-25",
+          "name": "Promote Post for $25",
+          "price": 29,
           "billingCycle": "monthly"
         },
         {
-          "id": "ticketed-space-4-99",
-          "name": "Ticketed Space ($4.99)",
-          "price": 5.99,
-          "billingCycle": "monthly"
+          "id": "x-premium-plus-annual",
+          "name": "X Premium Plus (Annual)",
+          "price": 569,
+          "billingCycle": "yearly"
         },
         {
-          "id": "ticketed-space-9-99",
-          "name": "Ticketed Space ($9.99)",
-          "price": 9.99,
-          "billingCycle": "monthly"
-        },
-        {
-          "id": "ticketed-space-5-99",
-          "name": "Ticketed Space ($5.99)",
-          "price": 6.99,
-          "billingCycle": "monthly"
-        },
-        {
-          "id": "ticketed-space-12-99",
-          "name": "Ticketed Space ($12.99)",
-          "price": 14.99,
-          "billingCycle": "monthly"
-        },
-        {
-          "id": "ticketed-space-6-99",
-          "name": "Ticketed Space ($6.99)",
-          "price": 7.99,
+          "id": "boosted-tweet-package",
+          "name": "Boosted Tweet package",
+          "price": 60,
           "billingCycle": "monthly"
         }
       ]
@@ -542,10 +554,16 @@
     "Tabii": {
       "appStore": [
         {
-          "id": "premium",
+          "id": "premium-monthly",
           "name": "Premium",
           "price": 6.99,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "premium-yearly",
+          "name": "Premium",
+          "price": 69.99,
+          "billingCycle": "yearly"
         },
         {
           "id": "reklam-i-c-erir-ayl-k",

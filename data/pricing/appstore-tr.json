@@ -2,7 +2,7 @@
   "country": "TR",
   "currency": "TRY",
   "source": "appstore",
-  "updatedAt": "2026-10-13T13:20:14.867Z",
+  "updatedAt": "2026-10-19T08:36:57.205Z",
   "services": {
     "Netflix": [
       {
@@ -70,10 +70,16 @@
     ],
     "Disney+": [
       {
-        "id": "disney-premium",
+        "id": "disney-premium-monthly",
         "name": "Disney+ Premium",
         "price": 449.9,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "disney-premium-yearly",
+        "name": "Disney+ Premium",
+        "price": 4499,
+        "billingCycle": "yearly"
       }
     ],
     "Gain": [
@@ -112,16 +118,28 @@
     ],
     "Microsoft 365": [
       {
-        "id": "microsoft-365-personal",
+        "id": "microsoft-365-personal-monthly",
         "name": "Microsoft 365 Personal",
         "price": 329.99,
         "billingCycle": "monthly"
       },
       {
-        "id": "microsoft-365-family",
+        "id": "microsoft-365-personal-yearly",
+        "name": "Microsoft 365 Personal",
+        "price": 3299.99,
+        "billingCycle": "yearly"
+      },
+      {
+        "id": "microsoft-365-family-monthly",
         "name": "Microsoft 365 Family",
         "price": 409.99,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "microsoft-365-family-yearly",
+        "name": "Microsoft 365 Family",
+        "price": 4099.99,
+        "billingCycle": "yearly"
       },
       {
         "id": "microsoft-365-premium-monthly",
@@ -170,10 +188,16 @@
     ],
     "Duolingo Plus": [
       {
-        "id": "super-duolingo",
+        "id": "super-duolingo-monthly",
         "name": "Super Duolingo",
-        "price": 329.99,
+        "price": 139.99,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "super-duolingo-yearly",
+        "name": "Super Duolingo",
+        "price": 1209.99,
+        "billingCycle": "yearly"
       },
       {
         "id": "super-duolingo-family-plan",
@@ -184,16 +208,28 @@
     ],
     "HBO Max": [
       {
-        "id": "standard",
+        "id": "standard-monthly",
         "name": "Standard",
         "price": 229.9,
         "billingCycle": "monthly"
       },
       {
-        "id": "premium",
+        "id": "standard-yearly",
+        "name": "Standard",
+        "price": 2299,
+        "billingCycle": "yearly"
+      },
+      {
+        "id": "premium-monthly",
         "name": "Premium",
         "price": 299.9,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "premium-yearly",
+        "name": "Premium",
+        "price": 2999,
+        "billingCycle": "yearly"
       }
     ],
     "CapCut": [
@@ -250,10 +286,16 @@
     ],
     "ChatGPT Plus": [
       {
-        "id": "chatgpt-plus",
+        "id": "chatgpt-plus-monthly",
         "name": "ChatGPT Plus",
         "price": 999.99,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "chatgpt-plus-yearly",
+        "name": "ChatGPT Plus",
+        "price": 9999.99,
+        "billingCycle": "yearly"
       },
       {
         "id": "chatgpt-go",
@@ -288,10 +330,16 @@
         "billingCycle": "monthly"
       },
       {
-        "id": "premium-business",
+        "id": "premium-business-monthly",
         "name": "Premium Business",
         "price": 219.99,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "premium-business-yearly",
+        "name": "Premium Business",
+        "price": 1799.99,
+        "billingCycle": "yearly"
       }
     ],
     "Dropbox": [

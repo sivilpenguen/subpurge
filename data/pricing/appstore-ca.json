@@ -2,7 +2,7 @@
   "country": "CA",
   "currency": "CAD",
   "source": "appstore",
-  "updatedAt": "2026-10-13T13:37:21.759Z",
+  "updatedAt": "2026-10-19T08:49:18.138Z",
   "services": {
     "Netflix": [
       {
@@ -58,10 +58,16 @@
     ],
     "Disney+": [
       {
-        "id": "disney-premium",
+        "id": "disney-premium-monthly",
         "name": "Disney+ Premium",
         "price": 16.99,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "disney-premium-yearly",
+        "name": "Disney+ Premium",
+        "price": 169.99,
+        "billingCycle": "yearly"
       },
       {
         "id": "disney-standard",
@@ -86,10 +92,16 @@
     ],
     "Microsoft 365": [
       {
-        "id": "microsoft-365-personal",
+        "id": "microsoft-365-personal-monthly",
         "name": "Microsoft 365 Personal",
         "price": 11.49,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "microsoft-365-personal-yearly",
+        "name": "Microsoft 365 Personal",
+        "price": 114.99,
+        "billingCycle": "yearly"
       },
       {
         "id": "microsoft-365-family",
@@ -190,10 +202,16 @@
         "billingCycle": "monthly"
       },
       {
-        "id": "google-ai-plus-200gb",
+        "id": "google-ai-plus-200gb-monthly",
         "name": "Google AI Plus (200GB)",
         "price": 6.99,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "google-ai-plus-200gb-yearly",
+        "name": "Google AI Plus (200GB)",
+        "price": 69.99,
+        "billingCycle": "yearly"
       },
       {
         "id": "100-gb",
@@ -206,20 +224,20 @@
         "name": "Google AI Ultra (30 TB)",
         "price": 279.99,
         "billingCycle": "monthly"
-      },
-      {
-        "id": "google-ai-plus-2-tb",
-        "name": "Google AI Plus (2 TB)",
-        "price": 13.99,
-        "billingCycle": "monthly"
       }
     ],
     "ChatGPT Plus": [
       {
-        "id": "chatgpt-plus",
+        "id": "chatgpt-plus-monthly",
         "name": "ChatGPT Plus",
         "price": 24.99,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "chatgpt-plus-yearly",
+        "name": "ChatGPT Plus",
+        "price": 249,
+        "billingCycle": "yearly"
       },
       {
         "id": "chatgpt-go",
@@ -268,10 +286,10 @@
         "billingCycle": "monthly"
       },
       {
-        "id": "dropbox-plus-annual",
-        "name": "Dropbox Plus - Annual",
-        "price": 154.99,
-        "billingCycle": "yearly"
+        "id": "dropbox-simple-monthly",
+        "name": "Dropbox Simple – Monthly",
+        "price": 7.99,
+        "billingCycle": "monthly"
       },
       {
         "id": "dropbox-professional-monthly",
@@ -280,10 +298,16 @@
         "billingCycle": "monthly"
       },
       {
-        "id": "dropbox-professional-annual",
-        "name": "Dropbox Professional - Annual",
-        "price": 279.99,
+        "id": "dropbox-plus-annual",
+        "name": "Dropbox Plus - Annual",
+        "price": 154.99,
         "billingCycle": "yearly"
+      },
+      {
+        "id": "dropbox-family-monthly",
+        "name": "Dropbox Family - Monthly",
+        "price": 26.49,
+        "billingCycle": "monthly"
       }
     ],
     "X (Twitter)": [
@@ -398,10 +422,16 @@
     ],
     "Tabii": [
       {
-        "id": "premium",
+        "id": "premium-monthly",
         "name": "Premium",
         "price": 6.99,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "premium-yearly",
+        "name": "Premium",
+        "price": 69.99,
+        "billingCycle": "yearly"
       },
       {
         "id": "reklam-i-c-erir-ayl-k",

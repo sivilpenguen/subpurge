@@ -1,7 +1,7 @@
 {
   "country": "FR",
   "currency": "EUR",
-  "updatedAt": "2026-10-13T17:42:03.388Z",
+  "updatedAt": "2026-10-19T08:54:52.166Z",
   "services": {
     "Netflix": {
       "appStore": [
@@ -84,10 +84,16 @@
     "Disney+": {
       "appStore": [
         {
-          "id": "disney-premium",
+          "id": "disney-premium-monthly",
           "name": "Disney+ Premium",
           "price": 15.99,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "disney-premium-yearly",
+          "name": "Disney+ Premium",
+          "price": 159.99,
+          "billingCycle": "yearly"
         },
         {
           "id": "disney-standard",
@@ -138,6 +144,12 @@
           "name": "Microsoft 365 Basic",
           "price": 1.99,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "microsoft-365-premium-annual",
+          "name": "Microsoft 365 Premium Annual",
+          "price": 219,
+          "billingCycle": "yearly"
         }
       ]
     },
@@ -262,7 +274,7 @@
           "billingCycle": "monthly"
         },
         {
-          "id": "premium-amp-sports",
+          "id": "premium-sports",
           "name": "Premium & Sports",
           "price": 20.99,
           "billingCycle": "monthly"
@@ -322,10 +334,16 @@
     "ChatGPT Plus": {
       "appStore": [
         {
-          "id": "chatgpt-plus",
+          "id": "chatgpt-plus-monthly",
           "name": "ChatGPT Plus",
           "price": 22.99,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "chatgpt-plus-yearly",
+          "name": "ChatGPT Plus",
+          "price": 229,
+          "billingCycle": "yearly"
         },
         {
           "id": "chatgpt-go",
@@ -436,16 +454,16 @@
           "billingCycle": "monthly"
         },
         {
-          "id": "promote-post-for-25",
-          "name": "Promote Post for $25",
-          "price": 29,
-          "billingCycle": "monthly"
-        },
-        {
           "id": "x-premium-basic-annual",
           "name": "X Premium Basic (Annual)",
           "price": 36,
           "billingCycle": "yearly"
+        },
+        {
+          "id": "promote-post-for-25",
+          "name": "Promote Post for $25",
+          "price": 29,
+          "billingCycle": "monthly"
         },
         {
           "id": "boosted-tweet-package",
@@ -502,10 +520,16 @@
           "billingCycle": "monthly"
         },
         {
-          "id": "mubi",
+          "id": "mubi-monthly",
           "name": "MUBI",
-          "price": 11.99,
+          "price": 4.99,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "mubi-yearly",
+          "name": "MUBI",
+          "price": 39.99,
+          "billingCycle": "yearly"
         },
         {
           "id": "mubi-yearly",
@@ -518,10 +542,16 @@
     "Tabii": {
       "appStore": [
         {
-          "id": "premium",
+          "id": "premium-monthly",
           "name": "Premium",
           "price": 6.99,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "premium-yearly",
+          "name": "Premium",
+          "price": 69.99,
+          "billingCycle": "yearly"
         },
         {
           "id": "reklam-i-c-erir-ayl-k",

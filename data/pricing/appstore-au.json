@@ -2,7 +2,7 @@
   "country": "AU",
   "currency": "AUD",
   "source": "appstore",
-  "updatedAt": "2026-10-13T13:40:25.419Z",
+  "updatedAt": "2026-10-19T08:50:49.464Z",
   "services": {
     "Netflix": [
       {
@@ -70,10 +70,16 @@
     ],
     "Disney+": [
       {
-        "id": "disney-premium",
+        "id": "disney-premium-monthly",
         "name": "Disney+ Premium",
         "price": 24.99,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "disney-premium-yearly",
+        "name": "Disney+ Premium",
+        "price": 249.99,
+        "billingCycle": "yearly"
       },
       {
         "id": "disney-standard",
@@ -92,22 +98,28 @@
     ],
     "Microsoft 365": [
       {
-        "id": "microsoft-365-personal",
+        "id": "microsoft-365-personal-monthly",
         "name": "Microsoft 365 Personal",
         "price": 16,
         "billingCycle": "monthly"
       },
       {
-        "id": "microsoft-365-family",
+        "id": "microsoft-365-personal-yearly",
+        "name": "Microsoft 365 Personal",
+        "price": 159,
+        "billingCycle": "yearly"
+      },
+      {
+        "id": "microsoft-365-family-monthly",
         "name": "Microsoft 365 Family",
         "price": 18,
         "billingCycle": "monthly"
       },
       {
-        "id": "microsoft-365-basic",
-        "name": "Microsoft 365 Basic",
-        "price": 2.99,
-        "billingCycle": "monthly"
+        "id": "microsoft-365-family-yearly",
+        "name": "Microsoft 365 Family",
+        "price": 179,
+        "billingCycle": "yearly"
       },
       {
         "id": "microsoft-365-premium-monthly",
@@ -116,10 +128,10 @@
         "billingCycle": "monthly"
       },
       {
-        "id": "microsoft-365-premium-annual",
-        "name": "Microsoft 365 Premium Annual",
-        "price": 329,
-        "billingCycle": "yearly"
+        "id": "microsoft-365-basic",
+        "name": "Microsoft 365 Basic",
+        "price": 2.99,
+        "billingCycle": "monthly"
       }
     ],
     "Canva": [
@@ -150,42 +162,66 @@
     ],
     "Duolingo Plus": [
       {
-        "id": "super-duolingo",
+        "id": "super-duolingo-monthly",
         "name": "Super Duolingo",
-        "price": 129.99,
+        "price": 14.49,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "super-duolingo-yearly",
+        "name": "Super Duolingo",
+        "price": 184.99,
+        "billingCycle": "yearly"
       }
     ],
     "HBO Max": [
       {
-        "id": "standard",
+        "id": "standard-monthly",
         "name": "Standard",
         "price": 15.99,
         "billingCycle": "monthly"
       },
       {
-        "id": "basic-with-ads",
+        "id": "standard-yearly",
+        "name": "Standard",
+        "price": 159.99,
+        "billingCycle": "yearly"
+      },
+      {
+        "id": "basic-with-ads-monthly",
         "name": "Basic with Ads",
         "price": 11.99,
         "billingCycle": "monthly"
       },
       {
-        "id": "premium",
+        "id": "basic-with-ads-yearly",
+        "name": "Basic with Ads",
+        "price": 119.99,
+        "billingCycle": "yearly"
+      },
+      {
+        "id": "premium-monthly",
         "name": "Premium",
         "price": 21.99,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "premium-yearly",
+        "name": "Premium",
+        "price": 219.99,
+        "billingCycle": "yearly"
       }
     ],
     "CapCut": [
       {
-        "id": "standard-monthly-subscription",
-        "name": "Standard Monthly Subscription",
+        "id": "monthly-subscription",
+        "name": "Monthly Subscription",
         "price": 14.99,
         "billingCycle": "monthly"
       },
       {
-        "id": "monthly-subscription",
-        "name": "Monthly Subscription",
+        "id": "standard-monthly-subscription",
+        "name": "Standard Monthly Subscription",
         "price": 14.99,
         "billingCycle": "monthly"
       },
@@ -204,10 +240,16 @@
         "billingCycle": "monthly"
       },
       {
-        "id": "google-ai-plus-400-gb",
+        "id": "google-ai-plus-400-gb-monthly",
         "name": "Google AI Plus (400 GB)",
         "price": 7.99,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "google-ai-plus-400-gb-yearly",
+        "name": "Google AI Plus (400 GB)",
+        "price": 79.99,
+        "billingCycle": "yearly"
       },
       {
         "id": "100-gb",
@@ -224,10 +266,16 @@
     ],
     "ChatGPT Plus": [
       {
-        "id": "chatgpt-plus",
+        "id": "chatgpt-plus-monthly",
         "name": "ChatGPT Plus",
         "price": 29.99,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "chatgpt-plus-yearly",
+        "name": "ChatGPT Plus",
+        "price": 300,
+        "billingCycle": "yearly"
       },
       {
         "id": "chatgpt-go",
@@ -332,43 +380,25 @@
         "billingCycle": "monthly"
       },
       {
-        "id": "promote-post-for-25",
-        "name": "Promote Post for $25",
-        "price": 39,
-        "billingCycle": "monthly"
-      },
-      {
         "id": "x-premium-basic-annual",
         "name": "X Premium Basic (Annual)",
         "price": 60,
         "billingCycle": "yearly"
       },
       {
+        "id": "promote-post-for-25",
+        "name": "Promote Post for $25",
+        "price": 39,
+        "billingCycle": "monthly"
+      },
+      {
         "id": "boosted-tweet-package",
         "name": "Boosted Tweet package",
         "price": 80,
         "billingCycle": "monthly"
-      },
-      {
-        "id": "x-premium-plus-annual",
-        "name": "X Premium Plus (Annual)",
-        "price": 790,
-        "billingCycle": "yearly"
       }
     ],
     "Zoom": [
-      {
-        "id": "zoom-workplace-pro-monthly",
-        "name": "Zoom Workplace Pro (Monthly)",
-        "price": 28.49,
-        "billingCycle": "monthly"
-      },
-      {
-        "id": "zoom-workplace-pro-annual",
-        "name": "Zoom Workplace Pro (Annual)",
-        "price": 284.99,
-        "billingCycle": "yearly"
-      },
       {
         "id": "my-notes-monthly",
         "name": "My Notes (Monthly)",
@@ -380,6 +410,18 @@
         "name": "My Notes (Annual)",
         "price": 169,
         "billingCycle": "yearly"
+      },
+      {
+        "id": "zoom-workplace-pro-annual",
+        "name": "Zoom Workplace Pro (Annual)",
+        "price": 284.99,
+        "billingCycle": "yearly"
+      },
+      {
+        "id": "zoom-workplace-pro-monthly",
+        "name": "Zoom Workplace Pro (Monthly)",
+        "price": 28.49,
+        "billingCycle": "monthly"
       }
     ],
     "Instagram": [
@@ -398,10 +440,16 @@
         "billingCycle": "monthly"
       },
       {
-        "id": "mubi",
+        "id": "mubi-monthly",
         "name": "MUBI",
-        "price": 14.99,
+        "price": 8.99,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "mubi-yearly",
+        "name": "MUBI",
+        "price": 79.99,
+        "billingCycle": "yearly"
       },
       {
         "id": "mubi-yearly",

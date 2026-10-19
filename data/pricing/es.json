@@ -1,7 +1,7 @@
 {
   "country": "ES",
   "currency": "EUR",
-  "updatedAt": "2026-10-13T17:42:03.389Z",
+  "updatedAt": "2026-10-19T08:54:52.167Z",
   "services": {
     "Netflix": {
       "appStore": [
@@ -96,10 +96,16 @@
     "Disney+": {
       "appStore": [
         {
-          "id": "disney-premium",
+          "id": "disney-premium-monthly",
           "name": "Disney+ Premium",
           "price": 15.99,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "disney-premium-yearly",
+          "name": "Disney+ Premium",
+          "price": 159.99,
+          "billingCycle": "yearly"
         },
         {
           "id": "disney-standard-with-ads",
@@ -134,10 +140,16 @@
           "billingCycle": "monthly"
         },
         {
-          "id": "microsoft-365-family",
+          "id": "microsoft-365-family-monthly",
           "name": "Microsoft 365 Family",
           "price": 13,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "microsoft-365-family-yearly",
+          "name": "Microsoft 365 Family",
+          "price": 129,
+          "billingCycle": "yearly"
         },
         {
           "id": "microsoft-365-premium-monthly",
@@ -240,44 +252,74 @@
     "Duolingo Plus": {
       "appStore": [
         {
-          "id": "super-duolingo",
+          "id": "super-duolingo-monthly",
           "name": "Super Duolingo",
-          "price": 101.99,
+          "price": 10.49,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "super-duolingo-yearly",
+          "name": "Super Duolingo",
+          "price": 125.99,
+          "billingCycle": "yearly"
         }
       ]
     },
     "HBO Max": {
       "appStore": [
         {
-          "id": "standard",
+          "id": "standard-monthly",
           "name": "Standard",
           "price": 10.99,
           "billingCycle": "monthly"
         },
         {
-          "id": "legacy-standard",
+          "id": "standard-yearly",
+          "name": "Standard",
+          "price": 109,
+          "billingCycle": "yearly"
+        },
+        {
+          "id": "legacy-standard-monthly",
           "name": "Legacy Standard",
           "price": 10.99,
           "billingCycle": "monthly"
         },
         {
-          "id": "basic-with-ads",
+          "id": "legacy-standard-yearly",
+          "name": "Legacy Standard",
+          "price": 109,
+          "billingCycle": "yearly"
+        },
+        {
+          "id": "basic-with-ads-monthly",
           "name": "Basic with Ads",
           "price": 6.99,
           "billingCycle": "monthly"
         },
         {
-          "id": "premium-amp-sports",
+          "id": "basic-with-ads-yearly",
+          "name": "Basic with Ads",
+          "price": 69.9,
+          "billingCycle": "yearly"
+        },
+        {
+          "id": "premium-sports",
           "name": "Premium & Sports",
           "price": 20.99,
           "billingCycle": "monthly"
         },
         {
-          "id": "premium",
+          "id": "premium-monthly",
           "name": "Premium",
           "price": 15.99,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "premium-yearly",
+          "name": "Premium",
+          "price": 159,
+          "billingCycle": "yearly"
         },
         {
           "id": "hbo-max-dazn",
@@ -340,10 +382,16 @@
     "ChatGPT Plus": {
       "appStore": [
         {
-          "id": "chatgpt-plus",
+          "id": "chatgpt-plus-monthly",
           "name": "ChatGPT Plus",
           "price": 22.99,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "chatgpt-plus-yearly",
+          "name": "ChatGPT Plus",
+          "price": 229,
+          "billingCycle": "yearly"
         },
         {
           "id": "chatgpt-go",
@@ -382,7 +430,7 @@
         {
           "id": "premium-business",
           "name": "Premium Business",
-          "price": 69.99,
+          "price": 52.99,
           "billingCycle": "monthly"
         }
       ]
@@ -508,10 +556,16 @@
           "billingCycle": "monthly"
         },
         {
-          "id": "mubi",
+          "id": "mubi-monthly",
           "name": "MUBI",
-          "price": 11.99,
+          "price": 4.99,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "mubi-yearly",
+          "name": "MUBI",
+          "price": 47.99,
+          "billingCycle": "yearly"
         },
         {
           "id": "mubi-yearly",
@@ -524,10 +578,16 @@
     "Tabii": {
       "appStore": [
         {
-          "id": "premium",
+          "id": "premium-monthly",
           "name": "Premium",
           "price": 6.99,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "premium-yearly",
+          "name": "Premium",
+          "price": 69.99,
+          "billingCycle": "yearly"
         },
         {
           "id": "reklam-i-c-erir-ayl-k",
