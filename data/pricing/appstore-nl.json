@@ -2,7 +2,7 @@
   "country": "NL",
   "currency": "EUR",
   "source": "appstore",
-  "updatedAt": "2026-10-13T13:35:47.951Z",
+  "updatedAt": "2026-10-19T08:47:47.258Z",
   "services": {
     "Netflix": [
       {
@@ -24,15 +24,15 @@
         "billingCycle": "monthly"
       },
       {
-        "id": "netflix-4-screens-unlimited-streaming",
-        "name": "Netflix 4 Screens - Unlimited Streaming",
-        "price": 20.99,
-        "billingCycle": "monthly"
-      },
-      {
         "id": "netflix-standard",
         "name": "Netflix Standard",
         "price": 15.99,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "netflix-4-screens-unlimited-streaming",
+        "name": "Netflix 4 Screens - Unlimited Streaming",
+        "price": 20.99,
         "billingCycle": "monthly"
       },
       {
@@ -70,10 +70,16 @@
     ],
     "Disney+": [
       {
-        "id": "disney-premium",
+        "id": "disney-premium-monthly",
         "name": "Disney+ Premium",
         "price": 15.99,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "disney-premium-yearly",
+        "name": "Disney+ Premium",
+        "price": 159.99,
+        "billingCycle": "yearly"
       },
       {
         "id": "disney-standard",
@@ -92,16 +98,28 @@
     ],
     "Microsoft 365": [
       {
-        "id": "microsoft-365-personal",
+        "id": "microsoft-365-personal-monthly",
         "name": "Microsoft 365 Personal",
         "price": 10,
         "billingCycle": "monthly"
       },
       {
-        "id": "microsoft-365-family",
+        "id": "microsoft-365-personal-yearly",
+        "name": "Microsoft 365 Personal",
+        "price": 99,
+        "billingCycle": "yearly"
+      },
+      {
+        "id": "microsoft-365-family-monthly",
         "name": "Microsoft 365 Family",
         "price": 13,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "microsoft-365-family-yearly",
+        "name": "Microsoft 365 Family",
+        "price": 129,
+        "billingCycle": "yearly"
       },
       {
         "id": "microsoft-365-premium-monthly",
@@ -144,10 +162,16 @@
     ],
     "Duolingo Plus": [
       {
-        "id": "super-duolingo",
+        "id": "super-duolingo-monthly",
         "name": "Super Duolingo",
-        "price": 89.99,
+        "price": 10.49,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "super-duolingo-yearly",
+        "name": "Super Duolingo",
+        "price": 131.99,
+        "billingCycle": "yearly"
       }
     ],
     "CapCut": [
@@ -198,10 +222,16 @@
     ],
     "ChatGPT Plus": [
       {
-        "id": "chatgpt-plus",
+        "id": "chatgpt-plus-monthly",
         "name": "ChatGPT Plus",
         "price": 22.99,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "chatgpt-plus-yearly",
+        "name": "ChatGPT Plus",
+        "price": 229,
+        "billingCycle": "yearly"
       },
       {
         "id": "chatgpt-go",
@@ -312,10 +342,10 @@
         "billingCycle": "yearly"
       },
       {
-        "id": "boosted-tweet-package",
-        "name": "Boosted Tweet package",
-        "price": 60,
-        "billingCycle": "monthly"
+        "id": "x-premium-plus-annual",
+        "name": "X Premium Plus (Annual)",
+        "price": 569,
+        "billingCycle": "yearly"
       }
     ],
     "Zoom": [
@@ -360,10 +390,16 @@
         "billingCycle": "monthly"
       },
       {
-        "id": "mubi",
+        "id": "mubi-monthly",
         "name": "MUBI",
-        "price": 13.99,
+        "price": 4.99,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "mubi-yearly",
+        "name": "MUBI",
+        "price": 39.99,
+        "billingCycle": "yearly"
       },
       {
         "id": "mubi-yearly",
@@ -374,10 +410,16 @@
     ],
     "Tabii": [
       {
-        "id": "premium",
+        "id": "premium-monthly",
         "name": "Premium",
         "price": 6.99,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "premium-yearly",
+        "name": "Premium",
+        "price": 69.99,
+        "billingCycle": "yearly"
       },
       {
         "id": "reklam-i-c-erir-ayl-k",

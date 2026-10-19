@@ -1,7 +1,7 @@
 {
   "country": "BR",
   "currency": "BRL",
-  "updatedAt": "2026-10-13T17:42:03.394Z",
+  "updatedAt": "2026-10-19T08:54:52.174Z",
   "services": {
     "Netflix": {
       "appStore": [
@@ -102,10 +102,16 @@
     "Disney+": {
       "appStore": [
         {
-          "id": "disney-premium",
+          "id": "disney-premium-monthly",
           "name": "Disney+ Premium",
           "price": 69.9,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "disney-premium-yearly",
+          "name": "Disney+ Premium",
+          "price": 589,
+          "billingCycle": "yearly"
         },
         {
           "id": "disney-standard",
@@ -128,10 +134,16 @@
     "Microsoft 365": {
       "appStore": [
         {
-          "id": "microsoft-365-personal",
+          "id": "microsoft-365-personal-monthly",
           "name": "Microsoft 365 Personal",
           "price": 50.9,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "microsoft-365-personal-yearly",
+          "name": "Microsoft 365 Personal",
+          "price": 509,
+          "billingCycle": "yearly"
         },
         {
           "id": "microsoft-365-family",
@@ -150,12 +162,6 @@
           "name": "Microsoft 365 Basic",
           "price": 9.9,
           "billingCycle": "monthly"
-        },
-        {
-          "id": "microsoft-365-premium-annual",
-          "name": "Microsoft 365 Premium Annual",
-          "price": 1089.9,
-          "billingCycle": "yearly"
         }
       ]
     },
@@ -348,15 +354,15 @@
           "billingCycle": "monthly"
         },
         {
-          "id": "100-gb",
-          "name": "100 GB",
-          "price": 9.99,
-          "billingCycle": "monthly"
-        },
-        {
           "id": "google-ai-plus-2-tb",
           "name": "Google AI Plus (2 TB)",
           "price": 49.99,
+          "billingCycle": "monthly"
+        },
+        {
+          "id": "100-gb",
+          "name": "100 GB",
+          "price": 9.99,
           "billingCycle": "monthly"
         }
       ]
@@ -364,10 +370,16 @@
     "ChatGPT Plus": {
       "appStore": [
         {
-          "id": "chatgpt-plus",
+          "id": "chatgpt-plus-monthly",
           "name": "ChatGPT Plus",
           "price": 99.9,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "chatgpt-plus-yearly",
+          "name": "ChatGPT Plus",
+          "price": 999.9,
+          "billingCycle": "yearly"
         },
         {
           "id": "chatgpt-go",
@@ -506,16 +518,16 @@
           "billingCycle": "yearly"
         },
         {
-          "id": "my-notes-annual",
-          "name": "My Notes (Annual)",
-          "price": 459,
-          "billingCycle": "yearly"
-        },
-        {
           "id": "my-notes-monthly",
           "name": "My Notes (Monthly)",
           "price": 45.9,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "my-notes-annual",
+          "name": "My Notes (Annual)",
+          "price": 459,
+          "billingCycle": "yearly"
         }
       ]
     },
