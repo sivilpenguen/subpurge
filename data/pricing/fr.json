@@ -1,7 +1,7 @@
 {
   "country": "FR",
   "currency": "EUR",
-  "updatedAt": "2026-10-13T17:42:03.388Z",
+  "updatedAt": "2026-11-02T11:00:06.676Z",
   "services": {
     "Netflix": {
       "appStore": [
@@ -84,10 +84,16 @@
     "Disney+": {
       "appStore": [
         {
-          "id": "disney-premium",
+          "id": "disney-premium-monthly",
           "name": "Disney+ Premium",
           "price": 15.99,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "disney-premium-yearly",
+          "name": "Disney+ Premium",
+          "price": 159.99,
+          "billingCycle": "yearly"
         },
         {
           "id": "disney-standard",
@@ -262,7 +268,7 @@
           "billingCycle": "monthly"
         },
         {
-          "id": "premium-amp-sports",
+          "id": "premium-sports",
           "name": "Premium & Sports",
           "price": 20.99,
           "billingCycle": "monthly"
@@ -272,14 +278,14 @@
     "CapCut": {
       "appStore": [
         {
-          "id": "standard-monthly-subscription",
-          "name": "Standard Monthly Subscription",
+          "id": "monthly-subscription",
+          "name": "Monthly Subscription",
           "price": 11.99,
           "billingCycle": "monthly"
         },
         {
-          "id": "monthly-subscription",
-          "name": "Monthly Subscription",
+          "id": "standard-monthly-subscription",
+          "name": "Standard Monthly Subscription",
           "price": 11.99,
           "billingCycle": "monthly"
         },
@@ -316,16 +322,28 @@
           "name": "Google AI Plus (2 TB)",
           "price": 9.99,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "100-gb",
+          "name": "100 GB",
+          "price": 1.99,
+          "billingCycle": "monthly"
         }
       ]
     },
     "ChatGPT Plus": {
       "appStore": [
         {
-          "id": "chatgpt-plus",
+          "id": "chatgpt-plus-monthly",
           "name": "ChatGPT Plus",
           "price": 22.99,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "chatgpt-plus-yearly",
+          "name": "ChatGPT Plus",
+          "price": 229,
+          "billingCycle": "yearly"
         },
         {
           "id": "chatgpt-go",
@@ -496,32 +514,50 @@
     "MUBI": {
       "appStore": [
         {
-          "id": "mubi-monthly",
-          "name": "MUBI Monthly",
+          "id": "mubi-classic-monthly",
+          "name": "MUBI Classic Monthly",
           "price": 11.99,
           "billingCycle": "monthly"
         },
         {
-          "id": "mubi",
+          "id": "mubi-monthly",
           "name": "MUBI",
-          "price": 11.99,
+          "price": 4.99,
           "billingCycle": "monthly"
         },
         {
           "id": "mubi-yearly",
-          "name": "MUBI Yearly",
+          "name": "MUBI",
+          "price": 39.99,
+          "billingCycle": "yearly"
+        },
+        {
+          "id": "mubi-classic-yearly",
+          "name": "MUBI Classic Yearly",
           "price": 95.99,
           "billingCycle": "yearly"
+        },
+        {
+          "id": "mubi-monthly",
+          "name": "MUBI Monthly",
+          "price": 11.99,
+          "billingCycle": "monthly"
         }
       ]
     },
     "Tabii": {
       "appStore": [
         {
-          "id": "premium",
+          "id": "premium-monthly",
           "name": "Premium",
           "price": 6.99,
           "billingCycle": "monthly"
+        },
+        {
+          "id": "premium-yearly",
+          "name": "Premium",
+          "price": 69.99,
+          "billingCycle": "yearly"
         },
         {
           "id": "reklam-i-c-erir-ayl-k",
