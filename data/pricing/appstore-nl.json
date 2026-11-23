@@ -2,7 +2,7 @@
   "country": "NL",
   "currency": "EUR",
   "source": "appstore",
-  "updatedAt": "2026-10-13T13:35:47.951Z",
+  "updatedAt": "2026-11-23T12:08:46.974Z",
   "services": {
     "Netflix": [
       {
@@ -70,10 +70,16 @@
     ],
     "Disney+": [
       {
-        "id": "disney-premium",
+        "id": "disney-premium-monthly",
         "name": "Disney+ Premium",
         "price": 15.99,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "disney-premium-yearly",
+        "name": "Disney+ Premium",
+        "price": 159.99,
+        "billingCycle": "yearly"
       },
       {
         "id": "disney-standard",
@@ -92,10 +98,16 @@
     ],
     "Microsoft 365": [
       {
-        "id": "microsoft-365-personal",
+        "id": "microsoft-365-personal-monthly",
         "name": "Microsoft 365 Personal",
         "price": 10,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "microsoft-365-personal-yearly",
+        "name": "Microsoft 365 Personal",
+        "price": 99,
+        "billingCycle": "yearly"
       },
       {
         "id": "microsoft-365-family",
@@ -114,6 +126,12 @@
         "name": "Microsoft 365 Basic",
         "price": 1.99,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "microsoft-365-premium-annual",
+        "name": "Microsoft 365 Premium Annual",
+        "price": 219,
+        "billingCycle": "yearly"
       }
     ],
     "Canva": [
@@ -144,10 +162,16 @@
     ],
     "Duolingo Plus": [
       {
-        "id": "super-duolingo",
+        "id": "super-duolingo-monthly",
         "name": "Super Duolingo",
-        "price": 89.99,
+        "price": 10.49,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "super-duolingo-yearly",
+        "name": "Super Duolingo",
+        "price": 131.99,
+        "billingCycle": "yearly"
       }
     ],
     "CapCut": [
@@ -198,10 +222,16 @@
     ],
     "ChatGPT Plus": [
       {
-        "id": "chatgpt-plus",
+        "id": "chatgpt-plus-monthly",
         "name": "ChatGPT Plus",
         "price": 22.99,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "chatgpt-plus-yearly",
+        "name": "ChatGPT Plus",
+        "price": 229,
+        "billingCycle": "yearly"
       },
       {
         "id": "chatgpt-go",
@@ -300,16 +330,16 @@
         "billingCycle": "monthly"
       },
       {
-        "id": "promote-post-for-25",
-        "name": "Promote Post for $25",
-        "price": 29,
-        "billingCycle": "monthly"
-      },
-      {
         "id": "x-premium-basic-annual",
         "name": "X Premium Basic (Annual)",
         "price": 36,
         "billingCycle": "yearly"
+      },
+      {
+        "id": "promote-post-for-25",
+        "name": "Promote Post for $25",
+        "price": 29,
+        "billingCycle": "monthly"
       },
       {
         "id": "boosted-tweet-package",
@@ -354,30 +384,54 @@
     ],
     "MUBI": [
       {
-        "id": "mubi-monthly",
-        "name": "MUBI Monthly",
+        "id": "mubi-classic-monthly",
+        "name": "MUBI Classic Monthly",
         "price": 13.99,
         "billingCycle": "monthly"
       },
       {
-        "id": "mubi",
-        "name": "MUBI",
+        "id": "mubi-classic",
+        "name": "MUBI Classic",
         "price": 13.99,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "mubi-classic-yearly",
+        "name": "MUBI Classic Yearly",
+        "price": 107.99,
+        "billingCycle": "yearly"
+      },
+      {
+        "id": "mubi-monthly",
+        "name": "MUBI",
+        "price": 4.99,
         "billingCycle": "monthly"
       },
       {
         "id": "mubi-yearly",
-        "name": "MUBI Yearly",
-        "price": 107.99,
+        "name": "MUBI",
+        "price": 39.99,
         "billingCycle": "yearly"
+      },
+      {
+        "id": "mubi-monthly",
+        "name": "MUBI Monthly",
+        "price": 13.99,
+        "billingCycle": "monthly"
       }
     ],
     "Tabii": [
       {
-        "id": "premium",
+        "id": "premium-monthly",
         "name": "Premium",
         "price": 6.99,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "premium-yearly",
+        "name": "Premium",
+        "price": 69.99,
+        "billingCycle": "yearly"
       },
       {
         "id": "reklam-i-c-erir-ayl-k",

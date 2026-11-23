@@ -2,7 +2,7 @@
   "country": "IT",
   "currency": "EUR",
   "source": "appstore",
-  "updatedAt": "2026-10-13T13:33:18.206Z",
+  "updatedAt": "2026-11-23T12:07:16.936Z",
   "services": {
     "Netflix": [
       {
@@ -56,24 +56,30 @@
         "billingCycle": "monthly"
       },
       {
-        "id": "youtube-premium-family",
-        "name": "Youtube Premium Family",
-        "price": 38.99,
-        "billingCycle": "monthly"
-      },
-      {
         "id": "premium-lite",
         "name": "Premium Lite",
         "price": 11.99,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "youtube-premium-family",
+        "name": "Youtube Premium Family",
+        "price": 38.99,
         "billingCycle": "monthly"
       }
     ],
     "Disney+": [
       {
-        "id": "disney-premium",
+        "id": "disney-premium-monthly",
         "name": "Disney+ Premium",
         "price": 15.99,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "disney-premium-yearly",
+        "name": "Disney+ Premium",
+        "price": 159.99,
+        "billingCycle": "yearly"
       },
       {
         "id": "disney-standard-with-ads",
@@ -98,10 +104,16 @@
     ],
     "Microsoft 365": [
       {
-        "id": "microsoft-365-personal",
+        "id": "microsoft-365-personal-monthly",
         "name": "Microsoft 365 Personal",
         "price": 10,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "microsoft-365-personal-yearly",
+        "name": "Microsoft 365 Personal",
+        "price": 99,
+        "billingCycle": "yearly"
       },
       {
         "id": "microsoft-365-family",
@@ -120,6 +132,12 @@
         "name": "Microsoft 365 Basic",
         "price": 1.99,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "microsoft-365-premium-annual",
+        "name": "Microsoft 365 Premium Annual",
+        "price": 219,
+        "billingCycle": "yearly"
       }
     ],
     "Canva": [
@@ -176,13 +194,19 @@
         "billingCycle": "monthly"
       },
       {
-        "id": "premium-amp-sports",
+        "id": "premium-sports",
         "name": "Premium & Sports",
         "price": 19.99,
         "billingCycle": "monthly"
       }
     ],
     "CapCut": [
+      {
+        "id": "standard-monthly-subscription",
+        "name": "Standard Monthly Subscription",
+        "price": 11.99,
+        "billingCycle": "monthly"
+      },
       {
         "id": "monthly-subscription",
         "name": "Monthly Subscription",
@@ -193,12 +217,6 @@
         "id": "pro-monthly-subscription",
         "name": "Pro Monthly Subscription",
         "price": 23.99,
-        "billingCycle": "monthly"
-      },
-      {
-        "id": "standard-monthly-subscription",
-        "name": "Standard Monthly Subscription",
-        "price": 11.99,
         "billingCycle": "monthly"
       },
       {
@@ -216,10 +234,16 @@
         "billingCycle": "monthly"
       },
       {
-        "id": "google-ai-plus-400-gb",
+        "id": "google-ai-plus-400-gb-monthly",
         "name": "Google AI Plus (400 GB)",
         "price": 4.99,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "google-ai-plus-400-gb-yearly",
+        "name": "Google AI Plus (400 GB)",
+        "price": 49.99,
+        "billingCycle": "yearly"
       },
       {
         "id": "100-gb",
@@ -228,18 +252,24 @@
         "billingCycle": "monthly"
       },
       {
-        "id": "google-ai-plus-2-tb",
-        "name": "Google AI Plus (2 TB)",
-        "price": 9.99,
+        "id": "200-gb",
+        "name": "200 GB",
+        "price": 2.99,
         "billingCycle": "monthly"
       }
     ],
     "ChatGPT Plus": [
       {
-        "id": "chatgpt-plus",
+        "id": "chatgpt-plus-monthly",
         "name": "ChatGPT Plus",
         "price": 22.99,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "chatgpt-plus-yearly",
+        "name": "ChatGPT Plus",
+        "price": 229,
+        "billingCycle": "yearly"
       },
       {
         "id": "chatgpt-go",
@@ -326,16 +356,16 @@
         "billingCycle": "monthly"
       },
       {
-        "id": "x-premium-annual",
-        "name": "X Premium (Annual)",
-        "price": 107.99,
-        "billingCycle": "yearly"
-      },
-      {
         "id": "promote-post",
         "name": "Promote Post",
         "price": 10,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "x-premium-annual",
+        "name": "X Premium (Annual)",
+        "price": 107.99,
+        "billingCycle": "yearly"
       },
       {
         "id": "x-premium-basic-annual",
@@ -370,16 +400,16 @@
         "billingCycle": "yearly"
       },
       {
-        "id": "my-notes-monthly",
-        "name": "My Notes (Monthly)",
-        "price": 11.49,
-        "billingCycle": "monthly"
-      },
-      {
         "id": "my-notes-annual",
         "name": "My Notes (Annual)",
         "price": 114.99,
         "billingCycle": "yearly"
+      },
+      {
+        "id": "my-notes-monthly",
+        "name": "My Notes (Monthly)",
+        "price": 11.49,
+        "billingCycle": "monthly"
       }
     ],
     "Instagram": [
@@ -392,25 +422,55 @@
     ],
     "MUBI": [
       {
+        "id": "mubi-classic-monthly",
+        "name": "MUBI Classic Monthly",
+        "price": 11.99,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "mubi-classic",
+        "name": "MUBI Classic",
+        "price": 11.99,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "mubi-classic-yearly",
+        "name": "MUBI Classic Yearly",
+        "price": 95.99,
+        "billingCycle": "yearly"
+      },
+      {
         "id": "mubi-monthly",
         "name": "MUBI Monthly",
         "price": 11.99,
         "billingCycle": "monthly"
       },
       {
-        "id": "mubi",
+        "id": "mubi-monthly",
         "name": "MUBI",
-        "price": 11.99,
+        "price": 4.99,
         "billingCycle": "monthly"
       },
       {
         "id": "mubi-yearly",
-        "name": "MUBI Yearly",
-        "price": 95.99,
+        "name": "MUBI",
+        "price": 39.99,
         "billingCycle": "yearly"
       }
     ],
     "Tabii": [
+      {
+        "id": "premium-monthly",
+        "name": "Premium",
+        "price": 6.99,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "premium-yearly",
+        "name": "Premium",
+        "price": 69.99,
+        "billingCycle": "yearly"
+      },
       {
         "id": "reklam-i-c-erir-ayl-k",
         "name": "Reklam İçerir - Aylık",
@@ -421,12 +481,6 @@
         "id": "basic",
         "name": "Basic",
         "price": 49.99,
-        "billingCycle": "monthly"
-      },
-      {
-        "id": "premium",
-        "name": "Premium",
-        "price": 69.99,
         "billingCycle": "monthly"
       }
     ]
