@@ -2,7 +2,7 @@
   "country": "BR",
   "currency": "BRL",
   "source": "appstore",
-  "updatedAt": "2026-10-13T13:46:49.074Z",
+  "updatedAt": "2026-11-23T12:14:55.242Z",
   "services": {
     "Netflix": [
       {
@@ -70,10 +70,16 @@
     ],
     "Disney+": [
       {
-        "id": "disney-premium",
+        "id": "disney-premium-monthly",
         "name": "Disney+ Premium",
         "price": 69.9,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "disney-premium-yearly",
+        "name": "Disney+ Premium",
+        "price": 589,
+        "billingCycle": "yearly"
       },
       {
         "id": "disney-standard",
@@ -92,10 +98,16 @@
     ],
     "Microsoft 365": [
       {
-        "id": "microsoft-365-personal",
+        "id": "microsoft-365-personal-monthly",
         "name": "Microsoft 365 Personal",
         "price": 50.9,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "microsoft-365-personal-yearly",
+        "name": "Microsoft 365 Personal",
+        "price": 509,
+        "billingCycle": "yearly"
       },
       {
         "id": "microsoft-365-family",
@@ -142,17 +154,17 @@
         "billingCycle": "yearly"
       },
       {
-        "id": "canva-business-yearly",
-        "name": "Canva Business - Yearly",
-        "price": 489.9,
-        "billingCycle": "yearly"
+        "id": "canva-teams-monthly",
+        "name": "Canva Teams - Monthly",
+        "price": 80.9,
+        "billingCycle": "monthly"
       }
     ],
     "Duolingo Plus": [
       {
         "id": "super-duolingo",
         "name": "Super Duolingo",
-        "price": 179.9,
+        "price": 224.9,
         "billingCycle": "monthly"
       }
     ],
@@ -266,10 +278,16 @@
     ],
     "ChatGPT Plus": [
       {
-        "id": "chatgpt-plus",
+        "id": "chatgpt-plus-monthly",
         "name": "ChatGPT Plus",
         "price": 99.9,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "chatgpt-plus-yearly",
+        "name": "ChatGPT Plus",
+        "price": 999.9,
+        "billingCycle": "yearly"
       },
       {
         "id": "chatgpt-go",
@@ -362,15 +380,15 @@
         "billingCycle": "monthly"
       },
       {
-        "id": "x-premium-annual",
-        "name": "X Premium (Annual)",
-        "price": 309,
-        "billingCycle": "yearly"
-      },
-      {
         "id": "x-premium-basic-annual",
         "name": "X Premium Basic (Annual)",
         "price": 119,
+        "billingCycle": "yearly"
+      },
+      {
+        "id": "x-premium-annual",
+        "name": "X Premium (Annual)",
+        "price": 309,
         "billingCycle": "yearly"
       },
       {
@@ -400,16 +418,16 @@
         "billingCycle": "yearly"
       },
       {
-        "id": "my-notes-annual",
-        "name": "My Notes (Annual)",
-        "price": 459,
-        "billingCycle": "yearly"
-      },
-      {
         "id": "my-notes-monthly",
         "name": "My Notes (Monthly)",
         "price": 45.9,
         "billingCycle": "monthly"
+      },
+      {
+        "id": "my-notes-annual",
+        "name": "My Notes (Annual)",
+        "price": 459,
+        "billingCycle": "yearly"
       }
     ],
     "Instagram": [
@@ -422,27 +440,39 @@
     ],
     "MUBI": [
       {
+        "id": "mubi-classic-monthly",
+        "name": "MUBI Classic Monthly",
+        "price": 34.9,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "mubi-classic",
+        "name": "MUBI Classic",
+        "price": 34.9,
+        "billingCycle": "monthly"
+      },
+      {
+        "id": "mubi-classic-yearly",
+        "name": "MUBI Classic Yearly",
+        "price": 299.9,
+        "billingCycle": "yearly"
+      },
+      {
         "id": "mubi-monthly",
         "name": "MUBI Monthly",
         "price": 34.9,
         "billingCycle": "monthly"
       },
       {
-        "id": "mubi",
-        "name": "MUBI",
+        "id": "mubi-go-monthly",
+        "name": "MUBI GO Monthly",
         "price": 34.9,
         "billingCycle": "monthly"
       },
       {
-        "id": "mubi-yearly",
-        "name": "MUBI Yearly",
-        "price": 299.9,
-        "billingCycle": "yearly"
-      },
-      {
-        "id": "mubi-go-monthly",
-        "name": "MUBI GO Monthly",
-        "price": 34.9,
+        "id": "mubi",
+        "name": "MUBI",
+        "price": 22.9,
         "billingCycle": "monthly"
       }
     ]
